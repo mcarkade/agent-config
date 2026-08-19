@@ -32,3 +32,9 @@ Apply these rules in every project. Project files override them when they state 
 The public repository `https://github.com/mcarkade/agent-config` records the shared global instructions, skill sources, and plugin inventory.
 
 When you change a global `AGENTS.md` or `CLAUDE.md`, install or remove a global skill, or install or remove a user-level plugin, update that repository in the same task. Update the relevant manifest, commit the change, and push it. Do not add credentials, tokens, caches, chat history, or machine-specific state.
+
+## Claude and Codex workflow
+
+Use the planning agent to settle the goal, constraints, architecture, and acceptance checks. Use Codex for focused implementation or an independent review when it is available. Give it a compact written handoff with the goal, relevant files, constraints, and requested checks.
+
+Provider sessions do not share hidden context. Pass work through tracked files, commits, or a short handoff note. The planning agent owns the final review and verifies the delivered result against the original goal.
