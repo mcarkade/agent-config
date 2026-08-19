@@ -25,3 +25,9 @@ Apply these rules in every project. Project files override them when they state 
 - Stop for a decision that changes scope, cost, ownership, or external impact.
 - Keep implementation focused. Avoid unrelated refactors and broad rewrites.
 - Preserve existing user changes. Do not reset or discard work you did not create.
+
+## Portable agent configuration
+
+The public repository `https://github.com/mcarkade/agent-config` records the shared global instructions, skill sources, and plugin inventory.
+
+When you change a global `AGENTS.md` or `CLAUDE.md`, install or remove a global skill, or install or remove a user-level plugin, update that repository in the same task. Update the relevant manifest, commit the change, and push it. Do not add credentials, tokens, caches, chat history, or machine-specific state.
