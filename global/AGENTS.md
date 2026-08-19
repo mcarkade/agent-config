@@ -18,6 +18,7 @@ Apply these rules in every project. Project files override them when they state 
 12. Research current external facts before relying on them. Prefer primary documentation and issue trackers for technical claims.
 13. Run targeted checks after a change. Do not claim completion without evidence.
 14. Do not publish, deploy, delete, overwrite shared data, or make external changes unless the user requested that outcome.
+15. Keep private agent notes local. Session handoffs, memory, internal plans, and agent-only Markdown files are private by default. Commit or publish only documentation meant for the repository’s audience, unless the user explicitly asks otherwise.
 
 ## Collaboration
 
