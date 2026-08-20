@@ -6,6 +6,7 @@ This repository deliberately stores only reproducible configuration:
 
 - global `AGENTS.md` and `CLAUDE.md` guidance;
 - skill-library sources and installation order;
+- maintained skill overlays, including the customized `unslop` writing standard;
 - a Windows PowerShell bootstrap and an Ubuntu/Linux shell bootstrap.
 
 It does **not** store credentials, OAuth sessions, API keys, agent chat history, databases, caches, or machine-specific Codex settings.
@@ -14,7 +15,7 @@ It does **not** store credentials, OAuth sessions, API keys, agent chat history,
 
 1. Install and sign in to Codex and/or Claude Code.
 2. Install Node.js and Git.
-3. Authenticate GitHub CLI if you want to access this private repository: `gh auth login`.
+3. Clone the public repository. GitHub authentication is only needed if you want to push changes.
 4. Clone this repo, then run the platform bootstrap:
 
    Windows: `./install.ps1`
@@ -23,7 +24,7 @@ It does **not** store credentials, OAuth sessions, API keys, agent chat history,
 
 5. Restart agent sessions so they rediscover global skills.
 
-The bootstrap installs skills globally for every supported agent harness. It restores the two global instruction files with a timestamped backup of the prior local copy.
+The bootstrap installs skills globally for every supported agent harness, applies the maintained overlays, and removes em dashes from every discovered `SKILL.md`. It restores the two global instruction files with a timestamped backup of the prior local copy.
 
 ## Maintenance
 

@@ -7,8 +7,9 @@ Install these sources in order. The later source wins duplicate names.
 1. `no-session/pstack`
 2. `mattpocock/skills`
 3. `https://github.com/cursor/plugins/tree/main/pstack/skills`
+4. `skills/unslop/SKILL.md` from this repository
 
-The bootstrap scripts install all skills from each source globally for every host supported by the Skills CLI. Cursor pstack intentionally provides the active `tdd`, `teach`, and `reflect` variants.
+The bootstrap scripts install all skills from each source globally for every host supported by the Skills CLI. They then apply the tracked `unslop` overlay and remove em dashes from every discovered `SKILL.md`. Cursor pstack intentionally provides the active `tdd`, `teach`, and `reflect` variants.
 
 ## Current inventory
 
