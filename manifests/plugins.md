@@ -12,6 +12,10 @@ Plugin binaries, OAuth sessions, caches, and local databases do not belong in th
 
 Codex and Claude Code support marketplace management. On a new machine, add the required marketplace first, then install only the plugins you need. Browser, document, and other bundled plugins may arrive with the Codex desktop application.
 
+## Lean default
+
+These installed plugins are disabled globally to reduce the always-available skill catalog and session-start instructions: `vercel`, `netlify-skills`, `spotify-ads-api`, and `stripe`. Re-enable one only for work that needs it.
+
 ## Update rule
 
 After installing, removing, enabling, or disabling a user-level plugin, update this inventory and the bootstrap documentation in the same change. Do not commit credentials, OAuth state, cache directories, or application configuration files.
