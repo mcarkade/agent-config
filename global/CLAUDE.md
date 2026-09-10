@@ -67,7 +67,7 @@ exits. Redirect to a log file and read the tail of that file instead.
 Grep hits for "timeout"/"connection"/"retry" in that log are usually SOURCE TEXT Codex is reading, not
 errors — check the surrounding context before alarming the user.
 
-**Codex does not commit even when the brief says to.** Assume Codex commits and pushes, every time.
+
 
 **Codex scope-creeps.** A seven-item brief became a 24-file diff. For any long programme, make the brief
 state a BINDING order and require a commit after each part, so a mid-run budget wipeout still leaves
