@@ -25,7 +25,7 @@ Follow the approved worker limits and models. Assign bounded tasks with separate
 
 After interruption, inspect workers, working trees and recorded progress. Preserve completed results and resume unfinished steps. Keep heavy shared resources under one owner.
 
-Record lessons that change future decisions. Merge or replace existing rules; keep project examples in project docs. Prefer a check or tool over repeated reminders.
+After long-running projects, distil reusable lessons into a concise skill: what would have improved decisions at the start? Update an existing skill first; create one only for a distinct need. Keep evidence-backed methods and pitfalls, omit project history and obvious advice, and prefer executable checks. Publish skills under skills/ in agent-config using the synchronization rules below.
 
 ## Portable configuration
 
