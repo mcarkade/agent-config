@@ -22,7 +22,12 @@ Install-Skills 'mattpocock/skills'
 Install-Skills 'https://github.com/cursor/plugins/tree/main/pstack/skills'
 
 # Apply maintained skill overlays after upstream installs.
-Copy-Item "$root\skills\unslop\SKILL.md" "$env:USERPROFILE\.agents\skills\unslop\SKILL.md" -Force
+foreach ($skill in Get-ChildItem "$root\skills" -Directory | Sort-Object Name) {
+  if (!(Test-Path (Join-Path $skill.FullName 'SKILL.md'))) { continue }
+  $destination = Join-Path "$env:USERPROFILE\.agents\skills" $skill.Name
+  New-Item -ItemType Directory -Force -Path $destination | Out-Null
+  Copy-Item -Path (Join-Path $skill.FullName '*') -Destination $destination -Recurse -Force
+}
 
 & node "$root\scripts\remove-em-dashes.mjs" `
   "$root\skills" `

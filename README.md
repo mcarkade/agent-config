@@ -6,7 +6,7 @@ This repository deliberately stores only reproducible configuration:
 
 - global `AGENTS.md` and `CLAUDE.md` guidance;
 - skill-library sources and installation order;
-- maintained skill overlays, including the customized `unslop` writing standard;
+- maintained local skills, including the customized `unslop` writing standard and `realtime-3d` development guide;
 - a Windows PowerShell bootstrap and an Ubuntu/Linux shell bootstrap.
 
 It does **not** store credentials, OAuth sessions, API keys, agent chat history, databases, caches, or machine-specific Codex settings.

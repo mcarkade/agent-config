@@ -22,8 +22,12 @@ install_skills 'mattpocock/skills'
 install_skills 'https://github.com/cursor/plugins/tree/main/pstack/skills'
 
 # Apply maintained skill overlays after upstream installs.
-mkdir -p "$HOME/.agents/skills/unslop"
-cp "$root/skills/unslop/SKILL.md" "$HOME/.agents/skills/unslop/SKILL.md"
+for skill in "$root"/skills/*; do
+  [ -f "$skill/SKILL.md" ] || continue
+  destination="$HOME/.agents/skills/$(basename "$skill")"
+  mkdir -p "$destination"
+  cp -R "$skill/." "$destination/"
+done
 
 node "$root/scripts/remove-em-dashes.mjs" \
   "$root/skills" \
