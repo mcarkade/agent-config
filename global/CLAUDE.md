@@ -21,6 +21,10 @@ Apply these rules across projects. Specific project instructions and current use
 15. Do not idle while something runs. Use the time to inspect code, prepare the next change or research the open question. Report unfinished, unverified or known-broken parts.
 16. Publish, deploy, delete or change shared data only within the user's authorization. Update persistent user memory only when explicitly requested.
 
+## Skills
+
+Use skills when their workflow fits the task. Read only the relevant guidance and keep applying it while useful; do not reload unchanged instructions each turn. Keep agent guides and skill descriptions short, specific and free of duplicate rules.
+
 ## Collaboration
 
 Follow approved worker limits and models. Assign bounded tasks with separate file ownership. Share evidence so workers can challenge a proposed cause. The lead integrates and verifies their output.
