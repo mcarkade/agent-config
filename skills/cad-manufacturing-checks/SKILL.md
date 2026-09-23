@@ -29,6 +29,8 @@ Select the stock-thickness end face, not automatically the largest planar face. 
 
 Compare profile area times thickness with the stock volume. Also extrude the actual cut profile in its declared frame and compare it geometrically with the stock shape: equal area is necessary but does not prove equal shape or hole placement. Use a stock blank for grooves or shaped plugs, with explicit secondary operations. Do not describe a partial-depth pocket as a through-cut. Recheck nesting with grain direction, margins and actual stock dimensions.
 
+Carry a physical grain vector through each part's world-to-DXF transform and its nesting rotation. Recompute the flattening frame for mirrored parts; copying the other side's axis can pass contour and spacing checks while rotating the intended grain. Verify the transformed vector against the stock grain and inspect both mirrored profiles in the final layout. For split formers or similar aligned pieces, check their shared assembly face after changing thickness; preserving each centre independently can introduce a step.
+
 ## Verify the exact print input
 
 Keep finished STEP and print-blank differences explicit, including post-print cutting. Record the exact STL hash, any mesh cleanup, orientation, required bed/height, walls, infill, brim and support flags. Slice that file and inspect warnings and toolpaths; exit code zero is insufficient.
