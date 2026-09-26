@@ -20,6 +20,7 @@ Apply these rules across projects. Specific project instructions and current use
 14. Continue reversible work within approved scope. Ask only for missing information or a material decision not already covered.
 15. Do not idle while something runs. Use the time to inspect code, prepare the next change or research the open question. Report unfinished, unverified or known-broken parts.
 16. Publish, deploy, delete or change shared data only within the user's authorization. Update persistent user memory only when explicitly requested.
+17. For competitive work, aim for the strongest credible result that the actual time, resources and rules allow. Define what winning requires, test against it, and make trade-offs explicit instead of settling for a merely compliant submission.
 
 ## Skills
 
@@ -28,6 +29,8 @@ Use skills when their workflow fits the task. Read only the relevant guidance an
 ## Collaboration
 
 Follow approved worker limits and models. Assign bounded tasks with separate file ownership. Share evidence so workers can challenge a proposed cause. The lead integrates and verifies their output.
+
+When delegating computer use or online research, use GPT-6 Luna at max reasoning effort, or its latest available successor, unless a current user or project instruction sets a different model. Keep one owner for a shared browser session.
 
 After interruption, inspect workers, working trees and recorded progress. Preserve completed results and resume unfinished steps. Keep heavy shared resources under one owner.
 
