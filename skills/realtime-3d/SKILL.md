@@ -29,3 +29,13 @@ Exercise first arrival, revisits, distant placement, return travel, restart and 
 ## Prove the claimed experience
 
 Use the real actor, world and application entry path. Cover affected controls, contact, rendering, audio and lifecycle transitions. Check remote representations and late joining when networking is involved. Numerical gates, screenshots, listening and device playtests establish different facts. State which were observed, and verify the served artifact before claiming a deployment works.
+
+## Validate mission simulations
+
+- Separate evaluator truth from declared sensors, delivered messages and released work. Record observation and delivery times; a newly received packet can describe state older than the current command.
+- Exercise delayed telemetry, lost commands, late starts, duplicates and restarts as causal protocol cases. Retain route occupancy until acceptance and departure are observed. Give rejected commands a bounded recovery path.
+- Budget queue wait, transit, task work, return and landing before admission. Share the reserve calculation with the local failsafe and check it along the trajectory, including altitude-dependent descent. Rejecting an impossible return alone does not improve mission completion.
+- Check swept motion and coverage during relay departure. Lost tracking creates uncertain occupancy; test whether a global admission pause also prevents the repair needed to clear it.
+- Freeze source, configuration, assets and seed for each comparison. Distinguish kinematic, rigid-body, ideal-controller and autopilot evidence. Repeat the extracted delivery through its real entry point and record physical run-to-run spread.
+- Define registered, deployed, armed, airborne, grounded, at-base and controlled-return counts separately. Keep all tasks in the denominator; separate report receipt, deadlines, disconnection, off-base landing and depletion. Challenge scoring with empty and boundary cases.
+- Preserve failed runs and the original horizon. A changed budget is a new paired experiment. Freeze policy before unseen cases; after tuning, those cases are regressions. One successful actor or run cannot establish mission reliability.
