@@ -5,7 +5,7 @@ description: Create or revise illustrated PDF build guides for physical projects
 
 # Illustrated build guides
 
-Deliver one cohesive PDF that a builder can follow without the chat or working notes. Present the current design directly. Keep revision history, rejected designs, audit reports and agent status in the working record, outside the guide. Integrate useful findings into the relevant dimensions, parts, assembly steps, wiring or tests.
+Deliver one cohesive, public-facing PDF that a builder can follow without the chat or working notes. Present the current design directly. Keep local file paths, internal handoff references, agent instructions, revision history, rejected designs, audit reports and agent status in separate working notes, outside the guide. Integrate useful findings into the relevant dimensions, parts, assembly steps, wiring or tests.
 
 ## Establish the build
 
@@ -29,7 +29,7 @@ Deliver one cohesive PDF that a builder can follow without the chat or working n
 ## Prove the delivered PDF
 
 1. Generate from the approved design snapshot. Inspect every rendered page at reading size and print scale. Check legibility, cropped labels, image resolution, line weight, contrast, page order, repeated or conflicting text, and whether dimension arrows and wire routes point to the intended part.
-2. Exercise every contents link, bookmark and return link in the exported PDF. Confirm text and labels remain searchable where practical. Reopen the exact delivered file and compare its BOM, ratings and critical dimensions with source data.
+2. Exercise every contents link, bookmark and return link in the exported PDF. Confirm text and labels remain searchable where practical. Scan extracted text and link targets for internal paths and handoff references; remove any that leaked into the guide. Reopen the exact delivered file and compare its BOM, ratings and critical dimensions with source data.
 3. Walk through the exact PDF as an independent builder. At every step, identify the physical part, orientation, attachment, tool or material, next action and pass/fail check without guessing. Trace at least one likely fault from symptom to safe recovery. Check that each page helps the user build, operate or compete; remove process commentary and reconcile contradictions in place. Fix gaps and recheck affected pages and links.
 4. Report what was verified from source files, calculations or simulation, what was tested on hardware, and what remains. Keep this handoff brief and in chat; a finished PDF does not mean the machine is finished.
 
