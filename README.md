@@ -6,7 +6,7 @@ This repository deliberately stores only reproducible configuration:
 
 - global `AGENTS.md` and `CLAUDE.md` guidance;
 - skill-library sources and installation order;
-- maintained local skills, including the customized `unslop` writing standard, `realtime-3d` development guide, `cad-manufacturing-checks` fabrication verification guide, `source-faithful-prototype` build guide, and `illustrated-build-guides` PDF guide workflow;
+- maintained local skills, including `unslop`, `realtime-3d`, `cad-manufacturing-checks`, `source-faithful-prototype`, `illustrated-build-guides`, and `study-notes-pdf`;
 - a Windows PowerShell bootstrap and an Ubuntu/Linux shell bootstrap.
 
 It does **not** store credentials, OAuth sessions, API keys, agent chat history, databases, caches, or machine-specific Codex settings.

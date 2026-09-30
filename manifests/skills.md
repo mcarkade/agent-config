@@ -7,9 +7,11 @@ Install these sources in order. The later source wins duplicate names.
 1. `no-session/pstack`
 2. `mattpocock/skills`
 3. `https://github.com/cursor/plugins/tree/main/pstack/skills`
-4. Maintained local skills from this repository: `skills/unslop/SKILL.md`, `skills/realtime-3d/SKILL.md`, `skills/cad-manufacturing-checks/SKILL.md`, `skills/source-faithful-prototype/SKILL.md`, and `skills/illustrated-build-guides/SKILL.md`
+4. Maintained local skills from this repository: `skills/unslop/SKILL.md`, `skills/realtime-3d/SKILL.md`, `skills/cad-manufacturing-checks/SKILL.md`, `skills/source-faithful-prototype/SKILL.md`, `skills/illustrated-build-guides/SKILL.md`, and `skills/study-notes-pdf/SKILL.md`
 
 The bootstrap scripts install all skills from each source globally for every host supported by the Skills CLI. They then install all tracked local skills and remove em dashes from every discovered `SKILL.md`. The `source-faithful-prototype` skill keeps source-based builds simple; `illustrated-build-guides` covers reader-facing PDF assembly and wiring guides. The maintained `cad-manufacturing-checks` skill includes a read-only CadQuery/OCP STEP inspection helper and analytic tests. Cursor pstack intentionally provides the active `tdd`, `teach`, and `reflect` variants.
+
+`study-notes-pdf` acquires syllabus-relevant study sources, curates priorities and complete solutions, and renders them in the retained optics PDF format. It includes a portable renderer, PDF checker and small layout reference. Both bootstrap scripts install its whole folder through the existing local-skill loop.
 
 ## Current inventory
 

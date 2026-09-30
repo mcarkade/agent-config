@@ -1,0 +1,247 @@
+{
+  "title": "Optics",
+  "subtitle": "Quiz 2 | Notes and worked solutions",
+  "exam_line": "PHY F213 / 25 September 2026 / 6 PM / F102",
+  "sections": [
+    {
+      "name": "Notes",
+      "units": [
+        {
+          "title": "Integration techniques",
+          "source": "Math toolbox for the following notes and solutions",
+          "blocks": [
+            {
+              "kind": "question",
+              "text": "Euler identities and a basic integral"
+            },
+            {
+              "kind": "eq",
+              "text": "\\cos ax=\\frac{e^{iax}+e^{-iax}}{2},\\qquad \\sin ax=\\frac{e^{iax}-e^{-iax}}{2i}"
+            },
+            {
+              "kind": "eq",
+              "text": "\\int_{-L}^{L}e^{-iqx}\\,dx=\\frac{e^{-iqL}-e^{iqL}}{-iq}=2L\\,\\mathrm{sinc}(qL)"
+            },
+            {
+              "kind": "hint",
+              "text": "Use the limit 2L when q = 0. This one integral produces most windowed sine, cosine and rectangular-pulse transforms."
+            },
+            {
+              "kind": "eq",
+              "text": "\\sin^2 ax=\\frac{1-\\cos 2ax}{2},\\qquad 2\\cos A\\cos B=\\cos(A+B)+\\cos(A-B)"
+            },
+            {
+              "kind": "question",
+              "text": "Even and odd functions"
+            },
+            {
+              "kind": "eq",
+              "text": "\\int_{-L}^{L}g(x)\\,dx=2\\int_0^L g(x)\\,dx\\quad\\mathrm{if}\\ g\\ \\mathrm{is\\ even}"
+            },
+            {
+              "kind": "eq",
+              "text": "\\int_{-L}^{L}g(x)\\,dx=0\\quad\\mathrm{if}\\ g\\ \\mathrm{is\\ odd}"
+            },
+            {
+              "kind": "p",
+              "text": "For real even f, the sine part of its transform vanishes. For real odd f, the cosine part vanishes. Check the symmetry about the chosen origin, not about the visual centre of a shifted graph."
+            },
+            {
+              "kind": "question",
+              "text": "Integration by parts"
+            },
+            {
+              "kind": "eq",
+              "text": "\\int u\\,dv=uv-\\int v\\,du"
+            },
+            {
+              "kind": "eq",
+              "text": "\\int x\\cos ax\\,dx=\\frac{x\\sin ax}{a}+\\frac{\\cos ax}{a^2}"
+            },
+            {
+              "kind": "hint",
+              "text": "Choose the polynomial as u: differentiating it reduces the power. In a definite integral, evaluate the boundary term too. For x², integrate by parts twice."
+            },
+            {
+              "kind": "question",
+              "text": "Substitution and complex amplitudes"
+            },
+            {
+              "kind": "eq",
+              "text": "y=ax\\Rightarrow dx=dy/a,\\qquad y=x-x_0\\Rightarrow x=y+x_0"
+            },
+            {
+              "kind": "eq",
+              "text": "|Ae^{i\\phi}|^2=|A|^2,\\qquad |A+B|^2=|A|^2+|B|^2+2\\mathrm{Re}(AB^*)"
+            },
+            {
+              "kind": "hint",
+              "text": "For negative scale a, reversing the integration limits gives 1/|a|. Add complex amplitudes before squaring: the cross term is interference."
+            }
+          ],
+          "id": "N02"
+        }
+      ]
+    },
+    {
+      "name": "Fourier tutorials",
+      "units": [
+        {
+          "title": "Fourier transforms and scaling of delta functions",
+          "source": "Compiled Q4; Delta Function problem",
+          "blocks": [
+            {
+              "kind": "question",
+              "text": "Find the Fourier transform of δ(ax). Prove δ(ax, by) = δ(x, y)/|ab|. Find the Fourier transform of δ(x/a − 1). Assume a and b are nonzero real constants."
+            },
+            {
+              "kind": "p",
+              "text": "Use the sifting and scaling rule δ(ax) = δ(x)/|a|, with the forward-transform convention given on page 1."
+            },
+            {
+              "kind": "eq",
+              "text": "\\mathcal{F}\\{\\delta(ax)\\}=\\frac{1}{|a|}\\int_{-\\infty}^{\\infty}\\delta(x)e^{-ikx}\\,dx=\\frac{1}{|a|}"
+            },
+            {
+              "kind": "eq",
+              "text": "\\delta(ax,by)=\\delta(ax)\\delta(by)=\\frac{1}{|a||b|}\\delta(x)\\delta(y)=\\frac{1}{|ab|}\\delta(x,y)"
+            },
+            {
+              "kind": "p",
+              "text": "Rewrite the shifted delta before transforming it; its impulse is at x = a and its area is |a|."
+            },
+            {
+              "kind": "eq",
+              "text": "\\delta\\left(\\frac{x}{a}-1\\right)=|a|\\delta(x-a)"
+            },
+            {
+              "kind": "eq",
+              "text": "\\mathcal{F}\\left\\{\\delta\\left(\\frac{x}{a}-1\\right)\\right\\}=|a|e^{-ika}"
+            }
+          ],
+          "id": "F04"
+        }
+      ]
+    },
+    {
+      "name": "Diffraction tutorials",
+      "units": [
+        {
+          "title": "Square aperture with a square obstruction",
+          "source": "Tutorial 3 p2; Lipson 8.2",
+          "blocks": [
+            {
+              "kind": "question",
+              "text": "Consider the square aperture below. The black square is opaque and the white region is transparent. (a) Write the transmission function. (b) Find the amplitude and intensity distributions of its Fraunhofer diffraction pattern, ignoring common prefactors. Assume unit-amplitude, normally incident plane-wave illumination."
+            },
+            {
+              "kind": "diagram",
+              "path": "aperture.svg"
+            },
+            {
+              "kind": "p",
+              "text": "Let the outer clear square have side 2w₀ and the centered opaque square have side 2wᵢ. The transmitted field is the outer square minus the blocked square. A centered square of side 2w transforms to the product of two sinc functions."
+            },
+            {
+              "kind": "eq",
+              "text": "t(x,y)=\\mathrm{rect}(x/(2w_0))\\mathrm{rect}(y/(2w_0))-\\mathrm{rect}(x/(2w_i))\\mathrm{rect}(y/(2w_i))"
+            },
+            {
+              "kind": "hint",
+              "text": "rect(s)=1 for |s|<1/2 and 0 outside; sinc(s)=sin(s)/s."
+            },
+            {
+              "kind": "eq",
+              "text": "T_w(u,v)=\\int_{-w}^{w}e^{-iux}\\,dx\\int_{-w}^{w}e^{-ivy}\\,dy"
+            },
+            {
+              "kind": "eq",
+              "text": "T_w(u,v)=(2w\\,\\mathrm{sinc}(wu))(2w\\,\\mathrm{sinc}(wv))"
+            },
+            {
+              "kind": "eq",
+              "text": "A(u,v)\\propto 4w_0^2\\,\\mathrm{sinc}(w_0u)\\,\\mathrm{sinc}(w_0v)-4w_i^2\\,\\mathrm{sinc}(w_iu)\\,\\mathrm{sinc}(w_iv)"
+            },
+            {
+              "kind": "eq",
+              "text": "I(u,v)\\propto |A(u,v)|^2"
+            },
+            {
+              "kind": "hint",
+              "text": "At u=v=0 the amplitude is proportional to the transmitted area, 4(w₀²−wᵢ²). The obstruction subtracts its own square-aperture spectrum coherently."
+            }
+          ],
+          "id": "D01"
+        }
+      ]
+    },
+    {
+      "name": "Formula sheets",
+      "units": [
+        {
+          "title": "Fourier series and transform pairs",
+          "source": "Cheat sheet 1 of 3 • sinc u = sin u / u; all widths below are positive.",
+          "blocks": [
+            {
+              "kind": "eq",
+              "text": "f=\\frac{a_0}{2}+\\sum_{n\\geq1}(a_n\\cos nKx+b_n\\sin nKx),\\qquad K=2\\pi/P"
+            },
+            {
+              "kind": "eq",
+              "text": "a_n=\\frac{2}{P}\\int_P f\\cos nKx\\,dx,\\quad b_n=\\frac{2}{P}\\int_P f\\sin nKx\\,dx,\\quad a_0=\\frac{2}{P}\\int_P f\\,dx"
+            },
+            {
+              "kind": "eq",
+              "text": "f=\\sum_{n=-\\infty}^{\\infty}c_ne^{inKx},\\qquad c_n=\\frac{1}{P}\\int_P f(x)e^{-inKx}\\,dx"
+            },
+            {
+              "kind": "hint",
+              "text": "Even: cosine coefficients only. Odd: sine coefficients only. DC=a₀/2=c₀. At a jump take the midpoint value."
+            },
+            {
+              "kind": "eq",
+              "text": "F(k)=\\int f(x)e^{-ikx}\\,dx,\\qquad f(x)=\\frac{1}{2\\pi}\\int F(k)e^{ikx}\\,dk"
+            },
+            {
+              "kind": "eq",
+              "text": "\\mathrm{rect}(x/a)\\ \\longleftrightarrow\\ a\\mathrm{sinc}(ka/2)"
+            },
+            {
+              "kind": "eq",
+              "text": "\\mathrm{tri}(x/a)\\ \\longleftrightarrow\\ a\\mathrm{sinc}^2(ka/2)"
+            },
+            {
+              "kind": "eq",
+              "text": "e^{-x^2/(2\\sigma^2)}\\ \\longleftrightarrow\\ \\sqrt{2\\pi}\\sigma e^{-\\sigma^2k^2/2}"
+            },
+            {
+              "kind": "eq",
+              "text": "\\delta(x-x_0)\\ \\longleftrightarrow\\ e^{-ikx_0},\\qquad 1\\ \\longleftrightarrow\\ 2\\pi\\delta(k)"
+            },
+            {
+              "kind": "eq",
+              "text": "\\cos k_1x\\ \\longleftrightarrow\\ \\pi[\\delta(k-k_1)+\\delta(k+k_1)]"
+            },
+            {
+              "kind": "eq",
+              "text": "\\sin k_1x\\ \\longleftrightarrow\\ \\frac{\\pi}{i}[\\delta(k-k_1)-\\delta(k+k_1)]"
+            },
+            {
+              "kind": "eq",
+              "text": "\\sum_n\\delta(x-nd)\\ \\longleftrightarrow\\ \\frac{2\\pi}{d}\\sum_m\\delta(k-2\\pi m/d)"
+            },
+            {
+              "kind": "eq",
+              "text": "\\delta(ax)=\\delta(x)/|a|,\\qquad\\int f(x)\\delta(x-x_0)\\,dx=f(x_0)"
+            },
+            {
+              "kind": "hint",
+              "text": "Fast checks: F(0)=area; real f gives F(−k)=F*(k); increasing width narrows the spectrum. Do not replace angular frequency k with cycles/length without k=2πν."
+            }
+          ],
+          "id": "C01"
+        }
+      ]
+    }
+  ]
+}

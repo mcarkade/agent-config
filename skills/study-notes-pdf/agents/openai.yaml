@@ -1,0 +1,4 @@
+interface:
+  display_name: "Study Notes PDF"
+  short_description: "Source-backed notes and complete exam solutions"
+  default_prompt: "Use $study-notes-pdf to build a concise study PDF for my syllabus, with prioritized questions and complete solutions in my established format."
