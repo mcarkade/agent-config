@@ -47,4 +47,6 @@ Give every installed part a unique ID and export destination. Populate dimension
 
 Freeze source, registry and artifact hashes before downstream checks. Cache part checks by artifact hash, helper/kernel version and numerical settings; pair and motion checks also depend on both parts and transforms. Preserve a checkpoint so a local correction need not rerun unrelated geometry. Metadata-only changes do not invalidate unchanged shape evidence, but the final report must identify the current registry.
 
+Include installed padding, component tolerance and disconnected plugs in removal sweeps. For flexure clearance, distinguish the moving member and its intended root joints from fixed obstructions. Inject a blocking witness to prove the check detects binding; do not shorten or exempt a failed probe merely to make it pass.
+
 State the boundary of the result: digital geometry, CAM and slicing checks do not establish material strength, adhesive quality, real hardware fit, measured balance or safe operation. Name the remaining physical coupon, fit, load or motion check instead of claiming it occurred.
