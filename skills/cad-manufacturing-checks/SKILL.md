@@ -11,6 +11,8 @@ Keep installed geometry, stock blanks, cut patterns and printable blanks distinc
 
 Read the exported STEP before healing it. Check raw topology, expected connected-solid count, positive volume for every solid, dimensions and mass properties. An in-memory repair does not repair the file. If repair is justified, copy the shape first, export the repair and inspect a fresh readback. Healing can mutate shared topology.
 
+Prove functional interfaces on the exported geometry with material/void assertions at the intended sections. Check D-flats and blind shaft stops, working clamp travel, screw/nut engagement and tool access. Valid topology and mesh closure alone do not establish grip, retention or assembly.
+
 Default fixed-order volume integration can be inaccurate on trimmed spline faces. For CadQuery/OCP, [scripts/step_properties.py](scripts/step_properties.py) provides read-only adaptive integration, per-solid checks, centroids and input hashes. Run with the project's CAD Python:
 
 ```text
@@ -36,6 +38,8 @@ Carry a physical grain vector through each part's world-to-DXF transform and its
 Keep finished STEP and print-blank differences explicit, including post-print cutting. Record the exact STL hash, any mesh cleanup, orientation, required bed/height, walls, infill, brim and support flags. Slice that file and inspect warnings and toolpaths; exit code zero is insufficient.
 
 Locate unsupported starts by layer and physical feature before changing geometry. Align a real end face to the bed when an approximate axis rotation leaves small toes. Try orientation and accessible support before adding parts. Check support removal access and remaining bridge lengths. Separate object mass from support/brim waste; neither is measured mass. A reference printer envelope is not proof of the owner's printer fit.
+
+For thin films or flexures, verify sliced material covers the required functional region at its intended thickness and layers. A handling tab or nearby brim cannot stand in for that region. Keep required supports and actual fastener lengths consistent across source, print manifest and guide; derive screw length from the full clamp/nut stack and access checks.
 
 ## Freeze evidence at useful boundaries
 
