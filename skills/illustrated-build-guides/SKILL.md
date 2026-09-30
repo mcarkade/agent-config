@@ -1,11 +1,17 @@
 ---
 name: illustrated-build-guides
-description: Create or revise illustrated PDF build guides for physical projects, especially assembly, wiring, calibration and fault finding. Use when a reader must build from the guide without the working notes.
+description: Create illustrated project overviews and beginner follow-along PDF build guides, separately or as one cohesive manual. Use for physical assembly, wiring, calibration and fault finding that a reader must follow without working notes.
 ---
 
 # Illustrated build guides
 
-Deliver one cohesive, public-facing PDF that a builder can follow without the chat or working notes. Present the current design directly. Keep local file paths, internal handoff references, agent instructions, revision history, rejected designs, audit reports and agent status in separate working notes, outside the guide. Integrate useful findings into the relevant dimensions, parts, assembly steps, wiring or tests.
+Deliver public-facing PDFs with a clear purpose. Present the current design directly. Keep local file paths, internal handoff references, agent instructions, revision history, rejected designs, audit reports and agent status in separate working notes, outside the guide. Integrate useful findings into the relevant dimensions, parts, assembly steps, wiring or tests.
+
+## Choose the guide's role
+
+- An overview explains the objective, rules, strategy, finished design, parts and remaining work. Assembly summaries and conceptual images help the reader understand the project, but do not make it a follow-along build guide.
+- A build guide takes a beginner from identifying every part through fabrication, fastening, wiring, routing, configuration, calibration, tests and operation in physical order. Each step names the parts, tools and fasteners, gives the action and completion check, and shows the actual assembly at that stage. Add angles or close-ups wherever orientation, access or attachment is unclear. Verify connector views and pinouts from source data; identify the actual-part measurement needed instead of guessing.
+- Prefer one cohesive manual when both roles are requested together: a concise orientation first, then the complete build sequence and reference material. Explain each fact once and link to it from other steps. When the user requests separate PDFs, preserve the overview and make the build guide independently usable, with only the short orientation needed to build. Name the outputs by their roles. Do not add a third combined copy without a reason.
 
 ## Establish the build
 
