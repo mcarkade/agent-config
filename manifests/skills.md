@@ -32,3 +32,5 @@ The bootstrap scripts install all skills from each source globally for every hos
 ## Update rule
 
 After any global skill change, update this file with its source, installation order, and name. Keep the source command in `install.ps1` and `install.sh` in sync with this file.
+
+The existing maintained `source-faithful-prototype` and `cad-manufacturing-checks` sources also cover measured versus nominal interfaces, manufacturer hardware evidence, screw-stack/internal clearance, printed load paths and creep, builder/tool/service access, part identification, and interface coupons before a full manufacturing run. Their names and restore order are unchanged; the existing overlay loop installs both folders. Authorized updates should synchronize active `.agents` and Codex copies and any project copy that shadows them, then verify matching source hashes.
