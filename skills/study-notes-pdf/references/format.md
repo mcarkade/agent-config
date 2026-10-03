@@ -1,53 +1,77 @@
 # Format and renderer
 
-The reference preserves the refined optics format: A4, serif body, bold question, centered vector maths, brief gray hints, restrained SVG diagrams, two-column linked index, and `Abhinav Pullela . mcarkade` footer with an Index return link and page count. Typography and geometry live in `render.py`; keep them fixed. Reference pages show index, maths notes, a worked solution, a diagram and a formula sheet. Their subject and page count are examples, not defaults.
+Default to A4 with the retained optics typography and geometry: serif body, bold questions, centered native vector maths, restrained SVG diagrams, two-column linked index and Abhinav Pullela . mcarkade footer. The historical assets/layout-reference.pdf is a spacing/typography example; its light palette, subject and page count are not current defaults.
 
-Each topic or worked problem normally starts a new page. Use the same amount of content and whitespace as the reference; do not force a page count or compress long solutions. Make a learning example's question as complete as a tutorial question. Use typed equations and SVG diagrams; retain an essential source image only when redrawing would lose information. Define dimension arrows, symbols and axes correctly. Priority labels are small text in the existing source line, not badges or extra columns.
+Use warm dark colors: background #211D19, normal maths/body #F2E8DB, headings #FFF2DF, readable secondary explanation #C8B6A1, muted source/time/footer #B8A48D, links #DDB079, and box strokes #B88959. Subtly underline every clickable label with a 0.35-point line, including index IDs/topics/page numbers and footer return. Internal destinations explicitly land at page top. Respect an explicit request for another theme.
+
+## Content and flow
+
+Begin with compact notation/prerequisite teaching and tiny worked examples, then the topic/prerequisite-ordered bank. Explain recognition and connective reasoning without verbosity. Use continuous numbering, complete stems and immediate full solutions. Distinguish a learning Worked example, its bold question and Solution. No prediction/priority labels, callouts, hint system, selection rationale or motivation clutter. The hint block is a brief necessary explanation style, never a displayed hint label.
+
+Typeset fractions, functions, derivatives, exponents, subscripts, conditions and subquestion expressions natively in statements as well as solutions. Use math_segments for maths embedded in prose. Verify coefficients, signs and conditions after conversion. Put logical algebra steps on separate lines; do not prefix arrows automatically or equate a requirement with a deduction.
+
+Fit individual boxes to key answers/statements and formula-reference equations. Leave intermediate algebra unboxed. Group lines only when they form one mathematical result; separate independent answers. Sentence proof conclusions may be bold and unboxed.
+
+Keep the stem, its data, Solution label and initial meaningful working together when they fit. Keep headings and short formula introductions with their content, including boxed introductions. Reserve an opening once: later lookahead must not split that group. Clamp a generic heading's group before the next worked example. Every full teaching section/module and every full numbered bank question starts on a fresh page. Subparts, individual steps and inline worked examples flow within their module or question; do not force each onto a new page. Long solutions continue without repeated module/source/continuation headings. Preserve necessary algebra and legible type; impose no page/question quota.
+
+Show approximate time once per learning module or bank question and a consistent total at the index. Estimate reading/following the guide, not mastery or an exam guarantee. Do not time individual steps/subquestions or repeat estimates on continuation pages. Reference units may omit times.
+
+Use accurate SVG diagrams when geometry or relationships help. Match labels, axes, connections, dimensions and signs to stem and answer. Supply readable dark-theme artwork; preserve essential source images. Keep acquisition and engineering logs outside the guide.
 
 ## Input
 
-Save a UTF-8 JSON file in the study workspace. Paths to diagrams/images are relative to that file. The minimal form is:
+Use UTF-8 JSON in the workspace; media paths are relative to it:
 
-```json
+~~~json
 {
-  "title": "Subject",
+  "title": "Study guide",
   "subtitle": "Assessment | Notes and worked solutions",
-  "exam_line": "Course / date and time, if known",
-  "route": "Start: N01, Q01, Q03. Then core questions.",
-  "mode": "full",
+  "exam_line": "Verified course, assessment date and rules",
+  "route": "Read learning modules, then work through the bank.",
   "sections": [
-    {
-      "name": "Notes",
-      "units": [
-        {
-          "id": "N01",
-          "title": "Notation",
-          "source": "Course notes, p. 2",
-          "blocks": [
-            {"kind": "p", "text": "Brief explanation."},
-            {"kind": "eq", "text": "F(k)=\\int f(x)e^{-ikx}\\,dx"},
-            {"kind": "hint", "text": "Define the coordinate and units."}
-          ]
-        }
-      ]
-    }
+    {"name": "Learning notes", "units": [
+      {"id": "N1", "title": "Required method", "role": "notes",
+       "source": "Verified course source and page", "estimated_minutes": 8,
+       "blocks": [
+         {"kind": "p", "text": "A concise recognition explanation."},
+         {"kind": "example_label", "text": "Worked example"},
+         {"kind": "question", "text": "Evaluate the integral."},
+         {"kind": "eq", "text": "\\int e^x\\,dx"},
+         {"kind": "solution_label", "text": "Solution"},
+         {"kind": "secondary", "text": "Differentiation verifies the antiderivative."},
+         {"kind": "eq", "text": "\\int e^x\\,dx=e^x+C", "box": true}
+       ]}
+    ]},
+    {"name": "Question bank", "units": [
+      {"id": "1", "title": "Complete source task", "role": "question",
+       "source": "Source question identifier", "estimated_minutes": 5,
+       "blocks": [
+         {"kind": "question", "text": "Solve y'=y with y(0)=1.",
+          "math_segments": [{"text": "Solve "}, {"math": "y'=y"},
+                            {"text": " with "}, {"math": "y(0)=1"}, {"text": "."}]},
+         {"kind": "solution_label", "text": "Solution"},
+         {"kind": "eq", "text": "y=Ae^x"},
+         {"kind": "eq", "text": "y(0)=A=1"},
+         {"kind": "eq", "text": "\\Longrightarrow y=e^x", "box": true}
+       ]}
+    ]}
   ]
 }
-```
+~~~
 
-Optional unit fields: `index_title` for a shorter index label and `priority` (`Start here`, `Core practice`, `Extension`). Other blocks: `question` and `hint` with `text`; `diagram` or `image` with `path`; `table` with `rows`; `link` with `text` and `url`. Formula-sheet equations may omit explanations already taught. Use supported Matplotlib mathtext; brace font commands and use `\frac`, not `\over`. Break long maths into consecutive equation blocks.
+Unit fields: unique id, title, source and nonempty blocks; optional index_title, role (notes/question/formula/reference), estimated_minutes. Every full module/question unit starts a new page. Formula units box equations by default. A supplied top-level estimated_minutes must equal the unit sum; otherwise the total is derived.
 
-`mode: "cram"` omits the index and starts on the first content page. Full mode keeps the two-column index; if it overflows, shorten index labels or group questions at the topic level before changing layout. Units still have bookmarks. Fit a route in one short line or omit it when irrelevant.
+Block kinds: p, secondary, question, hint, example_label, solution_label, eq, link, diagram, image, table and spacer. Prose uses text; bold:true supports an unboxed conclusion. math_segments interleaves literal text and mathtext math. box:true makes one fitted box; a shared string groups adjacent parts of one result. keep_next:true joins related steps. Media uses path; tables use rows; links use text and url. Optional source_id records provenance in the working manifest.
 
-## Commands
+Use supported Matplotlib mathtext with braced fraction/font arguments. Split oversized displays instead of shrinking them. Default full mode retains the index; cram omits it only when requested. If the index overflows, use concise topic entries or extend its pagination; keep necessary content.
 
-From the skill directory, using an available Python runtime with matplotlib, reportlab, svglib, PyMuPDF and Pillow:
+## Commands and checks
 
-```text
+Use Python with matplotlib, reportlab, svglib, PyMuPDF and Pillow:
+
+~~~text
 python scripts/render.py INPUT.json --output OUTPUT.pdf --work-dir BUILD_DIR
 python scripts/check_pdf.py OUTPUT.pdf --manifest BUILD_DIR/layout.json --render-dir REVIEW_DIR
-```
+~~~
 
-The working directory holds equation SVGs and layout data, outside the skill. QA renders every page and checks internal destinations, footer/page labels, bounds, missing text glyphs, and leaked internal commentary. External URLs and visual/math review remain the agent's responsibility.
-
-For fidelity regression, render `assets/reference.json` and compare content pages against `assets/layout-reference.pdf`. The index is configurable for the new subject; its typography and links follow the same renderer. Renderer changes require this comparison and an overflow/link check.
+Generated SVGs, manifests and page renders belong in the workspace. Check page-top destinations, links/underlines, estimates, boxes and opening groups. Automated checks complement source/maths verification and page-by-page visual review. Exact unchanged-page comparison may reuse earlier visual evidence; inspect every changed page. Reopen the delivered copy and verify it matches the checked artifact. The course's Study_Ready folder contains only the official current handout and final guide; preserve sources, archives and backups.

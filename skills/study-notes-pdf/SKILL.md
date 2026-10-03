@@ -1,38 +1,34 @@
 ---
 name: study-notes-pdf
-description: Create study PDFs from a syllabus, course material and exam questions, using Abhinav's established notes and worked-solution format. Use for subject revision, question banks or urgent exam notes.
+description: Create syllabus-scoped study PDFs with beginner-clear learning notes, curated exam questions and complete worked solutions in Abhinav's established format.
 ---
 
 # Study notes PDF
 
-Produce a cohesive guide a beginner can learn from and use to solve questions. Preserve the supplied optics layout through `scripts/render.py` and `assets/layout-reference.pdf`; change subject content, not the design. Read [format.md](references/format.md) before authoring.
+Produce one cohesive guide a beginner can learn from and use to write exam solutions. Default to the warm dark layout in scripts/render.py; the retained optics reference supplies typography, spacing and diagram geometry. Read [format.md](references/format.md) before authoring. Honor the requested stage: source verification, a sample, or the full guide.
 
-## Establish scope and sources
+## Establish scope and evidence
 
-Use the user's syllabus, assessment type, deadline and existing sources. Find missing essentials in accessible files, LMS, seniors' academic Drive, Spectrum BPHC resources and assigned textbooks; follow [sources.md](references/sources.md). Ask only for essential missing material or access after checking available routes. Carry forward rules the user already confirmed.
+Verify the current course, campus, year, assessment cutoff and exam rules from official evidence. Reconcile old codes, editions and conflicting handout headers. Start with existing local material, then fill essential gaps through supported accessible sources; follow [sources.md](references/sources.md). Preserve confirmed decisions and original files.
 
-Build a working syllabus-to-source-to-question map. Include prerequisite maths and applications covered in class even when the syllabus names only the parent topic. Keep supplementary topics clearly lower priority. Establish notation, units, signs, coordinate definitions and conventions from the course sources; translate other sources explicitly.
+Keep a working syllabus-to-source-to-question map with exact locators, reviewed ranges and unresolved gaps. Include prerequisites and in-scope applications. Distinguish exact worked tasks, merged variants, verified corrections and unavailable or uncertain sources. An inventory or announcement list does not prove every document was read.
 
-## Curate and solve
+## Teach, curate and solve
 
-Teach the minimum foundations needed for each problem family, including unfamiliar symbols. Give a short explanation and a worked example, then representative practice with complete solutions. Cover every distinct relevant tutorial/PYQ method. Merge repeated prompts and cosmetic variants while retaining source IDs; keep variants that change the method, assumption or trap.
+Begin with a compact guided walkthrough of notation, required maths, what each method means, and how to recognize and use it. Connect tiny worked steps and inline examples with concise explanations. Avoid both long prose and a formula-only opening.
 
-Assign a plain priority: **Start here**, **Core practice** or **Extension**. Base it on syllabus relevance, prerequisites, verified past-paper patterns and time to learn; distinguish observed evidence from judgment. Priorities should help someone starting from zero choose a realistic route, not promise exam predictions. Put the short route in the index and a question's priority in its source line.
+Order the bank by topic and prerequisites, with the highest-value exam-shaped tasks first within each topic. Cover distinct relevant methods from tutorials, practice, assignments, selected textbook cases and verified PYQs. Merge cosmetic repeats while preserving source IDs; retain changes in method, assumptions or traps. Let coverage determine length: no arbitrary page or question quota. Do not add prediction labels, selection rationale, priority badges, motivation or a hint system.
 
-State each complete question in bold, with data, requested result and a legible diagram when needed. Check diagram dimensions, connections and labels against the question and solution. Keep the source's method where correct. Show substitutions and successive algebra steps on separate lines, enough to reproduce the answer in an exam. Explain only the non-obvious step or assumption in readable gray. Finish with the result and units or conditions. Derived solutions and verified corrections belong in the source map; resolve ambiguities at the relevant step.
+Make learning examples and bank questions complete: data, conditions and requested result, followed immediately by the solution. Typeset maths in stems and subquestions as carefully as in solutions. Mark **Worked example**, the question and **Solution** distinctly. Show substitutions and algebra on successive lines without skipping steps needed to reproduce the answer in an exam. Use implication, equality, equivalence, because or therefore only when logically correct. Add readable secondary explanation for difficult transitions; do not restate obvious equations.
 
-## Assemble
+Finish with the result, units and domain or parameter conditions. Box key mathematical results individually to fit their contents. A sentence proof conclusion may be bold and unboxed. Use accurate SVG diagrams when geometry or relationships help; preserve essential source images when redrawing loses information.
 
-Use this order: clickable index and study route; notation and required maths; learning notes and examples; grouped questions and full solutions; concise sources and optional video route; formula sheets. Use one coherent guide with brief explanations, not a sequence of pasted source pages. Preserve whitespace between questions and the reference density. Long solutions may continue; split oversized equations rather than shrink them.
+## Assemble and verify
 
-Keep PDF text about the subject and solving questions. Put acquisition logs, audits, local paths, build details, revisions and agent commentary in working files. Remove repeated definitions, headings that add nothing, generic subtitles, decorative callouts and prose that restates an equation. Preserve necessary steps when shortening.
+Use a clickable index, compact foundations and learning modules with examples, a continuously numbered selective question bank with complete solutions, and a concise formula/source reference. Keep acquisition logs, audits, local paths and build history in working files. Videos are optional targeted backup for a specific unclear step.
 
-If useful, select a short video overview with verified URLs and syllabus mapping. Verify claimed segments and examples; label adapted exercises. When the deadline calls for it, add a short companion or chat crib sheet with definitions, recognition cues, formulas and partial-credit setups. If the user will copy without reading, use formula-first text immediately. Follow the confirmed exam rules.
+Apply format.md: subtly underlined amber links, page-top destinations, fresh pages for full teaching modules and every full numbered question, smart within-module opening/solution grouping, no repeated continuation headings, and approximate module/question times plus a consistent total.
 
-## Verify and deliver
+Independently verify solutions using suitable derivations, symbolic/numerical checks or authoritative answers. Check signs, units, assumptions and limits; resolve conflicting keys. Run the renderer and scripts/check_pdf.py, then inspect every page at reading size, including native stem maths, diagrams, fitted boxes and breaks. For a revision, credit unchanged page bodies only by exact comparison with already reviewed pages; inspect every changed page and recheck final navigation.
 
-Check every syllabus topic and selected question against its source. Independently verify each solution with suitable derivations, numerical/symbolic checks or an authoritative answer; test dimensions, signs and relevant limits. Reconcile conflicting answers rather than copying a senior's or textbook's key blindly.
-
-Render with the supplied script, then run `scripts/check_pdf.py`. Inspect **every rendered page** at reading size, including diagrams and formula sheets; automated checks do not establish clarity or mathematical correctness. Check all index/bookmark/return destinations and external links. Compare representative pages to the retained layout reference. Fix defects and recheck affected pages and final pagination.
-
-Deliver the exact reopened PDF and a brief account of coverage and unresolved limits. Keep the source map, checks and editable content in the study workspace. Do not ship an answer with an unresolved error as a complete solution.
+Deliver the exact reopened and checked PDF with concise coverage and unresolved limits. Keep editable content, source/proof maps and checks in the workspace. When preparing the course's Study_Ready folder, put only the current official handout and final guide there; preserve source folders, archives and backups. Reuse the intended Library item/version when an update is requested. Do not claim exhaustive exam coverage or guaranteed marks.
