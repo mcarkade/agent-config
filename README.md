@@ -30,6 +30,8 @@ The bootstrap installs skills globally for every supported agent harness, applie
 
 Edit the tracked files here, commit, and push. On another machine, pull and rerun the appropriate bootstrap. When upstream skill libraries change, rerunning the bootstrap refreshes them.
 
+The two portable global guides share the same working, collaboration and storage safeguards. Keep their installed copies synchronized when publishing an update.
+
 The canonical global guides are `global/AGENTS.md` and `global/CLAUDE.md`, installed into `~/.codex/AGENTS.md` and `~/.claude/CLAUDE.md`. When retiring provider-specific workflow restrictions, also remove obsolete copies from active parent-directory guides. A clean installed guide does not neutralize a contradictory parent guide.
 
 See [manifests/skills.md](manifests/skills.md) and [manifests/plugins.md](manifests/plugins.md).

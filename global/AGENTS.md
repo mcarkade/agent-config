@@ -34,7 +34,7 @@ Use skills when their workflow fits the task. Read only the relevant guidance an
 
 Delegate when useful, within approved worker limits. Assign bounded tasks with separate file ownership. Share evidence; the lead integrates and verifies results.
 
-Use the latest Sol as the default lead and for general implementation. Use the latest Luna for bounded research, exact execution and computer use. Bring in the latest Astra only when unresolved architecture, physics, visual judgment or another hard problem needs it. Match effort to the task, and escalate if a worker cannot resolve its assignment without lowering quality.
+Examples, using the latest equivalents: GPT-6 Luna at max effort for exact execution, computer use and bounded research with clear instructions; GPT-6 Sol at task-appropriate effort for routine tasks and specified implementation; GPT-6 Astra at high effort or higher for complex, unresolved work requiring judgment or taste. Lower-capability agents should seek stronger-model advice or hand off difficult parts when struggling. Adjust capability and effort to the task, without sacrificing quality to cost.
 
 After interruption, inspect workers, working trees and recorded progress. Preserve completed results and resume unfinished steps. Keep each shared browser or heavy resource under one owner.
 

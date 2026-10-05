@@ -11,7 +11,7 @@ Install these sources in order. The later source wins duplicate names.
 
 The bootstrap scripts install all skills from each source globally for every host supported by the Skills CLI. They then install all tracked local skills and remove em dashes from every discovered `SKILL.md`. The `source-faithful-prototype` skill keeps source-based builds simple; `illustrated-build-guides` covers reader-facing PDF assembly and wiring guides. The maintained `cad-manufacturing-checks` skill includes a read-only CadQuery/OCP STEP inspection helper and analytic tests. Cursor pstack intentionally provides the active `tdd`, `teach`, and `reflect` variants.
 
-`study-notes-pdf` acquires syllabus-relevant study sources, curates priorities and complete solutions, and renders them in the retained optics PDF format. It includes a portable renderer, PDF checker and small layout reference. Both bootstrap scripts install its whole folder through the existing local-skill loop.
+`study-notes-pdf` verifies syllabus and assessment sources, teaches prerequisites, and provides contextual references with complete exam-ready solutions. It uses paired learning and revision PDFs for large physics/math subjects and one integrated PDF for POE and HuELs. The optics guide remains a teaching and layout reference rather than a universal exam format. Both bootstrap scripts install its renderer, PDF checker and references through the existing local-skill loop.
 
 ## Current inventory
 

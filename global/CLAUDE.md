@@ -34,7 +34,7 @@ Use skills when their workflow fits the task. Read only the relevant guidance an
 
 Delegate when useful, within approved worker limits. Assign bounded tasks with separate file ownership. Share evidence; the lead integrates and verifies results.
 
-Use the latest Sol as the default lead and for general implementation. Use the latest Luna for bounded research, exact execution and computer use. Bring in the latest Astra only when unresolved architecture, physics, visual judgment or another hard problem needs it. Match effort to the task, and escalate if a worker cannot resolve its assignment without lowering quality.
+Examples, using the latest equivalents: GPT-6 Luna at max effort for exact execution, computer use and bounded research with clear instructions; GPT-6 Sol at task-appropriate effort for routine tasks and specified implementation; GPT-6 Astra at high effort or higher for complex, unresolved work requiring judgment or taste. Lower-capability agents should seek stronger-model advice or hand off difficult parts when struggling. Adjust capability and effort to the task, without sacrificing quality to cost.
 
 After interruption, inspect workers, working trees and recorded progress. Preserve completed results and resume unfinished steps. Keep each shared browser or heavy resource under one owner.
 
@@ -47,6 +47,16 @@ Inspect a target before deleting or overwriting it. Check whether it is tracked,
 Never use `pkill -f` with a pattern that appears in the command being typed. Match the binary or walk `/proc` while excluding your own ancestors.
 
 Never add `Co-Authored-By: Claude` or any AI attribution to commits, pull requests or generated documents.
+
+## Storage and long runs
+
+Before long runs, inspect free space on each drive that will hold outputs, temporary files or caches. Record a reasonable project-specific free-space floor with headroom for expected peak growth; adjust it to the project's needs rather than assuming one threshold fits every drive. Recheck periodically and before large downloads, extraction, renders or test batches. If headroom approaches the floor, bound or pause artifact growth and coordinate a safe recovery.
+
+Bound logs, screenshots, test artifacts, retries and caches by size, count or retention. Reuse stable working/output paths and existing downloads; avoid unbounded duplicate builds and caches. Keep useful final deliverables easy to find, with working files separate, and retain essential evidence for claims and recovery.
+
+Cleanup requires the applicable approval and coordination with the active owner. Limit it to known regenerable artifacts owned by the task; preserve originals, sources, uncommitted work, final deliverables and essential evidence. Respect requested cleanup timing, including Multiroads cleanup at the end; do not interrupt its active work or run blanket purges. Inspect targets and ownership before any approved cleanup.
+
+CloudDrive backup or sync exclusions require an explicit settings review and user authorization. Do not silently delete synced copies as a substitute. Document proposed safeguards accurately; do not claim backup, sync or exclusion settings changed without verified evidence.
 
 ## Portable configuration
 
