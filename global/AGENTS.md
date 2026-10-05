@@ -48,6 +48,16 @@ Never use `pkill -f` with a pattern that appears in the command being typed. Mat
 
 Never add `Co-Authored-By: Claude` or any AI attribution to commits, pull requests or generated documents.
 
+## Storage and long runs
+
+Before long runs, inspect free space on each drive that will hold outputs, temporary files or caches. Record a reasonable project-specific free-space floor with headroom for expected peak growth; adjust it to the project's needs rather than assuming one threshold fits every drive. Recheck periodically and before large downloads, extraction, renders or test batches. If headroom approaches the floor, bound or pause artifact growth and coordinate a safe recovery.
+
+Bound logs, screenshots, test artifacts, retries and caches by size, count or retention. Reuse stable working/output paths and existing downloads; avoid unbounded duplicate builds and caches. Keep useful final deliverables easy to find, with working files separate, and retain essential evidence for claims and recovery.
+
+Cleanup requires the applicable approval and coordination with the active owner. Limit it to known regenerable artifacts owned by the task; preserve originals, sources, uncommitted work, final deliverables and essential evidence. Respect requested cleanup timing, including Multiroads cleanup at the end; do not interrupt its active work or run blanket purges. Inspect targets and ownership before any approved cleanup.
+
+CloudDrive backup or sync exclusions require an explicit settings review and user authorization. Do not silently delete synced copies as a substitute. Document proposed safeguards accurately; do not claim backup, sync or exclusion settings changed without verified evidence.
+
 ## Portable configuration
 
 https://github.com/mcarkade/agent-config holds shared global instructions, skill sources and plugin inventory.

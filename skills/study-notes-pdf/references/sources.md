@@ -2,6 +2,10 @@
 
 Read existing local inventories and material first. Establish the current course, campus, year, assessment cutoff and rules from official handouts, LMS notices or their authenticated announcement copies. Reconcile inherited headers, old course codes and changed textbook editions using current evidence. Record what confirms identity and what remains uncertain; do not silently substitute another course's paper.
 
+Verify question format from current official rules and actual readable PYQs, recording the year and assessment type. Historical papers show past patterns, not an exact future paper or guaranteed marks. If format evidence is missing, state the uncertainty and use verified source tasks without inventing an MCQ format.
+
+Verify open-book permissions separately from study usefulness. For CM, prepare a reference the student can hand-copy into permitted class notes; preserve the exact official restrictions. For TWS, prepare a useful revision reference, but do not claim that a printed AI guide is allowed. Neither a reference PDF nor another subject's rules establish permission to bring it into an exam. State unverified permissions honestly.
+
 Then inspect accessible current tutorials, practice sheets, assignments, lectures and verified PYQs. Fill essential gaps from authorized academic Drive collections, Spectrum BPHC resources or assigned textbooks. Use available connectors or a supported signed-in browser; keep failures bounded and report blocked sources. A folder listing, filename, search result or email announcement is discovery, not document review or an exhaustive live LMS inventory.
 
 Before extracting archives, inspect member listings, reuse existing files and check disk headroom. Extract only relevant bounded selections, preserving archives and source directories. Identify exact duplicates by hash; retain distinct annotations and editions. Access means the relevant pages were readable, including scans, diagrams, handwritten solutions and keys.
