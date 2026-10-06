@@ -1,4 +1,4 @@
 interface:
   display_name: "Study Notes PDF"
   short_description: "Source-backed notes and complete exam solutions"
-  default_prompt: "Use $study-notes-pdf for my verified syllabus and exam format: paired full-guide and LMR PDFs for a large physics/math subject, or one integrated POE/HuEL PDF with clear learning, contextual reference and complete exam-ready practice."
+  default_prompt: "Use $study-notes-pdf to create one integrated PDF for my physics, POE or HuEL subject: logical first-read teaching, clear visuals, spacious layout, contextual reference and complete exam-style solutions, scoped to verified syllabus and exam rules."
