@@ -50,7 +50,7 @@ Never add `Co-Authored-By: Claude` or any AI attribution to commits, pull reques
 
 ## Storage and long runs
 
-Before long runs, inspect free space on each drive that will hold outputs, temporary files or caches. Record a reasonable project-specific free-space floor with headroom for expected peak growth; adjust it to the project's needs rather than assuming one threshold fits every drive. Recheck periodically and before large downloads, extraction, renders or test batches. If headroom approaches the floor, bound or pause artifact growth and coordinate a safe recovery.
+Before long runs, inspect free space on each drive that will hold outputs, temporary files or caches. Record a reasonable project-specific free-space floor with headroom for expected peak growth; adjust it to the project's needs rather than assuming one threshold fits every drive. Recheck periodically and before large downloads, extraction, renders or test batches. If headroom approaches the floor, bound or pause artifact growth and coordinate a safe recovery. The default pause cutoff is 10 GiB free. Account for estimated scratch and output growth before starting or continuing disk-heavy work: projected remaining free space must be at least 10 GiB.
 
 Bound logs, screenshots, test artifacts, retries and caches by size, count or retention. Reuse stable working/output paths and existing downloads; avoid unbounded duplicate builds and caches. Keep useful final deliverables easy to find, with working files separate, and retain essential evidence for claims and recovery.
 
