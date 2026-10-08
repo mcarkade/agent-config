@@ -34,7 +34,7 @@ Use skills when their workflow fits the task. Read only the relevant guidance an
 
 Delegate when useful, within approved worker limits. Assign bounded tasks with separate file ownership. Share evidence; the lead integrates and verifies results.
 
-Examples, using the latest equivalents: GPT-6 Luna at max effort for exact execution, computer use and bounded research with clear instructions; GPT-6 Sol at task-appropriate effort for routine tasks and specified implementation; GPT-6 Astra at high effort or higher for complex, unresolved work requiring judgment or taste. Lower-capability agents should seek stronger-model advice or hand off difficult parts when struggling. Adjust capability and effort to the task, without sacrificing quality to cost.
+Current model routing (October 2026; the owner will revise it as models change): GPT-6.1 Sol at high effort is the default worker for implementation and specified tasks, and GPT models are preferred for browser and computer use. GPT-6.1 Sol high currently outranks Claude Sonnet 5.5 high; either may be used, alone or together. Use GPT-6 Luna high or Claude Haiku 5.5 high for online research and small, specific tasks. Do not use Claude Fable or GPT-6 Astra unless the owner re-enables them. Lower-capability agents should seek stronger-model advice or hand off difficult parts when struggling. Adjust capability and effort to the task, without sacrificing quality to cost.
 
 After interruption, inspect workers, working trees and recorded progress. Preserve completed results and resume unfinished steps. Keep each shared browser or heavy resource under one owner.
 
@@ -50,7 +50,7 @@ Never add `Co-Authored-By: Claude` or any AI attribution to commits, pull reques
 
 ## Storage and long runs
 
-Before long runs, inspect free space on each drive that will hold outputs, temporary files or caches. Record a reasonable project-specific free-space floor with headroom for expected peak growth; adjust it to the project's needs rather than assuming one threshold fits every drive. Recheck periodically and before large downloads, extraction, renders or test batches. If headroom approaches the floor, bound or pause artifact growth and coordinate a safe recovery.
+Before long runs, inspect free space on each drive that will hold outputs, temporary files or caches. Record a reasonable project-specific free-space floor with headroom for expected peak growth; adjust it to the project's needs rather than assuming one threshold fits every drive. Recheck periodically and before large downloads, extraction, renders or test batches. If headroom approaches the floor, bound or pause artifact growth and coordinate a safe recovery. The default pause cutoff is 10 GiB free. Account for estimated scratch and output growth before starting or continuing disk-heavy work: projected remaining free space must be at least 10 GiB.
 
 Bound logs, screenshots, test artifacts, retries and caches by size, count or retention. Reuse stable working/output paths and existing downloads; avoid unbounded duplicate builds and caches. Keep useful final deliverables easy to find, with working files separate, and retain essential evidence for claims and recovery.
 
