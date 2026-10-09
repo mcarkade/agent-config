@@ -9,7 +9,7 @@ Create a coherent PDF study resource for the verified syllabus and requested sco
 
 Follow the user's requested organization. A guide may use topic-ordered notes with inline worked examples, a separate topic-organized tutorial/PYQ/suggested question bank after the teaching, and concise short notes at the end. Do not move every chapter's practice next to its notes when the requested structure places one bank after all teaching. Teach and solve each task once; link back to a matching worked example instead of repeating its solution.
 
-Use the warm dark study layout for a main guide. That preference applies only to study notes. A standalone cheat sheet is a separate mode, created only when requested; use a spacious JEE-style single-column layout on clean white pages with minimal black styling. Show the document title on page one only, omit running headers, footers, and page numbers, keep formula-group labels with their content, and do not add the sheet automatically to a guide. Include concise in-syllabus results, reusable methods, brief conditions, and only useful visuals or boxes. See [format.md](references/format.md) for layout details.
+Use the warm dark study layout for a main guide. That preference applies only to study notes. A standalone cheat sheet is a separate mode, created only when requested; use a spacious JEE-style single-column layout on clean white pages with minimal black styling. Show the document title on page one only, omit running headers, footers, and page numbers, keep formula-group labels with their content, and do not add the sheet automatically to a guide. Include selected in-syllabus results and reusable methods, with only useful visuals or boxes. See [format.md](references/format.md) for layout details.
 
 ## Verify scope and sources
 
@@ -21,7 +21,7 @@ Adapt teaching, reference density, and question style to the subject, learner, a
 
 ## Teach and solve
 
-Define unfamiliar concepts, prerequisites, and notation before use. State the key result, give one or two concise lines about its meaning or method, then show a worked example. Explain enough for a learner to use foundational ideas and follow non-obvious transitions; cut lecture paraphrase, repeated narration, and filler rather than necessary reasoning. Connect diagram labels and relationships to the equations they explain.
+Define unfamiliar concepts, prerequisites, and notation before use. State the key result, give one or two concise lines about its meaning or method, then show a worked example. Explain enough for a learner to use foundational ideas and follow non-obvious transitions; cut lecture paraphrase, repeated narration, and filler rather than necessary reasoning. Connect diagram labels and relationships to the equations they explain. Inspect each scientific SVG and its final PDF appearance at reading size; check for clipped or overlapping text and verify its geometry, axes, arrows, and labels against the surrounding explanation.
 
 Give each example and bank question a complete stem, data, conditions, subparts, and a clearly marked solution. Preserve source methods and provenance. Show the algebra needed to reproduce an exam answer, using readable successive lines. For integral solutions, show the setup, the antiderivative with limits, and substituted arithmetic separately. State final units and domain or validity conditions. Verify signs, limits, assumptions, and boundary cases independently; do not trust inherited answer keys without checking them.
 
