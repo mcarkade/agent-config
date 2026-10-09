@@ -19,7 +19,7 @@ Use fresh pages for complete teaching units and numbered practice questions wher
 
 For the requested panel style, group a notes worked example's question and solution in one panel, and group each practice solution in one panel. Box key definitions, laws, standard results, and important answers in the notes. Leave routine algebra and prose open. Keep short notes lightly boxed. Adjacent blocks with the same `panel` ID form one panel; its side rules continue across page breaks and close at the true start and end. Keep its footer outside, with no repeated panel headings. The `box` field remains a fitted one-page rectangle.
 
-Follow each key formula with one secondary-text line naming its symbols (for example `N(...)` beneath `E(...)`) and keep that line on the same page as the formula. Keep short notes in the same pattern: a labelled formula, its symbol line, selective boxes, and no prose blocks.
+Follow each key formula with one `hint` block naming its symbols, and set `keep_next: true` on the formula so the two stay on one page. Keep short notes in the same pattern: a labelled formula, its symbol line, selective boxes, and no prose blocks.
 
 Typeset mathematics in stems as carefully as in solutions. Use native math for fractions, functions, derivatives, exponents, subscripts, conditions, and subquestion expressions. Verify coefficients, signs, and conditions after conversion. Put separate algebra steps on separate lines; use implication symbols only when the logic supports them.
 
