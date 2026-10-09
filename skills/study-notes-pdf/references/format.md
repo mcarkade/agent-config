@@ -1,22 +1,27 @@
 # Format and renderer
 
-Default to A4 with serif body, bold questions, centered native vector maths, meaningful clear visuals, a two-column linked index and Abhinav Pullela . mcarkade footer. Follow the local Optics Notes Latex.pdf for logical teaching flow and readable spacing; retain useful earlier optics typography and navigation conventions. Give explanations, equations and diagrams room to breathe without shrinking type or packing formulas to meet a page target. The historical assets/layout-reference.pdf is a spacing/typography example; its light palette, subject and page count are not current defaults.
+The bundled renderer produces A4 pages in a warm dark palette, with serif body text, bold questions, centered vector mathematics, readable diagrams, and a linked two-column index in full mode. Use readable spacing and let coverage determine page count. Keep this palette scoped to study notes; respect an explicit request for another style.
 
-Warm dark mode is scoped only to study-notes; do not apply it to other report/build-guide skills or all PDFs. Use warm dark colors: background #211D19, normal maths/body #F2E8DB, headings #FFF2DF, readable secondary explanation #C8B6A1, muted source/time/footer #B8A48D, links #DDB079, and box strokes #B88959. Subtly underline every clickable label with a 0.35-point line, including index IDs/topics/page numbers and footer return. Internal destinations explicitly land at page top. Respect an explicit request for another theme.
+## Output modes
 
-## Content and flow
+A main subject guide defaults to the warm dark style. When it includes short notes, keep them in that style and make them a compact scan reference: one labeled result or method per line, brief conditions or symbol notes, minimal boxes, and no long caption prose.
 
-Plan the subject-appropriate PDF workflow from the outset, using the same layout with subject-specific pedagogy. Physics subjects, including Optics, CM and EMT, use one integrated input and final PDF, replacing the old full-guide/LMR pair. Teach in a logical first-read sequence with simple detailed explanations, inline worked examples, contextual reference and exam-style questions. Avoid jargon, skipped transitions and compressed formulas that require mental unpacking. POE and HuELs, including HRD and TWS, use one cohesive integrated PDF combining clear learning, contextual quick reference and question-oriented practice; teach and solve each item once, linking related content instead of duplicating it. Preserve paired full-guide and reference-first LMR PDFs for large mathematics subjects unless the user changes that preference; other subjects use the integrated workflow unless specified otherwise. Do not deliver HTML. Reference entries include symbol meanings, assumptions, validity conditions and method-selection cues, with brief applications where necessary; they are not an unexplained formula list. Explain recognition and connective reasoning without verbosity. Use continuous numbering, complete stems and immediate full solutions. Distinguish a learning Worked example, its bold question and Solution. No prediction/priority labels, callouts, hint system, selection rationale or motivation clutter. The hint block is a brief necessary explanation style, never a displayed hint label.
+Create a standalone cheat sheet only when requested. Use a spacious JEE-style flow on a clean white background, with black or near-black text, generous spacing, and one readable column over standard pages. Cover in-syllabus formulas and results, useful derived results, and recurring question methods restated as reusable general results. Keep notation and conditions short. Add a simple graph or diagram only when it clarifies a relationship; use selective boxes. Use high-contrast diagrams and labels that suit the white page; do not reuse dark-background artwork without adapting it. Do not copy cramped multi-column source sheets or reproduce long solutions. Do not add this separate PDF automatically to a main guide. The bundled renderer defaults to warm dark and supports the white mode with the top-level theme set to `white_minimal`. Use cram mode to omit the index in a standalone sheet.
 
-Typeset fractions, functions, derivatives, exponents, subscripts, conditions and subquestion expressions natively in statements as well as solutions. Use math_segments for maths embedded in prose. Verify coefficients, signs and conditions after conversion. Put logical algebra steps on separate lines; do not prefix arrows automatically or equate a requirement with a deduction.
+## Index and page flow
 
-Use fitted individual boxes only for selected key answers or statements. Leave routine teaching, most reference equations and intermediate algebra unboxed; avoid excess boxes and clutter. Group lines only when they form one mathematical result; separate independent answers. Sentence proof conclusions may be bold and unboxed.
+Use a clickable index for a substantial guide. Group entries by the requested part and chapter, use short topic titles, and keep each practice question's source tag beside its index entry and stem. Use clear ruled part headings. Avoid priority or prediction labels, selection rationale, motivation copy, and decorative hints. Internal destinations land at page top. Keep links visibly distinct and easy to follow.
 
-Keep the stem, its data, Solution label and initial meaningful working together when they fit. Keep headings and short formula introductions with their content, including boxed introductions. Reserve an opening once: later lookahead must not split that group. Clamp a generic heading's group before the next worked example. Every full teaching section/module and every full numbered bank question starts on a fresh page. Subparts, individual steps and inline worked examples flow within their module or question; do not force each onto a new page. Long solutions continue without repeated module/source/continuation headings. Use connected chapter-sized learning units rather than forcing a fresh page for each definition, mini heading or navigation label. Remove navigation-only pages and orphaned headings by grouping each with meaningful following explanation, diagram or worked steps; retain fresh starts for full teaching chapters and full numbered questions. After integration or reordering, check that in-text module/question/formula references identify the intended content, not merely a valid link destination. Preserve necessary algebra and legible type; impose no page/question quota.
+Use fresh pages for complete teaching units and numbered practice questions where this improves navigation. Let subtopics and examples flow within a unit. Keep an example's stem, solution label, and opening working together; avoid orphaned headings and navigation-only pages. When a solution continues onto another page, let its working flow without repeated headings or banners. Keep the page footer outside content panels.
 
-Show approximate time once per learning module or bank question and a consistent total at the index. Estimate reading/following the guide, not mastery or an exam guarantee. Do not time individual steps/subquestions or repeat estimates on continuation pages. Reference units may omit times.
+## Teaching and boxes
 
-Use accurate SVG diagrams when geometry or relationships help. Each visual should explain something concrete in the nearby text; use readable labels and a clear visual hierarchy rather than decorative figures. Match labels, axes, connections, dimensions and signs to stem and answer. Supply readable dark-theme artwork; preserve essential source images. Keep acquisition and engineering logs outside the guide.
+
+For the requested panel style, group a notes worked example's question and solution in one panel, and group each practice solution in one panel. Box key definitions, laws, standard results, and important answers in the notes. Leave routine algebra and prose open. Keep short notes lightly boxed. Adjacent blocks with the same `panel` ID form one panel; its side rules continue across page breaks and close at the true start and end. Keep its footer outside, with no repeated panel headings. The `box` field remains a fitted one-page rectangle.
+
+Typeset mathematics in stems as carefully as in solutions. Use native math for fractions, functions, derivatives, exponents, subscripts, conditions, and subquestion expressions. Verify coefficients, signs, and conditions after conversion. Put separate algebra steps on separate lines; use implication symbols only when the logic supports them.
+
+Omit time estimates and timing metadata by default. Include rough reading estimates only when requested or useful, show them once per unit and as a consistent total, and never imply time to mastery or exam readiness.
 
 ## Input
 
@@ -27,28 +32,35 @@ Use UTF-8 JSON in the workspace; media paths are relative to it:
   "title": "Study guide",
   "subtitle": "Assessment | Notes and worked solutions",
   "exam_line": "Verified course, assessment date and rules",
-  "route": "Read learning modules, then work through the bank.",
+  "route": "Read the notes, then work through the question bank.",
   "sections": [
-    {"name": "Learning notes", "units": [
+    {"name": "Notes", "units": [
       {"id": "N1", "title": "Required method", "role": "notes",
-       "source": "Verified course source and page", "estimated_minutes": 8,
+       "source": "Verified course source and page",
        "blocks": [
-         {"kind": "p", "text": "A concise recognition explanation."},
-         {"kind": "example_label", "text": "Worked example"},
-         {"kind": "question", "text": "Evaluate the integral."},
-         {"kind": "eq", "text": "\\int e^x\\,dx"},
-         {"kind": "solution_label", "text": "Solution"},
-         {"kind": "secondary", "text": "Differentiation verifies the antiderivative."},
-         {"kind": "eq", "text": "\\int e^x\\,dx=e^x+C", "box": true}
+         {"kind": "p", "text": "A concise explanation of when the method applies."},
+         {"kind": "example_label", "text": "Worked example", "panel": "N1-example"},
+         {"kind": "question", "text": "Evaluate the integral.", "panel": "N1-example"},
+         {"kind": "eq", "text": "\\int e^x\\,dx", "panel": "N1-example"},
+         {"kind": "solution_label", "text": "Solution", "panel": "N1-example"},
+         {"kind": "secondary", "text": "Differentiation verifies the antiderivative.", "panel": "N1-example"},
+         {"kind": "eq", "text": "\\int e^x\\,dx=e^x+C", "panel": "N1-example"},
+         {"kind": "eq", "text": "\\frac{d}{dx}e^x=e^x", "box": true}
+       ]},
+      {"id": "R1", "title": "Short notes", "role": "reference",
+       "source": "Key results and conditions",
+       "blocks": [
+         {"kind": "eq", "text": "\\int e^x\\,dx=e^x+C"},
+         {"kind": "eq", "text": "\\frac{d}{dx}e^x=e^x"}
        ]}
     ]},
-    {"name": "Question bank", "units": [
+    {"name": "Practice", "units": [
       {"id": "1", "title": "Complete source task", "role": "question",
-       "source": "Source question identifier", "estimated_minutes": 5,
+       "index_title": "Complete source task",
+       "index_tag": "Tutorial",
+       "source": "Tutorial question identifier",
        "blocks": [
-         {"kind": "question", "text": "Solve y'=y with y(0)=1.",
-          "math_segments": [{"text": "Solve "}, {"math": "y'=y"},
-                            {"text": " with "}, {"math": "y(0)=1"}, {"text": "."}]},
+         {"kind": "question", "text": "Solve y'=y with y(0)=1."},
          {"kind": "solution_label", "text": "Solution"},
          {"kind": "eq", "text": "y=Ae^x"},
          {"kind": "eq", "text": "y(0)=A=1"},
@@ -59,19 +71,19 @@ Use UTF-8 JSON in the workspace; media paths are relative to it:
 }
 ~~~
 
-Unit fields: unique id, title, source and nonempty blocks; optional index_title, role (notes/question/formula/reference), estimated_minutes. Every full module/question unit starts a new page. Use role reference for contextual references without automatic equation boxing. The renderer retains automatic boxes for role formula; set box:false on routine equations when using that role and box:true only on selected key results. A supplied top-level estimated_minutes must equal the unit sum; otherwise the total is derived.
+Top-level fields may include `mode` (`full` by default or `cram` to omit the index) and `theme` (`warm_dark` by default or `white_minimal`). Use `white_minimal` with `cram` for a requested standalone cheat sheet. Unit fields: unique `id`, `title`, `source`, and nonempty `blocks`; optional `index_title`, `index_tag`, `role` (`notes`, `question`, `formula`, or `reference`), and `estimated_minutes`. Every full module or question unit starts on a fresh page. Use role `reference` for short notes and explicitly mark selected results with `box: true`. Role `formula` boxes every equation by default. If supplied, `estimated_minutes` must be nonnegative and the top-level total must equal the unit sum.
 
-Block kinds: p, secondary, question, hint, example_label, solution_label, eq, link, diagram, image, table and spacer. Prose uses text; bold:true supports an unboxed conclusion. math_segments interleaves literal text and mathtext math. box:true makes one fitted box; a shared string groups adjacent parts of one result. keep_next:true joins related steps. Media uses path; tables use rows; links use text and url. Optional source_id records provenance in the working manifest.
+Block kinds: `p`, `secondary`, `question`, `hint`, `example_label`, `solution_label`, `eq`, `link`, `diagram`, `image`, `table`, and `spacer`. Prose uses `text`; `bold: true` supports an unboxed conclusion. `math_segments` interleaves literal text and math. `box: true` makes a fitted one-page box; adjacent blocks with the same string value share that box. `panel` marks side rules that continue across pages; use the same identifier on adjacent blocks in the group. `keep_next: true` joins related steps. Media uses `path`; tables use `rows`; links use `text` and `url`. Optional `source_id` records provenance in the working map.
 
-Use supported Matplotlib mathtext with braced fraction/font arguments. Split oversized displays instead of shrinking them. For physics and POE/HuELs, render one integrated input with one build/review directory. For the retained paired large-mathematics workflow, render each input separately with its own build/review directory. Keep a consistent unit-time total and default full-mode index in each PDF; cram omits it only when requested. If the index overflows, use concise topic entries or extend its pagination; keep necessary content.
+Use supported Matplotlib mathtext with braced fraction and font arguments. Split oversized displays instead of shrinking them. A shared `box` group must fit one page; use `panel` for a panel that needs to continue onto another page. The `formula` role boxes every equation, so use `reference` when short notes need selective boxes.
 
 ## Commands and checks
 
-Use Python with matplotlib, reportlab, svglib, PyMuPDF and Pillow:
+Use Python with matplotlib, reportlab, svglib, PyMuPDF, and Pillow:
 
 ~~~text
 python scripts/render.py INPUT.json --output OUTPUT.pdf --work-dir BUILD_DIR
 python scripts/check_pdf.py OUTPUT.pdf --manifest BUILD_DIR/layout.json --render-dir REVIEW_DIR
 ~~~
 
-Generated SVGs, manifests and page renders belong in the workspace. Check page-top destinations, links/underlines, estimates, boxes and opening groups. Automated checks complement source/maths verification and page-by-page visual review. Exact unchanged-page comparison may reuse earlier visual evidence; inspect every changed page. Reopen the delivered copy and verify it matches the checked artifact. Visual rendering checks do not establish comprehension: a cold reader must understand definitions, transitions and method choice, and reproduce the working. Audit full syllabus coverage and disclose source gaps for the selected output set. For future delivery, the course's Study_Ready folder contains only finished study guides, with no handout copies, drafts or working files. Preserve original sources, archives and backups; this convention does not authorize deleting existing files. Keep working files separate, reuse stable build/review paths, bound logs and page renders, and recheck disk headroom during long runs. Do not clean another worker's artifacts or rewrite their guide outputs.
+Generated SVGs, manifests, and page renders belong in the workspace. Check page-top destinations, links, estimates if present, boxes, opening groups, and panel edges at page breaks. Automated checks complement source and math verification and page-by-page visual review. Reuse earlier visual evidence only for exact unchanged pages; inspect each changed page. Reopen the delivered copy and confirm it matches the checked artifact. A cold reader must understand definitions, transitions, and method choice and reproduce the working. Audit syllabus coverage and disclose source gaps. Keep sources, archives, and backups. Keep working files separate, reuse stable review paths, bound logs and renders, and check disk headroom during long runs. Do not clean another worker's artifacts or rewrite their guide outputs.

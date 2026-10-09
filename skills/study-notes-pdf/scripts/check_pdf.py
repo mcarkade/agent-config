@@ -66,6 +66,13 @@ def check(pdf, manifest, render_dir):
                 errors.append(f'Page {page.number + 1}: incorrect return link')
             page.get_pixmap(matrix=fitz.Matrix(1.5, 1.5), alpha=False).save(
                 str(render_dir / f'page_{page.number + 1:03}.png'))
+        if data['mode'] == 'full' and len(all_links) == 2 * len(data['units']):
+            paired_links=[]
+            for index in range(0,len(all_links),2):
+                if all_links[index] != all_links[index+1]:
+                    errors.append('Index title and page links have different destinations')
+                paired_links.append(all_links[index])
+            all_links=paired_links
         if data['mode'] == 'full' and all_links != [u['page'] for u in data['units']]:
             errors.append('Index links differ from unit pages')
         for b in data['blocks']:

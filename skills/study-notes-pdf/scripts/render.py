@@ -16,7 +16,11 @@ from svglib.svglib import svg2rlg
 import xml.etree.ElementTree as ET
 from PIL import Image
 
-PALETTE={'background':'#211D19','body':'#F2E8DB','heading':'#FFF2DF','secondary':'#C8B6A1','muted':'#B8A48D','link':'#DDB079','border':'#B88959'}
+THEMES={
+ 'warm_dark':{'background':'#211D19','body':'#F2E8DB','heading':'#FFF2DF','secondary':'#C8B6A1','muted':'#B8A48D','link':'#DDB079','border':'#B88959'},
+ 'white_minimal':{'background':'#FFFFFF','body':'#151515','heading':'#080808','secondary':'#333333','muted':'#5D5D5D','link':'#171717','border':'#B8B8B8'}
+}
+PALETTE=THEMES['warm_dark'].copy()
 W,H=A4;LEFT=48;RIGHT=48;CW=W-LEFT-RIGHT;BOTTOM=48;CACHE=None;BASE=None
 FONT=Path(get_data_path())/'fonts'/'ttf'
 for nm,fn in [('Body','DejaVuSerif.ttf'),('Bold','DejaVuSerif-Bold.ttf'),('Sans','DejaVuSans.ttf')]:pdfmetrics.registerFont(TTFont(nm,str(FONT/fn)))
@@ -31,6 +35,11 @@ styles={
  'solution_label':ParagraphStyle('solution_label',fontName='Bold',fontSize=9.6,leading=13,textColor=PALETTE['heading'],spaceAfter=8),
  'example_label':ParagraphStyle('example_label',fontName='Sans',fontSize=8.8,leading=12,textColor=PALETTE['link'],spaceAfter=6),
 }
+def apply_theme(name):
+    if name not in THEMES:raise ValueError('Theme must be warm_dark or white_minimal')
+    PALETTE.update(THEMES[name])
+    for style,key in [('p','body'),('secondary','secondary'),('question','body'),('hint','secondary'),('source','muted'),('heading','heading'),('solution_label','heading'),('example_label','link')]:
+        styles[style].textColor=HexColor(PALETTE[key])
 cache={}
 def inline_markup(text):
     """Typeset explicit plain-source powers/subscripts without exposing delimiters."""
@@ -204,6 +213,14 @@ def build(spec,filename,total=None,toc=None,record=False):
     c=MathCanvas(str(filename),pagesize=A4,pageCompression=1)
     c.setTitle(spec['title']+' - '+spec.get('subtitle','Notes and worked solutions'));c.setAuthor('Abhinav Pullela . mcarkade')
     number=0;positions=[];metrics=[];rectangles=[];has_index=spec.get('mode','full')=='full'
+    panel={'id':None,'top':None,'closed_top':True,'drawn':False}
+    PX0=LEFT-10;PX1=W-RIGHT+10
+    def draw_panel(top,bottom,close_top,close_bottom):
+        c.saveState();c.setStrokeColor(HexColor(PALETTE['link']));c.setLineWidth(.8)
+        c.line(PX0,top,PX0,bottom);c.line(PX1,top,PX1,bottom)
+        if close_top:c.line(PX0,top,PX1,top)
+        if close_bottom:c.line(PX0,bottom,PX1,bottom)
+        c.restoreState()
     def background():
         c.setFillColor(HexColor(PALETTE['background']));c.rect(0,0,W,H,stroke=0,fill=1);c.setFillColor(HexColor(PALETTE['body']))
     def endpage():
@@ -215,8 +232,15 @@ def build(spec,filename,total=None,toc=None,record=False):
         c.setFillColor(HexColor(PALETTE['muted']));c.drawRightString(W-RIGHT,24,str(number)+(f' / {total}' if total else ''));c.showPage()
     def newpage(unit,continued=False):
         nonlocal number
+        moved=False
+        if continued and panel['id']:
+            if panel['drawn']:draw_panel(panel['top'],BOTTOM-4,panel['closed_top'],False);panel['closed_top']=False
+            else:moved=True
         if number:endpage()
         number+=1;background();y=H-48
+        if continued and panel['id']:
+            panel['top']=H-38;panel['drawn']=False
+            if moved:panel['closed_top']=True
         if not has_index and number==1:c.bookmarkPage('contents',fit='XYZ',left=0,top=H,zoom=None)
         if continued:return y
         return unit_heading(unit,H-42)
@@ -238,16 +262,21 @@ def build(spec,filename,total=None,toc=None,record=False):
         for col,sections in enumerate(index_columns(spec)):
             x=LEFT+col*(colw+26);y=H-139
             for section in sections:
-                c.setFillColor(HexColor(PALETTE['heading']));c.setFont('Bold',10);c.drawString(x,y,section['name']);y-=20
+                c.setFillColor(HexColor(PALETTE['heading']));c.setFont('Bold',10);c.drawString(x,y,section['name'])
+                c.setStrokeColor(HexColor(PALETTE['border']));c.setLineWidth(.5);c.line(x,y-5,x+colw,y-5);y-=19
                 for u in section['units']:
-                    label=u.get('index_title',u['title']);size=8.4
-                    while pdfmetrics.stringWidth(label,'Sans',size)>colw-48 and size>7.5:size-=.1
-                    if pdfmetrics.stringWidth(label,'Sans',size)>colw-48:raise ValueError('Shorten index title '+label)
+                    label=u.get('index_title',u['title']);size=8.4;tag=u.get('index_tag','')
+                    tagw=pdfmetrics.stringWidth(tag,'Sans',6.8)+6 if tag else 0
+                    while pdfmetrics.stringWidth(label,'Sans',size)>colw-48-tagw and size>7.5:size-=.1
+                    if pdfmetrics.stringWidth(label,'Sans',size)>colw-48-tagw:raise ValueError('Shorten index title '+label)
+                    if tag:c.setFillColor(HexColor(PALETTE['muted']));c.setFont('Sans',6.8);c.drawRightString(x+colw-20,y,tag)
                     c.setFillColor(HexColor(PALETTE['link']));c.setFont('Sans',7.6);c.drawString(x,y,u['id']);c.setFont('Sans',size);c.drawString(x+29,y,label)
                     page_text=str(lookup.get(u['id'],0));c.setFont('Sans',8);c.drawRightString(x+colw,y,page_text)
                     c.setStrokeColor(HexColor(PALETTE['link']));c.setLineWidth(.35)
                     for left,right in [(x,x+pdfmetrics.stringWidth(u['id'],'Sans',7.6)),(x+29,x+29+pdfmetrics.stringWidth(label,'Sans',size)),(x+colw-pdfmetrics.stringWidth(page_text,'Sans',8),x+colw)]:c.line(left,y-1.6,right,y-1.6)
-                    c.linkRect('',u['id'],(x,y-3,x+colw,y+9),relative=0,thickness=0);y-=12.7
+                    lab_end=x+29+pdfmetrics.stringWidth(label,'Sans',size)
+                    c.linkRect('',u['id'],(x,y-3,lab_end,y+9),relative=0,thickness=0)
+                    c.linkRect('',u['id'],(x+colw-pdfmetrics.stringWidth(page_text,'Sans',8)-1,y-3,x+colw,y+9),relative=0,thickness=0);y-=12.7
                 y-=12
             if y<95:raise ValueError('Index needs more space: use concise topic entries or extend index pagination; keep necessary content')
         c.setFillColor(HexColor(PALETTE['muted']));c.setFont('Sans',8);c.drawString(LEFT,72,spec.get('route','Read the learning modules, then work through the bank. Use Index to return.'));c.drawString(LEFT,60,spec.get('estimate_basis','Approximate time to read and follow the worked steps.' if spec['estimated_minutes'] else ''))
@@ -257,6 +286,13 @@ def build(spec,filename,total=None,toc=None,record=False):
         i=0;protected_until=-1
         while i<len(u['blocks']):
             b=u['blocks'][i];width=CW;end=i+1;boxed=b.get('box')
+            pid=b.get('panel')
+            if pid!=panel['id']:
+                if panel['id']:
+                    draw_panel(panel['top'],y-2,panel['closed_top'],True);y-=12;panel['id']=None
+                if pid:
+                    if y-60<BOTTOM:y=newpage(u,True)
+                    y-=4;panel.update(id=pid,top=y+3,closed_top=True,drawn=False);y-=6
             if boxed:
                 while end<len(u['blocks']) and u['blocks'][end].get('box')==boxed:end+=1
                 width,group_height=box_geometry(u['blocks'][i:end])
@@ -299,21 +335,24 @@ def build(spec,filename,total=None,toc=None,record=False):
                 elif typ=='vector':
                     c.saveState();c.translate((W-o.width*scale)/2,y-o.height*scale);c.scale(scale,scale);renderPDF.draw(o,c,0,0);c.restoreState()
                 if record:metrics.append({'page':number,'unit':u['id'],'kind':block['kind'],'block_index':index,'source_id':block.get('source_id'),'part':block.get('part'),'box':block.get('box'),'top':y,'bottom':y-height,'scale':scale,'left':x,'width':width})
-                y-=height
+                y-=height;panel['drawn']=True if panel['id'] else panel['drawn']
             if boxed:y-=7
             i=end
+        if panel['id']:
+            draw_panel(panel['top'],y-2,panel['closed_top'],True);panel['id']=None
     endpage();c.save();return number,positions,metrics,rectangles
 def main():
     global BASE,CACHE
     ap=argparse.ArgumentParser();ap.add_argument('input',type=Path);ap.add_argument('--output',required=True,type=Path);ap.add_argument('--work-dir',required=True,type=Path);args=ap.parse_args()
     BASE=args.input.resolve().parent;CACHE=args.work_dir/'equations';CACHE.mkdir(parents=True,exist_ok=True);args.output.parent.mkdir(parents=True,exist_ok=True)
     spec=json.loads(args.input.read_text(encoding='utf-8-sig'))
+    apply_theme(spec.get('theme','warm_dark'))
     if spec.get('mode','full') not in ('full','cram'):raise ValueError('Mode must be full or cram')
     for u in units_from(spec):
         for b in u['blocks']:getblock(b)
     count,positions,_,_=build(spec,args.output)
     count,positions,metrics,boxes=build(spec,args.output,count,positions,True)
-    (args.work_dir/'layout.json').write_text(json.dumps({'pdf':str(args.output.resolve()),'pages':count,'mode':spec.get('mode','full'),'estimated_minutes':spec['estimated_minutes'],'units':positions,'blocks':metrics},indent=2),encoding='utf8')
+    (args.work_dir/'layout.json').write_text(json.dumps({'pdf':str(args.output.resolve()),'pages':count,'mode':spec.get('mode','full'),'theme':spec.get('theme','warm_dark'),'estimated_minutes':spec['estimated_minutes'],'units':positions,'blocks':metrics},indent=2),encoding='utf8')
     (args.work_dir/'boxes.json').write_text(json.dumps(boxes,indent=2),encoding='utf8')
     (args.work_dir/'palette.json').write_text(json.dumps(PALETTE,indent=2),encoding='utf8')
     print(f'{args.output}: {count} pages, {len(positions)} units, {len(boxes)} fitted boxes')
