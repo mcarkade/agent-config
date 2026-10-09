@@ -9,7 +9,7 @@ Create a coherent PDF study resource for the verified syllabus and requested sco
 
 Follow the user's requested organization. A guide may use topic-ordered notes with inline worked examples, a separate topic-organized tutorial/PYQ/suggested question bank after the teaching, and concise short notes at the end. Do not move every chapter's practice next to its notes when the requested structure places one bank after all teaching. Teach and solve each task once; link back to a matching worked example instead of repeating its solution.
 
-Use the warm dark study layout for a main guide. That preference applies only to study notes. A standalone cheat sheet is a separate mode, created only when requested; use a spacious JEE-style single-column layout on clean white pages with minimal black styling, and do not add it automatically to a guide. Include concise in-syllabus results, reusable methods, brief conditions, and only useful visuals or boxes. See [format.md](references/format.md) for layout details.
+Use the warm dark study layout for a main guide. That preference applies only to study notes. A standalone cheat sheet is a separate mode, created only when requested; use a spacious JEE-style single-column layout on clean white pages with minimal black styling. Show the document title on page one only, omit running headers, footers, and page numbers, keep formula-group labels with their content, and do not add the sheet automatically to a guide. Include concise in-syllabus results, reusable methods, brief conditions, and only useful visuals or boxes. See [format.md](references/format.md) for layout details.
 
 ## Verify scope and sources
 
@@ -17,7 +17,7 @@ Verify the current course, campus, year, assessment cutoff, syllabus, and exam r
 
 Maintain a working map from every in-scope syllabus topic and distinct source method to the teaching, reference, or solved task that covers it. Record exact source locators, review status, source IDs, verified corrections, merged variants, and unresolved gaps. An inventory or announcement is not evidence that every source was read. Keep source gaps and uncertainty explicit.
 
-Adapt teaching, reference density, and question style to the subject and verified assessment format. Do not assume MCQs without current evidence. Preserve verified course difficulty while making its reasoning learnable. Feedback about one subject's difficulty applies to that subject unless the user generalizes it.
+Adapt teaching, reference density, and question style to the subject, learner, and verified assessment format. Spend explanation on unfamiliar mathematical prerequisites and tricky integrals; keep familiar physics at its verified exam level. Calibrate by topic instead of making every section equally elementary. Do not assume MCQs without current evidence or change a course's difficulty without user direction.
 
 ## Teach and solve
 

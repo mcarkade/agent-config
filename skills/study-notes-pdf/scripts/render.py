@@ -213,6 +213,7 @@ def build(spec,filename,total=None,toc=None,record=False):
     c=MathCanvas(str(filename),pagesize=A4,pageCompression=1)
     c.setTitle(spec['title']+' - '+spec.get('subtitle','Notes and worked solutions'));c.setAuthor('Abhinav Pullela . mcarkade')
     number=0;positions=[];metrics=[];rectangles=[];has_index=spec.get('mode','full')=='full'
+    standalone_sheet=spec.get('theme','warm_dark')=='white_minimal' and spec.get('mode','full')=='cram'
     panel={'id':None,'top':None,'closed_top':True,'drawn':False}
     PX0=LEFT-10;PX1=W-RIGHT+10
     def draw_panel(top,bottom,close_top,close_bottom):
@@ -224,12 +225,14 @@ def build(spec,filename,total=None,toc=None,record=False):
     def background():
         c.setFillColor(HexColor(PALETTE['background']));c.rect(0,0,W,H,stroke=0,fill=1);c.setFillColor(HexColor(PALETTE['body']))
     def endpage():
-        c.setFont('Sans',7.5);c.setFillColor(HexColor(PALETTE['muted']));c.drawString(LEFT,24,'Abhinav Pullela . mcarkade')
-        label='Index' if has_index else 'Start'
-        c.setFillColor(HexColor(PALETTE['link']));c.drawCentredString(W/2,24,label)
-        c.setStrokeColor(HexColor(PALETTE['link']));c.setLineWidth(.35);index_width=pdfmetrics.stringWidth(label,'Sans',7.5);c.line((W-index_width)/2,22.3,(W+index_width)/2,22.3)
-        c.linkRect('','contents',(W/2-15,20,W/2+15,33),relative=0,thickness=0)
-        c.setFillColor(HexColor(PALETTE['muted']));c.drawRightString(W-RIGHT,24,str(number)+(f' / {total}' if total else ''));c.showPage()
+        if not standalone_sheet:
+            c.setFont('Sans',7.5);c.setFillColor(HexColor(PALETTE['muted']));c.drawString(LEFT,24,'Abhinav Pullela . mcarkade')
+            label='Index' if has_index else 'Start'
+            c.setFillColor(HexColor(PALETTE['link']));c.drawCentredString(W/2,24,label)
+            c.setStrokeColor(HexColor(PALETTE['link']));c.setLineWidth(.35);index_width=pdfmetrics.stringWidth(label,'Sans',7.5);c.line((W-index_width)/2,22.3,(W+index_width)/2,22.3)
+            c.linkRect('','contents',(W/2-15,20,W/2+15,33),relative=0,thickness=0)
+            c.setFillColor(HexColor(PALETTE['muted']));c.drawRightString(W-RIGHT,24,str(number)+(f' / {total}' if total else ''))
+        c.showPage()
     def newpage(unit,continued=False):
         nonlocal number
         moved=False
@@ -238,11 +241,18 @@ def build(spec,filename,total=None,toc=None,record=False):
             else:moved=True
         if number:endpage()
         number+=1;background();y=H-48
+        if standalone_sheet and number==1:
+            title_size=20
+            while pdfmetrics.stringWidth(spec['title'],'Bold',title_size)>CW and title_size>16:title_size-=.5
+            if pdfmetrics.stringWidth(spec['title'],'Bold',title_size)>CW:raise ValueError('Shorten standalone sheet title')
+            c.setFillColor(HexColor(PALETTE['heading']));c.setFont('Bold',title_size);c.drawString(LEFT,H-48,spec['title'])
+            y=H-82
         if continued and panel['id']:
             panel['top']=H-38;panel['drawn']=False
             if moved:panel['closed_top']=True
         if not has_index and number==1:c.bookmarkPage('contents',fit='XYZ',left=0,top=H,zoom=None)
         if continued:return y
+        if standalone_sheet and number==1:return unit_heading(unit,H-82)
         return unit_heading(unit,H-42)
     def unit_heading(unit,y):
         c.bookmarkPage(unit['id'],fit='XYZ',left=0,top=H,zoom=None);c.addOutlineEntry(unit['id']+' '+unit['title'],unit['id'],level=0)
@@ -352,7 +362,7 @@ def main():
         for b in u['blocks']:getblock(b)
     count,positions,_,_=build(spec,args.output)
     count,positions,metrics,boxes=build(spec,args.output,count,positions,True)
-    (args.work_dir/'layout.json').write_text(json.dumps({'pdf':str(args.output.resolve()),'pages':count,'mode':spec.get('mode','full'),'theme':spec.get('theme','warm_dark'),'estimated_minutes':spec['estimated_minutes'],'units':positions,'blocks':metrics},indent=2),encoding='utf8')
+    (args.work_dir/'layout.json').write_text(json.dumps({'pdf':str(args.output.resolve()),'title':spec['title'],'pages':count,'mode':spec.get('mode','full'),'theme':spec.get('theme','warm_dark'),'estimated_minutes':spec['estimated_minutes'],'units':positions,'blocks':metrics},indent=2),encoding='utf8')
     (args.work_dir/'boxes.json').write_text(json.dumps(boxes,indent=2),encoding='utf8')
     (args.work_dir/'palette.json').write_text(json.dumps(PALETTE,indent=2),encoding='utf8')
     print(f'{args.output}: {count} pages, {len(positions)} units, {len(boxes)} fitted boxes')

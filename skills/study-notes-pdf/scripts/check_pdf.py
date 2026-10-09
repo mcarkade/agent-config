@@ -11,6 +11,7 @@ import fitz
 def check(pdf, manifest, render_dir):
     data = json.loads(manifest.read_text(encoding='utf8'))
     errors = []
+    minimal_sheet = data.get('theme') == 'white_minimal' and data.get('mode') == 'cram'
     with fitz.open(pdf) as doc:
         if len(doc) != data['pages']:
             errors.append('Page count differs from layout manifest')
@@ -26,21 +27,33 @@ def check(pdf, manifest, render_dir):
         all_links = []
         for page in doc:
             text = page.get_text()
-            if 'Abhinav Pullela . mcarkade' not in text:
-                errors.append(f'Page {page.number + 1}: missing branding')
-            if f'{page.number + 1} / {len(doc)}' not in text:
-                errors.append(f'Page {page.number + 1}: wrong footer page count')
+            if not minimal_sheet:
+                if 'Abhinav Pullela . mcarkade' not in text:
+                    errors.append(f'Page {page.number + 1}: missing branding')
+                if f'{page.number + 1} / {len(doc)}' not in text:
+                    errors.append(f'Page {page.number + 1}: wrong footer page count')
             if '\ufffd' in text or '\u25a0' in text:
                 errors.append(f'Page {page.number + 1}: possible missing glyph')
             leaks = r'(?:[A-Za-z]:[\\/]|file://|SKILL\.md|AGENTS\.md|layout_metrics\.json|As an AI|AI-generated|Co-Authored-By)'
             if re.search(leaks, text, re.I):
                 errors.append(f'Page {page.number + 1}: internal path or attribution')
+            page_spans=[]
             for block in page.get_text('dict')['blocks']:
                 for line in block.get('lines', []):
                     for span in line['spans']:
+                        page_spans.append(span)
                         x0, y0, x1, y1 = span['bbox']
                         if x0 < 47 or x1 > page.rect.width - 47 or y0 < 10 or y1 > page.rect.height - 10:
                             errors.append(f'Page {page.number + 1}: text outside margins')
+            if minimal_sheet:
+                title=data.get('title','')
+                title_lines=[span for span in page_spans if span['text'].strip()==title and span['bbox'][1]<90]
+                if page.number==0 and len(title_lines)!=1:
+                    errors.append('Standalone sheet title must appear once at the top of page 1')
+                if page.number>0 and title_lines:
+                    errors.append(f'Page {page.number + 1}: repeated standalone title')
+                if any(span['bbox'][1]>page.rect.height-35 for span in page_spans):
+                    errors.append(f'Page {page.number + 1}: standalone sheet has footer text')
             links = page.get_links()
             footer_links = []
             for link in links:
@@ -62,7 +75,10 @@ def check(pdf, manifest, render_dir):
                         errors.append(f'Page {page.number + 1}: non-web source link')
                 else:
                     errors.append(f'Page {page.number + 1}: unresolved link')
-            if footer_links != [1]:
+            if minimal_sheet:
+                if footer_links:
+                    errors.append(f'Page {page.number + 1}: standalone sheet has a footer link')
+            elif footer_links != [1]:
                 errors.append(f'Page {page.number + 1}: incorrect return link')
             page.get_pixmap(matrix=fitz.Matrix(1.5, 1.5), alpha=False).save(
                 str(render_dir / f'page_{page.number + 1:03}.png'))
@@ -85,9 +101,11 @@ def check(pdf, manifest, render_dir):
         first_content = 2 if data['mode'] == 'full' else 1
         if {b['page'] for b in data['blocks']} != set(range(first_content, len(doc) + 1)):
             errors.append('Accidental blank content page')
-        for u in data['units']:
+        for unit_index,u in enumerate(data['units']):
             rows = [b for b in data['blocks'] if b['unit'] == u['id']]
-            if abs(u.get('start_top', doc[0].rect.height - 42) - (doc[0].rect.height - 42)) > .01:
+            inset=82 if minimal_sheet and unit_index==0 else 42
+            expected_top=doc[0].rect.height-inset
+            if abs(u.get('start_top', expected_top) - expected_top) > .01:
                 errors.append(f"{u['id']}: module/question heading is not at the fresh-page start")
             for i, b in enumerate(rows[:-1]):
                 if b['kind'] in ('question', 'example_label', 'solution_label') and b['page'] != rows[i + 1]['page']:
