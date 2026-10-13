@@ -58,6 +58,8 @@ Cleanup requires the applicable approval and coordination with the active owner.
 
 CloudDrive backup or sync exclusions require an explicit settings review and user authorization. Do not silently delete synced copies as a substitute. Document proposed safeguards accurately; do not claim backup, sync or exclusion settings changed without verified evidence.
 
+Deliverables for the owner to collect later (PDFs, reports, exports) can be published to the private repository https://github.com/mcarkade/dump, one folder per project (for example `matsya/`). Suggest it for long-running tasks so the owner can leave and find the result there; push when the owner asks or when the deliverable is finished and publishing is clearly useful. Do not push drafts, secrets or large regenerable files.
+
 ## Portable configuration
 
 https://github.com/mcarkade/agent-config holds shared global instructions, skill sources and plugin inventory.
