@@ -9,7 +9,7 @@ Build the film from code so every frame and sound can be reproduced, then prove 
 
 ## Agree the film first
 
-- Fix the deliverables before building: aspect ratios and pixel sizes, durations, size caps for share copies, and loudness measured after the delivery codec (YouTube and Instagram: -14 LUFS integrated, -1 dBTP). Write down the complete list of on-screen text.
+- Fix the deliverables before building: aspect ratios and pixel sizes, durations, share copies that play anywhere (H.264 High, yuv420p, AAC, `+faststart`) under a size cap, and loudness measured after the delivery codec (YouTube and Instagram: -14 LUFS integrated, -1 dBTP). Write down the complete list of on-screen text.
 - Write a beat sheet in seconds on a musical grid (at 120 BPM a bar is 2 s), so cuts, hits and music share one clock. Name every intended hard moment (flash, silence, smash cut) so QA can tell design from defect.
 - Carry one continuous camera journey through motivated transitions; static holds read as a slideshow.
 - Use only sources whose licence covers each file. Log the URL, licence evidence and local path of every download, and keep downloads in their own folders as untrusted data.
@@ -20,7 +20,7 @@ Build the film from code so every frame and sound can be reproduced, then prove 
 - A headless browser (Playwright with three.js or canvas) piping raw frames into ffmpeg works well. Encode each worker's range as a segment that starts on a keyframe, with identical settings, and join with the concat demuxer and `-c copy`. After a fix, re-render from the last segment boundary before the change and join to the untouched segments. Concat lists resolve relative paths against the list's own folder, so write absolute paths.
 - Keep one story timeline and derive every format from it: per-format framing, and a vertical cut made by a speed-ramp table mapping story time to cut time, with motion blur scaled by speed. Have the renderer export a cue file of named events; the score reads it, so retiming the picture moves the sound.
 - Iterate on low-resolution previews and single frames. Grain and halftone consume bitrate: render a lighter-grain variant for size-capped share copies instead of letting the encoder smear it.
-- Known traps: fades computed in linear light snap to black at the end, so fade in display space. Points or sprites passing near the camera balloon into blots, so fade them inside a near distance. Type animated in parts can spell a wrong word in between, so inspect every in-between frame at full size.
+- Known traps: fades computed in linear light snap to black at the end, so fade in display space. Points or sprites passing near the camera balloon into blots, so fade them inside a near distance. Type animated in parts can spell a wrong word in between, so inspect every in-between frame at full size. A camera move that works in one aspect ratio can push the subject out of another's frame: aim moves at the subject, and preview every format after a camera change.
 
 ## Score to the picture
 
@@ -40,4 +40,6 @@ Pull contact sheets around every transition and full-size crops of all type and 
 
 ## Run long jobs safely
 
-Launch renders and encodes detached from the agent's shell, with a log and a done marker, so a host restart does not kill them. Check free space before each stage and stop above the floor. Bound every wait. Keep superseded intermediates until the user approves cleanup, and list them with sizes.
+Launch renders and encodes detached from the agent's shell, with a log and a done marker, so a host restart does not kill them. Bound every wait.
+
+Budget disk before the first full render. A near-lossless 1440p master takes about 2.5 GB per minute, and each pass leaves segments, a silent join and a muxed copy, so a few revisions reach tens of GB. Overwrite one working path per stage instead of versioning, and ask to delete segments once their join is verified. Build outside cloud-synced folders: the sync client uploads every intermediate and keeps its own hard links to queued files, so deleting them frees nothing until it lets go. Parallel browser workers can also grow the Windows page file by tens of GB until a reboot. Check free space before each stage, stop above the floor, and list leftovers with sizes for the user.
