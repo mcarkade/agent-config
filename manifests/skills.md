@@ -7,11 +7,13 @@ Install these sources in order. The later source wins duplicate names.
 1. `no-session/pstack`
 2. `mattpocock/skills`
 3. `https://github.com/cursor/plugins/tree/main/pstack/skills`
-4. Maintained local skills from this repository: `skills/unslop/SKILL.md`, `skills/realtime-3d/SKILL.md`, `skills/cad-manufacturing-checks/SKILL.md`, `skills/source-faithful-prototype/SKILL.md`, `skills/illustrated-build-guides/SKILL.md`, and `skills/study-notes-pdf/SKILL.md`
+4. Maintained local skills from this repository: `skills/unslop/SKILL.md`, `skills/realtime-3d/SKILL.md`, `skills/cad-manufacturing-checks/SKILL.md`, `skills/source-faithful-prototype/SKILL.md`, `skills/illustrated-build-guides/SKILL.md`, `skills/study-notes-pdf/SKILL.md`, and `skills/programmatic-video/SKILL.md`
 
 The bootstrap scripts install all skills from each source globally for every host supported by the Skills CLI. They then install all tracked local skills and remove em dashes from every discovered `SKILL.md`. The `source-faithful-prototype` skill keeps source-based builds simple; `illustrated-build-guides` covers reader-facing PDF assembly and wiring guides. The maintained `cad-manufacturing-checks` skill includes a read-only CadQuery/OCP STEP inspection helper and analytic tests. Cursor pstack intentionally provides the active `tdd`, `teach`, and `reflect` variants.
 
 `study-notes-pdf` verifies syllabus and assessment sources, teaches prerequisites concisely, and provides checked exam solutions with contextual references. It follows the requested section order, including notes with inline examples, a separate topic-organized practice bank, and concise end notes. Full physics, POE, and HuEL guides default to one integrated PDF; the paired reference-first workflow remains for large mathematics subjects. Main guides use warm dark styling; a white standalone cheat sheet is produced only when requested, with readable equations, defined reusable results, a decisive worked step, a first-page title, and no running header or footer. The renderer supports that optional white mode, source tags in the index, ruled section headings, and panels that continue across pages. Future Study_Ready delivery contains finished guides only, with original sources preserved. Both bootstrap scripts install the renderer, checker, and references through the existing local-skill loop.
+
+`programmatic-video` covers films made from code: a deterministic frame renderer with segment re-renders, a score placed on the picture's cue file, phone-speaker translation, and delivery checks on the exact files shipped. Its `scripts/check_delivery.py` measures streams, size, post-codec loudness and true peak, A/V offset, and phone and drop windows; `scripts/qa_frames.py` lists frame-change jumps and segment joins and builds labelled contact sheets. Both need numpy and ffmpeg; the sheets need Pillow.
 
 ## Current inventory
 
