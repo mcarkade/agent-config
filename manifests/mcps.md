@@ -6,10 +6,10 @@ MCP registrations and their runtime commands live in each user's client configur
 
 - Source: [morluto/rea](https://github.com/morluto/rea)
 - Package: `rea-agents@6.7.0`
-- Client configured on this machine: Codex
-- Setup: `npx -y rea-agents@6.7.0 setup --client codex`
-- Read-only plan: `npx -y rea-agents@6.7.0 setup --client codex --dry-run --json`
-- Verify: `npx -y rea-agents@6.7.0 doctor --client codex --skill --json`
+- Clients configured on this machine: Codex, Claude Code
+- Setup: `npx -y rea-agents@6.7.0 setup --client codex` and `npx -y rea-agents@6.7.0 setup --client claude_code`
+- Read-only plan: add `--dry-run --format json` to either setup command
+- Verify: `npx -y rea-agents@6.7.0 doctor --client codex --skill --json` and `npx -y rea-agents@6.7.0 doctor --client claude_code --skill --json`
 - Installed skill source: `skills/reverse-engineer-anything/`, copied from the same release (skill version 42, 207 tools).
 
 REA setup pins the Codex MCP command to this package version and installs the bundled skill. Review its planned paths before approving setup. It does not install Hopper, Ghidra, IDA, or other analysis engines unless separately selected. After setup, restart Codex so the MCP connection and skill are rediscovered.
