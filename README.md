@@ -7,6 +7,7 @@ This repository deliberately stores only reproducible configuration:
 - global `AGENTS.md` and `CLAUDE.md` guidance;
 - skill-library sources and installation order;
 - maintained local skills, including `unslop`, `realtime-3d`, `cad-manufacturing-checks`, `source-faithful-prototype`, `illustrated-build-guides`, `study-notes-pdf`, and `programmatic-video`;
+- the release-matched REA reverse-engineering skill and its scoped MCP setup instructions;
 - a Windows PowerShell bootstrap and an Ubuntu/Linux shell bootstrap.
 
 It does **not** store credentials, OAuth sessions, API keys, agent chat history, databases, caches, or machine-specific Codex settings.
@@ -35,3 +36,4 @@ The two portable global guides share the same working, collaboration and storage
 The canonical global guides are `global/AGENTS.md` and `global/CLAUDE.md`, installed into `~/.codex/AGENTS.md` and `~/.claude/CLAUDE.md`. When retiring provider-specific workflow restrictions, also remove obsolete copies from active parent-directory guides. A clean installed guide does not neutralize a contradictory parent guide.
 
 See [manifests/skills.md](manifests/skills.md) and [manifests/plugins.md](manifests/plugins.md).
+See [manifests/mcps.md](manifests/mcps.md) for locally installed MCP servers and setup commands.
