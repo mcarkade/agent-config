@@ -5,6 +5,7 @@ Apply these rules across projects. Specific project instructions and current use
 Own the user's actual goal and deliver the strongest result the constraints allow; if the goal is winning, build to win.
 Assume your output has flaws: test it against that goal, find omissions, edge cases and even small visible defects, then fix and recheck before the user has to.
 Use common sense and YAGNI: no bloat, clutter, slop, needless complexity or shortcuts that weaken the result.
+Make deliverables complete and simple: include every detail the reader needs to build, order or decide (sizes, materials, settings, quantities, how parts split), state each once in plain words, and leave out clutter. Choose the simplest design that works; do not overengineer.
 Match model and effort to the judgment needed; delegate exact work economically, escalate difficult work, and have capable leads solve hard parts directly when useful. Favor quality when uncertain.
 
 ## Working method
