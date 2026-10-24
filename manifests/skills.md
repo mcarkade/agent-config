@@ -7,7 +7,7 @@ Install these sources in order. The later source wins duplicate names.
 1. `no-session/pstack`
 2. `mattpocock/skills`
 3. `https://github.com/cursor/plugins/tree/main/pstack/skills`
-4. Maintained local skills from this repository: `skills/unslop/SKILL.md`, `skills/realtime-3d/SKILL.md`, `skills/cad-manufacturing-checks/SKILL.md`, `skills/source-faithful-prototype/SKILL.md`, `skills/illustrated-build-guides/SKILL.md`, `skills/study-notes-pdf/SKILL.md`, `skills/programmatic-video/SKILL.md`, and `skills/reverse-engineer-anything/SKILL.md`
+4. Maintained local skills from this repository: `skills/unslop/SKILL.md` (always applied to user-facing responses and authored text), `skills/realtime-3d/SKILL.md`, `skills/cad-manufacturing-checks/SKILL.md`, `skills/source-faithful-prototype/SKILL.md`, `skills/illustrated-build-guides/SKILL.md`, `skills/study-notes-pdf/SKILL.md`, `skills/programmatic-video/SKILL.md`, and `skills/reverse-engineer-anything/SKILL.md`
 
 The bootstrap scripts install all skills from each source globally for every host supported by the Skills CLI. They then install all tracked local skills and remove em dashes from every discovered `SKILL.md`. The `source-faithful-prototype` skill keeps source-based builds simple; `illustrated-build-guides` covers reader-facing PDF assembly and wiring guides. The maintained `cad-manufacturing-checks` skill includes a read-only CadQuery/OCP STEP inspection helper and analytic tests. Cursor pstack intentionally provides the active `tdd`, `teach`, and `reflect` variants.
 
