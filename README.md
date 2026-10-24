@@ -33,7 +33,7 @@ Edit the tracked files here, commit, and push. On another machine, pull and reru
 
 The two portable global guides share the same working, collaboration and storage safeguards. Keep their installed copies synchronized when publishing an update.
 
-The canonical global guides are `global/AGENTS.md` and `global/CLAUDE.md`, installed into `~/.codex/AGENTS.md` and `~/.claude/CLAUDE.md`. When retiring provider-specific workflow restrictions, also remove obsolete copies from active parent-directory guides. A clean installed guide does not neutralize a contradictory parent guide.
+The canonical global guides are `global/AGENTS.md` and `global/CLAUDE.md`, installed into `~/.codex/AGENTS.md` and `~/.claude/CLAUDE.md`. When retiring provider-specific workflow restrictions, also remove obsolete copies from active parent-directory guides. A clean installed guide does not neutralize a contradictory parent guide. Where a parent guide only duplicates global guidance, replace its body with a short pointer to the installed guide so it cannot drift or load the same rules twice.
 
 See [manifests/skills.md](manifests/skills.md) and [manifests/plugins.md](manifests/plugins.md).
 See [manifests/mcps.md](manifests/mcps.md) for locally installed MCP servers and setup commands.
