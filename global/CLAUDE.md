@@ -28,6 +28,8 @@ Use skills when their workflow fits; keep applying relevant guidance without rep
 
 Keep current exports in `~/Ready to share/<Project>/`, with stable, understandable filenames and links in chat. Keep working files separate. Replace superseded exports rather than accumulating versions.
 
+Work inside the project folder the owner designated. Keep its tools, environments, data and builds in clearly named subfolders there, so the owner's file manager stays uncluttered. If something must live elsewhere, such as a tool that needs a fixed or short path, keep it in one clearly named place and tell the owner where.
+
 Preserve originals, working source, uncommitted changes and current deliverables. Retain diagnostic or recovery material for a specific active need, with a condition for retiring it. Source history is normally enough to recover reproducible builds; obsolete generated builds do not need permanent archives.
 
 Clean task-owned obsolete builds, browser profiles, captures, caches, logs and worktrees as work progresses; workers clean theirs too. Retire merged worker branches within authorization. Inspect targets and ownership, and coordinate with active owners before cleanup.
