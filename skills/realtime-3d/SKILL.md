@@ -30,6 +30,13 @@ Exercise first arrival, revisits, distant placement, return travel, restart and 
 
 Use the real actor, world and application entry path. Cover affected controls, contact, rendering, audio and lifecycle transitions. Check remote representations and late joining when networking is involved. Numerical gates, screenshots, listening and device playtests establish different facts. State which were observed, and verify the served artifact before claiming a deployment works.
 
+## Scroll-driven web scenes
+
+- Judge camera flow from real wheel scrolling recorded as timed frames (CDP `Page.startScreencast`) laid out in contact sheets. Parked jumps to chapter positions hide transition defects. Browser-tool `evaluate` timeouts can terminate page JavaScript mid-frame; schedule the next `requestAnimationFrame` first and confirm a stalled loop outside the tool before fixing it.
+- A camera crossing a water surface flickers with a binary above/below switch, because crests pass the lens. Render over-under: above pass, a stencil mask below a moving screen-space waterline, clear depth, below pass stencil-tested, meniscus on top. Clamp each pass's camera to its own side of the sampled wave height. three.js clears colour whenever `scene.background` is a Color, even with `autoClear` off, so set it to null for the second pass.
+- three.js mixes fog after tone mapping and colour-space conversion, in the same space as the clear colour. Blend anything that should vanish into the background (underwater total internal reflection, distant surfaces) toward `fogColor` at that point; a colour matched earlier leaves a visible seam.
+- Check the final screen at maximum scroll. Sticky chapter copy scrolls away once its section ends, and chapter progress can exceed 1 by the footer's share of the viewport.
+
 ## Validate mission simulations
 
 - Separate evaluator truth from declared sensors, delivered messages and released work. Record observation and delivery times; a newly received packet can describe state older than the current command.
