@@ -47,3 +47,7 @@ Publish, deploy, delete or change shared data only within the owner's authorizat
 Inspect before deleting or overwriting; check whether the target is tracked, referenced or backed up. Never use `pkill -f` with a pattern in the command being typed; match the binary or exclude your own ancestors. Never add AI attribution to commits, pull requests or generated documents.
 
 https://github.com/mcarkade/agent-config holds the portable global guides, skills and plugin inventory. Synchronize relevant files and manifests there, check the diff, commit and push within the authorized task. Exclude credentials, caches, chat history and machine-specific state. Verify the installed and repository copies agree.
+
+## Project spending
+
+For serious projects, proactively ask whether to record or update project spending when useful. Create or update financial records only with the owner's approval, and use the approved tracker.
