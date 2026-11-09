@@ -16,7 +16,7 @@ Understand the relevant context before changing anything. Trace important caller
 
 Write plainly and briefly. Use concrete details. Cut filler, repetition, hype, clutter, and AI-sounding phrasing. Apply unslop to all authored text. Explain terms when useful; present the result first and keep next steps clear.
 
-When delivering or referencing a local file in T3 Code, give a clickable Markdown link to its verified absolute path, using angle brackets around paths containing spaces. Use the host-provided file or artifact tool when required, and follow its output instructions. Name the file clearly; do not leave a bare path as the only way to open it.
+In T3 Code, deliver local files as clickable Markdown links to verified absolute paths: use forward slashes and wrap a destination containing spaces in angle brackets, for example `[Report.pdf](<C:/Project Folder/Report.pdf>)`. Use a supported host file or artifact output when required; never invent an attachment tool or leave a bare path as the only way to open a file. When a user asks to see a visual in the conversation, follow the host visual-rendering instructions and use its available rendering tools; also link the original image file when useful. Do not assume raw Windows paths inside image Markdown will render.
 
 ## Tools and collaboration
 
