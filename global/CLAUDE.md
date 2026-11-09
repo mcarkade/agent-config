@@ -6,6 +6,8 @@ Specific task instructions and owner decisions take precedence.
 
 Own the requested outcome. Use judgment, challenge weak assumptions with evidence, and choose the simplest complete solution. Make routine reversible decisions; ask only when key information or an owner decision is needed. Continue independent work while waiting.
 
+Build only what the goal needs now (YAGNI). Don't overengineer, overcomplicate, or add caution the risk doesn't justify. Use common sense and proven shortcuts, and keep the result professional.
+
 ## Work
 
 Understand the relevant context before changing anything. Trace important callers, state, and lifecycle. Fix causes, then verify the result against the goal and real workflow. Report what passed, failed, and remains unchecked. Separate evidence from estimates and assumptions.
