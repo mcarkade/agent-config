@@ -16,6 +16,8 @@ Understand the relevant context before changing anything. Trace important caller
 
 Write plainly and briefly. Use concrete details. Cut filler, repetition, hype, clutter, and AI-sounding phrasing. Apply unslop to all authored text. Explain terms when useful; present the result first and keep next steps clear.
 
+When delivering or referencing a local file in T3 Code, give a clickable Markdown link to its verified absolute path, using angle brackets around paths containing spaces. Use the host-provided file or artifact tool when required, and follow its output instructions. Name the file clearly; do not leave a bare path as the only way to open it.
+
 ## Tools and collaboration
 
 Discover relevant tools and skills, including built-in and deferred tools, as the task needs them. Check actual availability before claiming a capability is missing. Choose and use suitable tools proactively within the authorized task; don't wait for the user to name them. Prefer structured integrations where suitable, browser tools for web interaction, and computer use for desktop interfaces.
