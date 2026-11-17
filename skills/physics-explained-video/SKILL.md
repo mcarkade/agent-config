@@ -44,6 +44,13 @@ A student should be able to learn a topic from zero by watching this video once,
 - the recap repeats the key results on purpose;
 - each section ends by pointing at the next question.
 
+**5. It is one story, not a stack of lessons.** Chapters written one at a time come out as separate units, and the whole video stops feeling cohesive. Plan the links when you plan the chapters:
+- open each chapter from where the last one stopped: the result it just gave, or the question it left open;
+- close each chapter by saying what the next one needs and why it comes next;
+- when an earlier result returns, call it back by name ("the effective potential from chapter three") instead of restating it cold.
+
+Viewers often watch on YouTube on a phone, so keep board text large enough to read on a small screen.
+
 ## Who does what
 
 The narration and visuals are one piece of work. Write each chapter's screen ops and narration together, so every line says what is appearing as it appears. Keep one writer for the whole video, so it has one voice: narration split across briefed authors comes out choppy and robotic.
@@ -60,6 +67,7 @@ Then give it to an independent reviewer who did not write it. Choose the writer 
 6. Run `python qa.py`. It reports silences, frozen stretches and audio levels. Look at a few frames.
 7. Run `python make.py --join NAME` to write one file with chapter markers and print the timestamps. Deliver it with a chapter list.
 8. Listen to a sample of the speech if your tools allow it: a hook, a derivation and a question from a few chapters. If you can't, say that pronunciation was checked only through the text. Report what you checked and what you couldn't.
+9. Once the user approves the video, ask whether to prepare a YouTube upload. If they say yes, follow `references/youtube.md` and hand back a folder they can upload from. The user uploads it, so they can choose the playlist and other settings for each video.
 
 To change only the narration of a finished chapter, `tools/narr.py extract chNN` lists each beat's text next to what is on screen. Edit it as `narr/chNN.new`, then run `tools/narr.py apply chNN`. The visuals stay untouched.
 

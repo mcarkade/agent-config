@@ -3,9 +3,10 @@
   python make.py ch03 --check     layout + maths check with estimated timing (fast, no audio)
   python make.py ch03 --sheet     --check plus contact sheets of every beat in review/ch03/
   python make.py ch03 --render    voice + subtitles + video -> out/ch03.mp4
-  python make.py --join NAME      join out/ch*.mp4 into out/NAME.mp4 with chapter markers
+  python make.py --join NAME      join out/ch*.mp4 into out/NAME.mp4 with chapter markers,
+                                  and write out/youtube_timestamps.txt (chapters + every question)
 """
-import re, runpy, subprocess, sys, time
+import json, re, runpy, subprocess, sys, time
 from pathlib import Path
 import studio
 
@@ -55,6 +56,7 @@ def main():
         out.mkdir(exist_ok=True)
         t0 = time.time()
         studio.render(st, infos, out / f'{name}.mp4')
+        (out / f'{name}.questions.json').write_text(json.dumps(st.questions, ensure_ascii=False, indent=1), encoding='utf8')
         print(f'rendered out/{name}.mp4 in {time.time() - t0:.0f}s')
         if '--sheet' in args:
             n = studio.contact_sheets(st, ROOT / 'review' / name)
@@ -68,12 +70,20 @@ def main():
         print(f'{n} beat stills in review/{name}/')
 
 
+def yt(t):
+    """YouTube timestamp: mm:ss, or h:mm:ss from one hour."""
+    t = int(t)
+    h, m, s = t // 3600, t % 3600 // 60, t % 60
+    return f'{h}:{m:02d}:{s:02d}' if h else f'{m:02d}:{s:02d}'
+
+
 def join(name='video'):
     out = ROOT / 'out'
     files = sorted(out.glob('ch[0-9][0-9].mp4'))
     lst = out / 'list.txt'
     lst.write_text(''.join(f"file '{f.name}'\n" for f in files))
     meta = [';FFMETADATA1']
+    chaps, qs = [], []
     t = 0
     for f in files:
         d = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', str(f)],
@@ -81,13 +91,21 @@ def join(name='video'):
         ch = load(f.stem)
         meta += ['[CHAPTER]', 'TIMEBASE=1/1000', f'START={int(t * 1000)}', f'END={int((t + d) * 1000)}',
                  f'title={ch.num}. {ch.title}']
-        print(f'{int(t // 60):02d}:{int(t % 60):02d}  {ch.num}. {ch.title}')
+        print(f'{yt(t)}  {ch.num}. {ch.title}')
+        chaps.append(f'{yt(t)} {ch.title}')
+        qf = out / f'{f.stem}.questions.json'
+        if qf.exists():
+            qs += [f'{yt(t + s)} [{title}] {stem}' for s, title, stem in json.loads(qf.read_text(encoding='utf8'))]
+        else:
+            print(f'  ({qf.name} missing: re-render {f.stem} to list its questions)')
         t += d
     (out / 'chapters.txt').write_text('\n'.join(meta) + '\n', encoding='utf8')
     subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', str(lst),
                     '-i', str(out / 'chapters.txt'), '-map_metadata', '1', '-map_chapters', '1', '-c', 'copy',
                     str(out / f'{name}.mp4')], check=True)
-    print('joined', out / f'{name}.mp4', f'{t / 60:.1f} min')
+    lines = ['# Chapters', *chaps, '', '# Questions (raw stems: rewrite each as one short plain line)', *qs]
+    (out / 'youtube_timestamps.txt').write_text('\n'.join(lines) + '\n', encoding='utf8')
+    print('joined', out / f'{name}.mp4', f'{t / 60:.1f} min;', len(qs), 'questions in out/youtube_timestamps.txt')
 
 
 if __name__ == '__main__':

@@ -810,6 +810,15 @@ class Stage:
                     return
 
 
+def stem_text(op):
+    """Raw text of a stem item (tex left as is), used for the question list."""
+    if op.kind == 'row':
+        return ' '.join(stem_text(i) for i in op.items)
+    if getattr(op, 'sub', None) == 'math':
+        return '$' + ''.join(op.parts) + '$'
+    return getattr(op, 'text', '')
+
+
 def compile_chapter(ch, durations):
     st = Stage(ch, durations)
     tag = text_item(f'{ch.num}  \u00b7  {ch.title}', 24, GREY, 900)
@@ -822,6 +831,7 @@ def compile_chapter(ch, durations):
     st.flow = [e1, e2]
     t = 2.6
     st.clear(t - 0.3)
+    st.questions = []                 # (start time, title, stem as plain text) for the YouTube timestamps
     for b, (text, ops, hold) in enumerate(ch.beats):
         st.cur_beat = b
         start = t
@@ -833,6 +843,9 @@ def compile_chapter(ch, durations):
             except Exception as e:
                 st.err(f'{type(e).__name__}: {e}')
         is_q = any(op.kind == 'question' for op in ops)
+        for op in ops:
+            if op.kind == 'question':
+                st.questions.append((start, op.title or '', ' '.join(stem_text(i) for i in op.stem)))
         speech = durations[b] if text else 0.0
         if text:
             st.audio.append((start + 0.1, b))
