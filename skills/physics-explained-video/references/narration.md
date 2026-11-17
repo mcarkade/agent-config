@@ -1,92 +1,53 @@
-# Writing the narration
+# Narration
 
-The narration decides whether the video works. The first CM Quiz 2 video had correct maths and clean visuals, but the student stopped after two minutes. They called it "AI slop half sentences, robotic, not human", and said the voice reading maths was "uncanny". This file records what fixed it.
+The narration is what makes the viewer stay. Correct maths read in stiff, captioned fragments, or symbols read aloud literally, sounds robotic and uncanny, and the viewer stops watching.
 
-The principles that fixed it:
-1. **Match a real lecturer.** Study Physics Explained transcripts before writing, and imitate how he connects steps and speaks maths.
-2. **Write for the ear.** Every line is read aloud by a TTS voice at double speed and shown as a subtitle.
-3. **Unslop everything.** Apply the unslop skill to the narration and to on-screen text.
-4. **One writer with full context.** Write chapter by chapter, seeing the screen ops of each beat, so that the whole video has one voice.
-5. **Independent review.** A different reviewer checks the physics and the speech with `review_brief.md`.
+## Learn the voice from the source
 
-Assign writer and reviewer by current strength, not by fixed role. The first version failed because six authors each worked from a brief, not because of which model wrote it.
+Fetch transcripts of real Physics Explained videos with `python tools/fetch_transcripts.py 15`. This downloads text only. Read several before writing, and read some again when your lines start to drift. Things to notice:
 
-## How Physics Explained actually talks
+- **Full sentences that flow, with spoken connectors.** "Okay, so now imagine that…", "Now, of course…", "And so…", "In other words…", "So how do we do that? Well, the first thing to say is…"
+- **He narrates the board as it changes.** "We can then cancel off the factors of two, and we arrive at the following expression." He does not read every symbol of a long equation; he gives its shape and lets the screen carry the rest.
+- **He asks, then answers.** "But can we quantify how much the times differ? To answer this, let's build a light clock."
+- **He says why before what,** and names the payoff after it: "And this is the whole reason we…"
+- **He uses "we" and "you",** and "I" now and then.
 
-This comes from the transcripts of 14 Physics Explained videos. To refresh it, run `python tools/fetch_transcripts.py 14`; it saves text only to `pe_transcripts/`. Delete the folder afterwards.
+Learn the habits, not a list of phrases. If every line opens with "Okay, so", it is a new tic, not his voice.
 
-**Full, flowing sentences with spoken connectors.** "Okay, so now imagine that…", "Now, of course…", "And so…", "In other words…", "So, how do we do that? Well, the first thing to say is…", "And this is the whole reason we…".
+## Write for the ear
 
-**He narrates the board as it changes.** "If we plug in the numbers from our plot, then we see a value of 2 m/s²", "We can then cancel off the factors of two", "and we arrive at the following expression". He doesn't read every symbol of a long equation. He says "we get this" and lets the screen carry it.
+A neural TTS voice reads every character literally, at double speed, and the same text appears as a subtitle. Write each line as you would say it to a student sitting next to you.
 
-**He asks, then answers.** "But can we quantify how the time measured by different observers actually differs? To answer this question, let's build a light clock."
+- **Say maths as a person would.** Write "one over r squared", not "r to the minus two" or "inverse radius squared". Write "a quarter per metre", not "metre inverse". Write "d V by d r", "theta dot", "root two times v". Write numbers as words.
+- **Make grouping audible.** When a minus sign or a power covers a whole group, say so: "minus the whole quantity T minus U", "one plus e, all squared".
+- **Say "capital" only when both cases of a letter are on screen.** Otherwise use the quantity's name: "the total mass M".
+- **Write function names in full.** Use "cosine", "sine" and "tangent"; the voice may read "cos" as "'cause".
+- **Long equations get their structure, not every symbol.** Say "so H is the kinetic term plus the potential" and let the board show it.
+- **Watch words with two pronunciations,** such as "read", "minute", "lead" and "wind". Rephrase if the stress could flip the meaning.
 
-**He says why before what.** "Now, the reason for the roughly equal sign is because this is no longer an exact statement."
+Precision still matters. Say "partial" when the equation has a partial derivative and the difference matters.
 
-**He says maths the way a person would.** "d u by d t multiplied by delta t", "C delta T divided by two, all squared", "0.5 metres per second per metre", "delta t prime equals 2L over C".
+## Shape of a beat
 
-## Rules
+Each beat says what is appearing as it appears, in one or two complete sentences of roughly 8 to 35 words. Pose questions the way a person would ("Here's one to try. Pause the video and give it a go."), and start the answer the way you would say it out loud.
 
-### Sentences
-- One idea per sentence, but complete sentences. No telegraphic fragments such as "Partial derivative first. Time derivative second." or "Bold r one and bold r two are position vectors, arrows from an inertial frame's origin."
-- Begin beats with connectors: "Okay, so", "Now", "And so", "So", "Well,", "But", "In other words". This is what makes it sound like a lecture rather than captions.
-- Use "we" and "you". Use "I" sparingly ("I'll set m, k and l to one").
-- Name the payoff: "And this cancellation is exactly why gravity is so easy to solve." Don't announce it ("Here's the key insight").
-- Pose questions like a person: "Here's a question. … Pause the video and give it a go." Then answer starting with "Well," or "Okay, so".
-- Don't define the obvious. One clause per new symbol, the first time it matters.
-- No AI vocabulary: crucial, key insight, delve, robust, it's worth noting, let's dive in, in this video, fascinating.
+When an equation grows term by term over several beats, each beat is still a complete sentence. The voice synthesises every beat on its own, so a sentence split across beats sounds broken.
 
-### Spoken maths: what the TTS voice will say
-Write every symbol as words. The voice (Edge `en-US-AndrewNeural`) reads the text literally.
+Two examples of fixing captions into speech:
 
-| Write | Never write |
+| Caption-style (rejected) | Spoken |
 |---|---|
-| "one over r squared" | "inverse radius squared", "r to the minus two" |
-| "per metre", "a quarter per metre" | "inverse metres", "metre inverse", "m⁻¹" |
-| "m over two" | "m divided by two" (fine but slower) |
-| "the total mass, M" | "capital M" |
-| "theta dot", "r double dot" | "θ̇", "the time derivative of theta" every time |
-| "d V by d r" | "dV/dr" |
-| "the derivative of L with respect to q dot" | "partial L partial q dot" |
-| "root two times the circular speed" | "sqrt 2 v_c" |
-| "about two hundred and fifty five degrees" | "254.6°" |
-| "twelve, in SI units" or the spoken unit | "12 kg m^2/s" |
+| "Angular speed varies as inverse radius squared; sideways speed varies as inverse radius." | "Theta dot goes as one over r squared, but the sideways speed only goes as one over r." |
+| "Keep the subtraction visible. Losing that second minus would make the spring push away from equilibrium." | "A really common mistake is to drop one of those minus signs. Then the spring would push the mass away from equilibrium, which makes no sense." |
 
-- **Capital letters.** Don't say "capital" unless both cases of the same letter appear in that beat and the sentence would be ambiguous. Use the quantity's name instead ("the total mass M", "the centre of mass R"). The listener can also see the subtitles and the board.
-- **Trig functions.** Write "cosine", "sine", "tangent", "secant" in full. The voice can read "cos" as "'cause", and "sin" is ambiguous.
-- **Make brackets audible.** When a minus or a power applies to a whole group, say so: "four T minus the whole quantity T minus U", "the square of one plus e", "the square root of the ratio m over k". The first CM video had a line that sounded like the wrong sign because the bracket was silent.
-- **Partial vs total derivatives.** Say "the partial time derivative" or "the explicit time derivative" when the equation has a partial. Reviewers caught "the time derivative of H is minus that of L", which is false for total derivatives.
-- **Long equations.** Say the structure ("and so H has two kinetic terms and the potential") and let the screen show the rest. Reading thirty symbols aloud is the "uncanny" effect.
-- **Primes.** "u prime", "u double prime". Say what the prime means once per chapter.
-- **Greek letters.** Write the plain names: mu, theta, phi, omega, beta, alpha, lambda, epsilon.
-- **Numbers.** Write them as words in the narration ("eighty one over eighty two"). The screen shows the digits.
-- **Watch for spelling-based misreads:** "read", "minute", "lead", "wind", and "polar" vs "pole". Rephrase if one could be stressed wrongly.
+Then apply the unslop skill. It removes AI vocabulary, announcing lines ("here's the key insight"), stiff definitions and fragments.
 
-### Rhythm for an ADHD viewer at double speed
-- Something new appears on screen in every beat. The narration says it as it appears.
-- Keep each beat between 8 and 35 words. Split long beats rather than cramming.
-- Vary the sentence length: a short line after a long derivation step ("So the period only depends on the size.").
-- End each section with a hook into the next ("And the next question is, what stays constant as it moves?").
+## Review checklist
 
-## Before and after (from the CM Quiz 2 video)
+The reviewer gets each beat's narration next to what is on screen (`tools/narr.py extract`). For every beat, the reviewer checks four things:
+1. **Physics.** The spoken statement is correct and agrees with the equation on screen: signs, factors, powers and which variable.
+2. **Sync.** The line describes what appears in that beat, and every symbol the viewer needs is explained.
+3. **Speech.** Nothing would be read badly: symbols, digits, abbreviations, a needless "capital", a silent bracket, or an ambiguous word.
+4. **Tone.** The line is not robotic, choppy or filler, and it is clear when heard once at double speed. The lecturer connectors are intended; leave them.
 
-| First version (rejected) | Rewrite |
-|---|---|
-| "Let's name the quantities before calculating. A generalized coordinate, called q, is an independent number describing the configuration of a system." | "Before we answer that, we need a few tools. The first is a generalized coordinate, q. It's just a number that tells you where the system is." |
-| "Angular speed varies as inverse radius squared; sideways speed varies as inverse radius." | "Theta dot goes as one over r squared, but the sideways speed goes as one over r." |
-| "For example, a semi-major axis of four metres gives average inverse radius one quarter per metre." | "So for example, if a is four metres, the average of one over r is a quarter per metre." |
-| "Capital M R becomes capital M r one plus m two times the relative vector." | "If we substitute that into the centre of mass equation, we get M R equals M r one plus m two r." |
-| "Keep the subtraction in the recipe visible. Losing that second minus would incorrectly make the spring push away from equilibrium." | "A really common mistake here is to drop one of those minus signs. If you did that, the spring would push the mass away from equilibrium, which makes no sense." |
-
-## Workflow for rewriting narration only
-
-`tools/narr.py` keeps the visuals fixed and swaps only the spoken text:
-
-```
-python tools/narr.py extract ch03     # narr/ch03.txt: "NNN| text" + the [screen] ops of each beat
-# write narr/ch03.new: "NNN| new text" for each beat you change
-python tools/narr.py apply ch03       # replaces the say() strings in chapters/ch03.py in place
-python make.py ch03 --check
-```
-
-Back up `chapters/` before the first `apply`. Speech is cached per sentence, so only changed lines are re-synthesised.
+The reviewer should suggest replacement lines only where something is wrong, with a short reason for each, and leave correct lines alone. Reviewers sometimes bring back stiff wording such as "capital R". When that happens, keep their correction and say it naturally.

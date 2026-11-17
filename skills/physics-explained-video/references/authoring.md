@@ -1,17 +1,6 @@
 # Authoring chapters
 
-A chapter is a Python file `chapters/chNN.py` built from beats. Layout, timing, voice, subtitles and the watermark are automatic.
-
-## Source of truth
-Teach from a verified study guide for the course (for example one made with the study-notes-pdf skill). Every result, sign convention and answer must agree with it. Verify any new worked example by hand and with sympy. Note any sign-convention differences between the guide, the textbook and the instructor on screen.
-
-## Files and commands
-Work inside the project working folder that holds `studio.py`.
-- **Your chapters:** write `chapters/chNN.py`. Study `example_chapter.py` first; it is a worked example using every feature.
-- **Check:** `python make.py chNN --check`. It must end with `layout OK` and no problems. It prints the estimated length and the number of questions.
-- **Contact sheets:** `python make.py chNN --sheet` writes stills of the end of every beat to `review/chNN/sheet_*.png`. Open them and look: clutter, tiny text, bad breaks, ugly maths.
-- **Don't render.** Don't run `--render`; the orchestrator renders.
-- **Don't edit the toolkit.** Don't edit `studio.py`, `make.py` or other people's chapters. If you need a feature that's missing, work around it and say so in your final message.
+A chapter is a Python file `chapters/chNN.py` built from beats. Layout, timing, voice, subtitles and the watermark are automatic. `scripts/example_chapter.py` shows most ops; start from it.
 
 ## Chapter skeleton
 ```python
@@ -40,7 +29,7 @@ A **beat** is `say(narration, *ops)`. The ops start when the beat starts, and th
 | `FIG(id, draw=None, axes=dict(xlim=..., ylim=..., xlabel='$r$', ylabel='$V$', equal=False, frame=True, origin=(x0, y0)))` | Matplotlib figure on the left half. It clears unpinned items; while it is visible, items flow in the right column (about 800 px wide, so keep right-column lines short). |
 | `FIGADD(fig_id, id, draw)` | Add a layer on the same axes: a new curve, an energy line, points. |
 | `ANIM(fig_id, id, draw(ax, u), dur=3)` | Animated layer, e.g. tracing an orbit (u goes from 0 to 1). |
-| `DIAGRAM(id, name)` | A ready-made picture from the guide, placed like a figure. See the list below. |
+| `DIAGRAM(id, name)` | A ready-made picture from the guide, placed like a figure. It loads `diagrams/NAME.png`. |
 | `QUESTION(*stem, title='short')` | Clears the board, shows "QUESTION n · title", the stem, and "Pause and try", followed by a silent hold. The stem stays pinned at the top. |
 | `SOLVE()` | Next beat: removes "Pause and try"; the solution flows under the stem. When the board fills, everything except the stem auto-clears. |
 | `HOOK(text, sub=None)` | Big centred hook question. Use at the start of the chapter and of big sections. |
@@ -57,35 +46,8 @@ Diagrams are project-specific PNGs in `diagrams/NAME.png` (transparent or black 
 - **Subscript words:** `V_{\mathrm{eff}}`, `r_{\min}`, `r_{\max}`.
 - **Unicode:** in `T`/`N` text, plain Unicode like → · ≤ is fine. Never use ✓.
 
-## Narration
-Follow `narration.md`. It overrides any narration habit you have.
-
-## Structure of every chapter (JEE one-shot flow)
-1. **Hook (one beat):** a puzzle or question the chapter answers.
-2. **Build from the basics with context:**
-   - Define every symbol at first use.
-   - Derive the key results step by step with G/M lines, circling or striking the term being worked on.
-   - Box each key result with KEY.
-3. **Small worked examples right after each idea, 2–4 per idea.** Quick, concrete, and showing *how to solve*. Questions are a central focus: the viewer wants many.
-4. **Exam questions with pause-and-try:**
-   - Each one: QUESTION, then SOLVE, then a full solution.
-   - The last line of every solution is a KEY answer.
-   - Next comes one beat of "the trick to remember" or "common mistake" when useful.
-   - Use the study guide's question bank (tutorial, past-quiz and mock questions) for your topic. Include all the important ones and add your own small ones.
-   - **Target 5–8 QUESTIONs per chapter**, plus the small worked examples.
-5. **Method summary:** "How to attack this type" in 2–4 short lines.
-6. **Recap:** CLEAR, then the 2–4 boxed results of the chapter, then 2 rapid-fire QUESTIONs with one-line answers.
-
 ## Screen discipline
-- At most about 5 lines on the board before you CLEAR or carry a line up. No walls of text: `T` and `N` lines are short phrases (at most about 12 words).
-- No dimming anywhere. Finished things either stay, or leave via CLEAR.
-- **A FIG inside a QUESTION:** the pinned stem moves to the right column, which is narrow. Keep such stems very short, or pose a figure question as stem text only.
-- After writing, run `--check` and `--sheet` and look at every sheet. Fix anything cramped, too small, wrongly wrapped or overlapping, and any beat where nothing new appears.
-
-## Length
-Each chapter has a target in minutes of the final video (2x voice) that `--check` estimates. Stay within ±20%.
-
-## Final message
-Report:
-- for each of your chapters: beats, number of QUESTIONs, estimated length, and which guide units and questions it covers;
-- anything you couldn't fit, and any doubt about the physics.
+- Keep about 5 lines on the board at most before you CLEAR, or carry a line up. `T` and `N` lines are short phrases of up to about 12 words.
+- A figure question puts its stem in the narrow right column, so keep that stem very short.
+- Every chapter starts with a hook and ends with a recap of its boxed results plus a couple of rapid-fire questions. The last line of every solution is a KEY answer.
+- After writing, run `--sheet` and look at every sheet.

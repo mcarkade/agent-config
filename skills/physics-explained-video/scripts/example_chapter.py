@@ -1,4 +1,4 @@
-"""Reference example: shows every op. Not part of the final video."""
+"""Reference example showing most ops. Each beat is one or two complete sentences, even while an equation grows term by term."""
 from studio import *
 import numpy as np
 
@@ -10,9 +10,9 @@ say("Why can't a planet just fall straight into the Sun? Something must be holdi
 E1 = [r'E = ', r'\frac{1}{2}m\dot{r}^2', r' + \frac{1}{2}mr^2\dot{\theta}^2', r' + V(r)']
 say("Start with the energy of a particle moving under a central force.",
     CLEAR(), LABEL('Energy of the particle'), G('E1', E1, 1))
-say("There's kinetic energy for motion in and out, along r,", G('E1', E1, 2))
-say("kinetic energy for motion around the centre,", G('E1', E1, 3))
-say("and potential energy, which depends only on r.", G('E1', E1, 4))
+say("The first term is the kinetic energy of motion in and out, along r.", G('E1', E1, 2))
+say("The second is the kinetic energy of motion around the centre.", G('E1', E1, 3))
+say("And the last term is the potential energy, which depends only on r.", G('E1', E1, 4))
 say("The force points along r, so there's no torque, and the angular momentum l stays constant.",
     ROW(N('No torque'), N('angular momentum is conserved')),
     M(r'l = mr^2\dot{\theta} = \mathrm{constant}', id='L'))
@@ -49,5 +49,7 @@ say("That gives k over r squared minus l squared over m r cubed equals zero.",
     M(r'\frac{k}{r^2} - \frac{l^2}{mr^3} = 0'))
 say("So the radius is l squared over m k.", KEY(r'r_c = \frac{l^2}{mk}'))
 say("Let's check the units quickly.", M(r'\frac{l^2}{mk}: \frac{(\mathrm{kg\,m^2/s})^2}{\mathrm{kg}\cdot\mathrm{kg\,m^3/s^2}} = \mathrm{m}'))
-say("Good. And here's the whole story in one picture.",
-    CLEAR(), DIAGRAM('d', 'veff_kepler'), N('turning points: where E meets the curve'))
+say("Good. So the whole story is one boxed result and one well.",
+    CLEAR(), KEY(r'V_{\mathrm{eff}}(r) = V(r) + \frac{l^2}{2mr^2}', id='R1'), N('turning points: where E meets the curve'))
+# A figure exported from the study guide as diagrams/NAME.png is shown with:
+# say("Here's the whole story in one picture.", CLEAR(), DIAGRAM('d', 'NAME'))

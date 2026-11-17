@@ -324,7 +324,7 @@ def HOOK(text, sub=None):
 
 
 def DIAGRAM(id, name, height=520):
-    """A ready-made diagram from the study guide (see AUTHORING.md for names), placed as a figure."""
+    """A ready-made diagram from the study guide (diagrams/NAME.png), placed as a figure."""
     return Op('diagram', id=id, name=name, height=height)
 
 
