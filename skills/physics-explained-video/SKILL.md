@@ -46,9 +46,10 @@ The toolkit in `scripts/` handles layout, timing, speech, subtitles, rendering a
    - Deliver finished chapters as they land, so the user can start watching.
 6. **QA.**
    - `python qa.py` reports duration, audio level, silences of 4 s or more, and still stretches of 8 s or more.
-   - Extract a few frames to check the watermark, subtitles and layout.
+   - Extract a few frames to check the watermark, subtitles and layout. A grey line in a still is usually a line mid fade-in, not dimming; check the next second before "fixing" it.
    - Speech can't be listened to, so check the narration text instead. Say so in the report.
 7. **Join and deliver.**
+   - Before joining, confirm every `out/chNN.mp4` is newer than `chapters/chNN.py` (`[ out/ch01.mp4 -nt chapters/ch01.py ]`). A render that started before the last narration apply is stale.
    - `python make.py --join NAME` writes `out/NAME.mp4` with chapter markers and prints the timestamps.
    - Copy the video and a `Chapters.txt` to the course's deliverables folder.
    - Report the length, chapters, question count, what was checked and what wasn't.
@@ -65,7 +66,7 @@ The toolkit in `scripts/` handles layout, timing, speech, subtitles, rendering a
   - `tools/merge_review.py chNN [--skip 012,036]` merges a reviewer's `narr/review_chNN.txt`, so you can apply it after judging it.
   - Back up `chapters/` before the first apply.
 - **Early delivery.** `tools/publish_chapters.sh DEST` copies each fresh chapter, under a readable name, into the deliverables folder. Tell the user to start watching while the rest render.
-- **Length.** A lecturer-style rewrite runs about 10–30% longer than terse captions, and that's worth it. Still keep beats under about 35 words.
+- **Length.** The `--check` estimate ran about 20% long at `+100%` (93 min estimated, 76.5 min rendered). The lecturer-style rewrite came out no longer than the terse first version (76.5 vs 80 min), so full sentences cost little time. Keep beats under about 35 words.
 - **Transcripts.** The channel is `@PhysicsExplainedVideos`. `@PhysicsExplained` is a different, unrelated channel. Download subtitles only (a few hundred KB), never the videos.
 - **Install on Windows.** Git Bash `ln -s` fails without developer mode. Link skills with a PowerShell junction: `New-Item -ItemType Junction`.
 
