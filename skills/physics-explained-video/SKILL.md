@@ -54,6 +54,21 @@ The toolkit in `scripts/` handles layout, timing, speech, subtitles, rendering a
    - Report the length, chapters, question count, what was checked and what wasn't.
 8. **Clean up after the user approves:** delete `out/`, `cache/`, `review/`, `logs/` and any `pe_transcripts/`.
 
+## Operational lessons
+- **A render reads the chapter script once, when it starts.**
+  - If you edit a chapter while its render is running, stop that render and queue it again.
+  - Compare the script's modification time with the "start chNN" time in `logs/`.
+  - Stop only your own `make.py chNN` process, found by its command line. Never kill every ffmpeg or python process: the user runs other work.
+- **Chaining queues.** `tools/after.sh LOG CH chapters…` waits for `done CH` in another queue's log before rendering, so you never run more than three renders at once.
+- **Fixing narration only.**
+  - `tools/narr.py extract`, then edit `narr/chNN.new`, then `tools/narr.py apply` swaps the speech without touching the visuals.
+  - `tools/merge_review.py chNN [--skip 012,036]` merges a reviewer's `narr/review_chNN.txt`, so you can apply it after judging it.
+  - Back up `chapters/` before the first apply.
+- **Early delivery.** `tools/publish_chapters.sh DEST` copies each fresh chapter, under a readable name, into the deliverables folder. Tell the user to start watching while the rest render.
+- **Length.** A lecturer-style rewrite runs about 10–30% longer than terse captions, and that's worth it. Still keep beats under about 35 words.
+- **Transcripts.** The channel is `@PhysicsExplainedVideos`. `@PhysicsExplained` is a different, unrelated channel. Download subtitles only (a few hundred KB), never the videos.
+- **Install on Windows.** Git Bash `ln -s` fails without developer mode. Link skills with a PowerShell junction: `New-Item -ItemType Junction`.
+
 ## Pitfalls already fixed in `studio.py` (keep them)
 These are in `_prep_tex`:
 - `\frac` → `\dfrac`;
