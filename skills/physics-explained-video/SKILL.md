@@ -53,7 +53,10 @@ The toolkit in `scripts/` handles layout, timing, speech, subtitles, rendering a
    - `python make.py --join NAME` writes `out/NAME.mp4` with chapter markers and prints the timestamps.
    - Copy the video and a `Chapters.txt` to the course's deliverables folder.
    - Report the length, chapters, question count, what was checked and what wasn't.
-8. **Clean up after the user approves:** delete `out/`, `cache/`, `review/`, `logs/` and any `pe_transcripts/`.
+8. **Clean up after the user approves.**
+   - Delete `out/`, `cache/`, `review/`, `logs/`, `narr/`, any `chapters` backup, `pe_transcripts/` and `__pycache__/`. That freed about 390 MB for a 77-minute video.
+   - Keep `chapters/`, `diagrams/` and the scripts (under 1 MB), so a later fix only needs a re-render.
+   - Give the per-chapter folder a lasting name such as "Chapters (separate files)", not one that describes the work in progress.
 
 ## Operational lessons
 - **A render reads the chapter script once, when it starts.**
