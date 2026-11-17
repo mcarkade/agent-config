@@ -34,11 +34,12 @@ styles={
  'heading':ParagraphStyle('heading',fontName='Bold',fontSize=16,leading=20,textColor=PALETTE['heading'],spaceAfter=7),
  'solution_label':ParagraphStyle('solution_label',fontName='Bold',fontSize=9.6,leading=13,textColor=PALETTE['heading'],spaceAfter=8),
  'example_label':ParagraphStyle('example_label',fontName='Sans',fontSize=8.8,leading=12,textColor=PALETTE['link'],spaceAfter=6),
+ 'sub':ParagraphStyle('sub',fontName='Bold',fontSize=12,leading=15.5,textColor=PALETTE['link'],spaceAfter=6),
 }
 def apply_theme(name):
     if name not in THEMES:raise ValueError('Theme must be warm_dark or white_minimal')
     PALETTE.update(THEMES[name])
-    for style,key in [('p','body'),('secondary','secondary'),('question','body'),('hint','secondary'),('source','muted'),('heading','heading'),('solution_label','heading'),('example_label','link')]:
+    for style,key in [('p','body'),('secondary','secondary'),('question','body'),('hint','secondary'),('source','muted'),('heading','heading'),('solution_label','heading'),('example_label','link'),('sub','link')]:
         styles[style].textColor=HexColor(PALETTE[key])
 cache={}
 def inline_markup(text):
@@ -133,7 +134,7 @@ def getblock(b,width=CW):
     else:
         o=para(b['text'],kind,b.get('math_segments'),b.get('bold',False))
     _,oh=o.wrap(width,10000)
-    before=8 if kind in ('solution_label','example_label') else 0
+    before=14 if kind=='sub' else (8 if kind in ('solution_label','example_label') else 0)
     return o,oh+styles.get(kind,styles['p']).spaceAfter+before,'paragraph',1
 def units_from(spec):
     sections=spec.get('sections',[])
@@ -198,7 +199,7 @@ def flow_height(blocks,index,with_end=False):
             total+=box_geometry(blocks[k:end])[1]+13
         else:total+=getblock(b)[1]
         last=blocks[end-1]
-        keep=last.get('keep_next') or last['kind'] in ('example_label','question','solution_label','source') or (last['kind'] in ('p','hint','secondary') and len(last['text'])<220 and last['text'].rstrip().endswith(':'))
+        keep=last.get('keep_next') or last['kind'] in ('example_label','question','solution_label','source','sub') or (last['kind'] in ('p','hint','secondary') and len(last['text'])<220 and last['text'].rstrip().endswith(':'))
         if end-1>=target and not keep:break
         k=end
     return (total,end-1) if with_end else total
@@ -323,7 +324,7 @@ def build(spec,filename,total=None,toc=None,record=False):
             else:x=LEFT
             for index in range(i,end):
                 block=u['blocks'][index];o,height,typ,scale=getblock(block,width)
-                keep=block.get('keep_next',False) or block['kind'] in ('question','solution_label','example_label') or (block['kind'] in ('p','hint','secondary') and len(block['text'])<220 and block['text'].rstrip().endswith(':'))
+                keep=block.get('keep_next',False) or block['kind'] in ('question','solution_label','example_label','sub') or (block['kind'] in ('p','hint','secondary') and len(block['text'])<220 and block['text'].rstrip().endswith(':'))
                 if index==len(u['blocks'])-2 and u['blocks'][index+1]['kind'] in ('p','hint','secondary') and len(u['blocks'][index+1]['text'])<220:keep=True
                 if not boxed and keep and index+1<len(u['blocks']) and index>protected_until:
                     needed,group_end=flow_height(u['blocks'],index,True)
@@ -335,12 +336,12 @@ def build(spec,filename,total=None,toc=None,record=False):
                         next_opening=next((k for k in range(index+1,group_end+1) if u['blocks'][k]['kind'] in ('example_label','question')),group_end+1)
                         group_end=min(group_end,next_opening-1)
                     short_intro=block['kind'] in ('p','hint','secondary') and len(block['text'])<220 and block['text'].rstrip().endswith(':')
-                    if block['kind'] in ('example_label','question','solution_label') or short_intro:
+                    if block['kind'] in ('example_label','question','solution_label','sub') or short_intro:
                         protected_until=group_end
                 if y-height<BOTTOM:y=newpage(u,True)
                 if y-height<BOTTOM:raise ValueError('Oversized block '+str(block))
                 if typ=='paragraph':
-                    _,oh=o.wrap(width,10000);before=8 if block['kind'] in ('solution_label','example_label') else 0;o.drawOn(c,x,y-oh-before)
+                    _,oh=o.wrap(width,10000);before=14 if block['kind']=='sub' else (8 if block['kind'] in ('solution_label','example_label') else 0);o.drawOn(c,x,y-oh-before)
                 elif typ=='image':o.drawOn(c,x+(width-o.drawWidth)/2,y-o.drawHeight)
                 elif typ=='vector':
                     c.saveState();c.translate((W-o.width*scale)/2,y-o.height*scale);c.scale(scale,scale);renderPDF.draw(o,c,0,0);c.restoreState()

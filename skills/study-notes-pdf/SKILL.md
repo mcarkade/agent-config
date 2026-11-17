@@ -27,6 +27,17 @@ Give each example and bank question a complete stem, data, conditions, subparts,
 
 Use fitted boxes for key definitions, laws, standard results, and important answers; keep routine algebra and prose open. When the user requests panels, group each notes example's question and solution together and each practice solution together. Use the bundled `panel` field when a panel continues across pages and `box` for a one-page rectangle. See [format.md](references/format.md) for border and footer rules.
 
+### Teaching a learner who starts from zero
+
+When the learner has not studied the topic yet, a first read must teach, not just cover. Open the guide with a short reading route. Teach the prerequisite tools the topic depends on before the topics themselves. In every unit, add:
+- a quick self-check with the answers placed right below;
+- a short common-mistakes list;
+- a "how the quiz asks it" note.
+
+Prefer many small worked examples that each show one move over a few long ones. Put new exam-style questions next to the source questions. Run independent solution passes (for example, a subagent solving the bank cold), compare the answers with the guide, and then run a separate review for correctness and learnability. Fix every finding before delivery.
+
+Write content files with a file-writing tool, not shell heredocs: shells can collapse backslashes, which corrupts LaTeX (for example `\f` becomes a form feed). Use raw strings for LaTeX inside Python.
+
 ## Assemble, check, and deliver
 
 Use a clickable index for a substantial guide. Group it by requested part and chapter, use short topic titles, and place a compact source tag beside each practice question. Use ruled section headings. Avoid priority or prediction labels, selection rationale, motivation copy, and decorative hints. Keep source/scope notes concise and leave acquisition logs, audit history, private access details, and local paths in working files. Omit reading-time estimates and extra metadata by default; add rough reading estimates only when requested or useful.

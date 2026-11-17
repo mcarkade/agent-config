@@ -6,7 +6,7 @@ This repository deliberately stores only reproducible configuration:
 
 - global `AGENTS.md` and `CLAUDE.md` guidance;
 - skill-library sources and installation order;
-- maintained local skills, including `unslop`, `realtime-3d`, `cad-manufacturing-checks`, `source-faithful-prototype`, `illustrated-build-guides`, `study-notes-pdf`, and `programmatic-video`;
+- maintained local skills, including `unslop`, `realtime-3d`, `cad-manufacturing-checks`, `source-faithful-prototype`, `illustrated-build-guides`, `study-notes-pdf`, `physics-explained-video`, and `programmatic-video`;
 - the release-matched REA reverse-engineering skill and its scoped MCP setup instructions;
 - a Windows PowerShell bootstrap and an Ubuntu/Linux shell bootstrap.
 
