@@ -28,15 +28,16 @@ The toolkit in `scripts/` handles layout, timing, speech, subtitles, rendering a
    - Copy `scripts/*` into a working folder inside the project's working-files area, not the deliverables folder.
    - Install `edge-tts`, `matplotlib`, `pillow` and `numpy`. Check that `ffmpeg` is on the PATH.
    - Export any guide diagrams to `diagrams/NAME.png`.
-3. **Write the chapters yourself, one at a time.**
+3. **Write the chapters, one at a time.**
    - Build the visuals with the ops in `references/authoring.md`.
    - Write the narration under the rules in `references/narration.md`. It is the most important file here: read it before writing any line.
-   - Subagents may draft visuals or check work. Writing the narration through subagents produced robotic, half-sentence text that the user rejected.
+   - Whoever writes the narration must see the screen ops beat by beat and must hold the style model: read the Physics Explained transcripts, then apply the unslop skill. Give the writing to the strongest writer available and the checking to the strongest independent reviewer, whichever models those are at the time.
+   - Keep one voice per video. Narration split across many independent authors with only a brief came out robotic and half-sentenced, and the user rejected it.
    - After each chapter, run `python make.py chNN --check` and require `layout OK`.
 4. **Check before rendering.**
-   - Run `--sheet` and look at the contact sheets yourself.
-   - Then give a fresh subagent `references/review_brief.md` to check physics, screen–speech agreement, text-to-speech traps and tone.
-   - Apply only the fixes you agree with.
+   - Run `--sheet` and look at every contact sheet.
+   - Then have an independent reviewer, not the writer, check the narration with `references/review_brief.md`. It covers physics, agreement between what is said and what is on screen, text-to-speech traps, and tone.
+   - Judge each fix before applying it. Reviewers tend to reintroduce stiff wording such as "capital R" or "the whole expression measured per metre". Keep the correction and rephrase it naturally.
    - Rendering costs minutes per chapter, so fix first.
 5. **Render.**
    - `sh queue.sh ch01 ch02 …` renders sequentially, with logs in `logs/`.

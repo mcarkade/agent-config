@@ -2,7 +2,14 @@
 
 The narration decides whether the video works. The first CM Quiz 2 video had correct maths and clean visuals, but the student stopped after two minutes. They called it "AI slop half sentences, robotic, not human", and said the voice reading maths was "uncanny". This file records what fixed it.
 
-Write the narration yourself, as the lead agent, one chapter at a time, while you can see the screen ops. A subagent may check it afterwards (see `review_brief.md`), but don't hand off the writing: delegated authors produced the stilted version.
+The principles that fixed it:
+1. **Match a real lecturer.** Study Physics Explained transcripts before writing, and imitate how he connects steps and speaks maths.
+2. **Write for the ear.** Every line is read aloud by a TTS voice at double speed and shown as a subtitle.
+3. **Unslop everything.** Apply the unslop skill to the narration and to on-screen text.
+4. **One writer with full context.** Write chapter by chapter, seeing the screen ops of each beat, so that the whole video has one voice.
+5. **Independent review.** A different reviewer checks the physics and the speech with `review_brief.md`.
+
+Assign writer and reviewer by current strength, not by fixed role. The first version failed because six authors each worked from a brief, not because of which model wrote it.
 
 ## How Physics Explained actually talks
 
@@ -46,6 +53,9 @@ Write every symbol as words. The voice (Edge `en-US-AndrewNeural`) reads the tex
 | "twelve, in SI units" or the spoken unit | "12 kg m^2/s" |
 
 - **Capital letters.** Don't say "capital" unless both cases of the same letter appear in that beat and the sentence would be ambiguous. Use the quantity's name instead ("the total mass M", "the centre of mass R"). The listener can also see the subtitles and the board.
+- **Trig functions.** Write "cosine", "sine", "tangent", "secant" in full. The voice can read "cos" as "'cause", and "sin" is ambiguous.
+- **Make brackets audible.** When a minus or a power applies to a whole group, say so: "four T minus the whole quantity T minus U", "the square of one plus e", "the square root of the ratio m over k". The first CM video had a line that sounded like the wrong sign because the bracket was silent.
+- **Partial vs total derivatives.** Say "the partial time derivative" or "the explicit time derivative" when the equation has a partial. Reviewers caught "the time derivative of H is minus that of L", which is false for total derivatives.
 - **Long equations.** Say the structure ("and so H has two kinetic terms and the potential") and let the screen show the rest. Reading thirty symbols aloud is the "uncanny" effect.
 - **Primes.** "u prime", "u double prime". Say what the prime means once per chapter.
 - **Greek letters.** Write the plain names: mu, theta, phi, omega, beta, alpha, lambda, epsilon.
