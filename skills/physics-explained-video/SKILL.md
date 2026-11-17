@@ -10,7 +10,7 @@ A student should be able to learn a topic from zero by watching this video once,
 ## What makes it work
 
 **1. It teaches.**
-- Teach from a verified study guide for the course. Every result, sign convention and answer must agree with it.
+- Teach from a verified study guide for the course. Every result, sign convention and answer must agree with it. If there is no guide yet, make one first with the `study-notes-pdf` skill.
 - Assume the viewer starts from zero. Before planning, list the prerequisite maths and notation each chapter needs, and teach whatever the viewer may not know before using it.
 - Follow the JEE one-shot flow in each chapter:
   - a hook question;
