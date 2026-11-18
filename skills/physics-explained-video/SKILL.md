@@ -34,6 +34,7 @@ A student should be able to learn a topic from zero by watching this video once,
   - full sentences joined by "Okay, so", "Now", "And so", "Well";
   - narrating the board as it changes;
   - asking a question, then answering it.
+- Explain simply. After each step of maths, say in plain everyday words what it means or why it works, as you would to a friend. Viewers value these simple explanations most, so never trade them for speed or for jargon.
 - Write for the ear. A TTS voice reads every word literally, so say maths the way a lecturer would ("one over r squared", "per metre", "cosine").
 - Apply the unslop skill to the narration and the on-screen text.
 - `references/narration.md` has the details and the review checklist.
