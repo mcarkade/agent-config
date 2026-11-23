@@ -20,6 +20,12 @@ A student should be able to learn a topic from zero by watching this video once,
   - exam questions with pause-and-try;
   - a short method summary and recap.
 - Questions are the backbone. Give many, from easy checks to exam level, and solve each in full.
+- Solve each question the way a student should write it in the exam, so they can copy the method straight onto the answer sheet:
+  - every step is its own line on the board;
+  - the conditions the method needs are checked in writing;
+  - the answer is boxed.
+
+  The voice explains why each step works, but never carries a step the board leaves out.
 
 **2. It looks like Physics Explained.**
 - Use a black board with warm white equations that grow term by term as the voice explains them.
@@ -60,7 +66,7 @@ Then give it to an independent reviewer who did not write it. Choose the writer 
 
 ## Workflow
 
-1. Plan chapters from the study guide's syllabus, with a rough length for each.
+1. Plan chapters from the study guide's syllabus, with a rough length for each. Fit the shape to the course: the chapter split, question mix and companion material differ between subjects, so treat this skill as principles, not a template.
 2. Copy `scripts/*` into a working folder in the project. You need `edge-tts`, `matplotlib`, `pillow`, `numpy`, `yt-dlp` and `ffmpeg`. The renderer uses Windows fonts (Cambria and Segoe UI); change the font paths in `studio.py` on another OS. Put any figures from the guide in `diagrams/NAME.png`.
 3. Write each chapter as `chapters/chNN.py`. Start from `example_chapter.py`, which shows most ops.
 4. Run `python make.py chNN --sheet` and look at every contact sheet. Fix clutter, tiny text and beats where nothing new appears. Have the narration reviewed. Fixing before rendering is cheap; rendering costs minutes per chapter.
@@ -69,6 +75,8 @@ Then give it to an independent reviewer who did not write it. Choose the writer 
 7. Run `python make.py --join NAME` to write one file with chapter markers and print the timestamps. Deliver it with a chapter list. A full course over about three hours reads better as parts: split at a natural break, open each later part with a short review of the earlier ones, and join each part with `--join NAME ch01-ch08`.
 8. Listen to a sample of the speech if your tools allow it: a hook, a derivation and a question from a few chapters. If you can't, say that pronunciation was checked only through the text. Report what you checked and what you couldn't.
 9. Once the user approves the video, ask whether to prepare a YouTube upload. If they say yes, follow `references/youtube.md` and hand back a folder they can upload from. The user uploads it, so they can choose the playlist and other settings for each video.
+
+If the video ships with PDFs, such as worked solutions or a formula sheet, make them with the `study-notes-pdf` skill. They show the same steps as the video, in one neat, consistent layout, with only what the student uses: no source notes, process comments or padding.
 
 To change only the narration of a finished chapter, `tools/narr.py extract chNN` lists each beat's text next to what is on screen. Edit it as `narr/chNN.new`, then run `tools/narr.py apply chNN`. The visuals stay untouched.
 

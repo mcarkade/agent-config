@@ -21,6 +21,7 @@ CACHE.mkdir(parents=True, exist_ok=True)
 W, H, FPS = 1920, 1080, 30
 VOICE, RATE = 'en-US-AndrewNeural', '+0%'      # natural 1x pace; viewers speed up on YouTube
 FADE, MOVE, PAD, STAGGER = 0.25, 0.45, 0.30, 0.12
+PAUSE_HOLD = 5.0                        # silent seconds on a QUESTION card, so the viewer can start the problem
 BOARD = (100, 92, 1820, 968)          # content region x0, y0, x1, y1 (subtitle band below)
 FIG_ZONE = (60, 960)                   # x range used by a figure; items then flow in (1000, 1820)
 RIGHT_COL = (1000, 1820)
@@ -520,7 +521,9 @@ class Stage:
 
     def make_item(self, op, width):
         if op.sub == 'math':
-            imgs, bounds, _ = self.fit_math(op, width)
+            imgs, bounds, size = self.fit_math(op, width)
+            if size < 36:
+                self.err(f'math shrunk to {size}px (hard to read on a phone): split the line')
             return imgs[-1], bounds
         return text_item(op.text, op.size, op.color, width - 20, op.italic), None
 
@@ -854,7 +857,7 @@ def compile_chapter(ch, durations):
         dur = (speech + 0.1 + PAD) if text else 0.0
         dur = max(dur, hold, 0.6 + STAGGER * len(ops) if ops else 0)
         if is_q:
-            dur += 1.4            # beat of silence for the pause-and-try prompt
+            dur += PAUSE_HOLD
         t = start + dur
         st.check_layout()
         st.beat_ends.append(t)

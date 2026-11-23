@@ -30,7 +30,7 @@ A **beat** is `say(narration, *ops)`. The ops start when the beat starts, and th
 | `FIGADD(fig_id, id, draw)` | Add a layer on the same axes: a new curve, an energy line, points. |
 | `ANIM(fig_id, id, draw(ax, u), dur=3)` | Animated layer, e.g. tracing an orbit (u goes from 0 to 1). |
 | `DIAGRAM(id, name)` | A ready-made picture from the guide, placed like a figure. It loads `diagrams/NAME.png`. |
-| `QUESTION(*stem, title='short')` | Clears the board, shows "QUESTION n · title", the stem, and "Pause and try", followed by a silent hold. The stem stays pinned at the top. |
+| `QUESTION(*stem, title='short')` | Clears the board, shows "QUESTION n · title", the stem, and "Pause and try", followed by a silent hold of `PAUSE_HOLD` seconds (5 s). End that beat's narration on the question itself, not on a hint. The stem stays pinned at the top. |
 | `SOLVE()` | Next beat: removes "Pause and try"; the solution flows under the stem. When the board fills, everything except the stem auto-clears. |
 | `HOOK(text, sub=None)` | Big centred hook question. Use at the start of the chapter and of big sections. |
 | `wait(sec, *ops)` | A silent beat. Rare. |

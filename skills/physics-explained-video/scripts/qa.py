@@ -13,7 +13,10 @@ def audio(f, sr=8000):
     return np.frombuffer(raw, dtype=np.int16).astype(np.float32), sr
 
 
-def silences(a, sr, min_len=4.0):
+SIL_MIN = studio.PAUSE_HOLD + studio.PAD + 1.0   # longer than a question card's deliberate pause
+
+
+def silences(a, sr, min_len=SIL_MIN):
     win = sr // 10
     n = len(a) // win
     rms = np.sqrt((a[:n * win].reshape(n, win) ** 2).mean(1))
@@ -54,5 +57,5 @@ for f in sorted(OUT.glob('ch[0-9][0-9].mp4')):
     sil = silences(a, sr)
     still = still_stretches(f)
     print(f'{f.stem}: {d / 60:5.1f} min  rms {rms:6.0f}  peak {peak:6.0f}  '
-          f'silences>=4s: {[(round(s), l) for s, l in sil][:6]}  still>=8s: {[(round(s), round(l, 1)) for s, l in still][:6]}')
+          f'silences>={SIL_MIN:.0f}s: {[(round(s), l) for s, l in sil][:6]}  still>=8s: {[(round(s), round(l, 1)) for s, l in still][:6]}')
 print(f'TOTAL {total / 60:.1f} min')
