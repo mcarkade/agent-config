@@ -36,6 +36,8 @@ On the HP Victus `Abhi-Laptop-2025` running Windows 11, prefer the second SSD fo
 
 Check that the folder is writable and has enough free space, then use a task-specific subfolder. If the SSD is unavailable, use the project's normal scratch location. Keep source, persistent project files, and final deliverables in their designated locations.
 
+After the task, remove your own scratch files once they are no longer needed for verification or handoff.
+
 ## Project spending
 
 For serious projects, proactively ask whether to record or update project spending when useful. Create or update financial records only with the owner's approval, and use the approved tracker.
