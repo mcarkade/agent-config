@@ -30,6 +30,12 @@ Work in the designated project folder. Preserve originals, user changes, and unc
 
 Publish, deploy, delete, or change shared data only with authorization. Inspect before overwriting or deleting. Keep credentials private. Never add AI attribution to commits, pull requests, or generated documents.
 
+## Temporary storage on Abhi-Laptop-2025
+
+On the HP Victus `Abhi-Laptop-2025` running Windows 11, prefer the second SSD for task-owned scratch files, temporary downloads, and intermediate outputs. Use `\\wsl.localhost\Ubuntu-24.04\mnt\wsl\agent-ssd\AgentStorage` from Windows or `/mnt/wsl/agent-ssd/AgentStorage` from WSL on this Windows host.
+
+Check that the folder is writable and has enough free space, then use a task-specific subfolder. If the SSD is unavailable, use the project's normal scratch location. Keep source, persistent project files, and final deliverables in their designated locations.
+
 ## Project spending
 
 For serious projects, proactively ask whether to record or update project spending when useful. Create or update financial records only with the owner's approval, and use the approved tracker.
