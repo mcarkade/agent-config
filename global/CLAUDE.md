@@ -28,7 +28,7 @@ Use a skill when it materially helps; don't repeat guidance already in context. 
 
 Work in the designated project folder. Preserve originals, user changes, and uncommitted work. Keep working files organized inside the project folder, and put deliverables and exports in its `Deliverables/` subfolder, not in the home directory. If no project folder is designated, find the project's existing folder or choose a suitable one, and say where. Clean up only task-owned temporary files after checking ownership and references.
 
-Publish, deploy, or change shared data only with authorization. Inspect before overwriting or deleting. Keep credentials private. Never add AI attribution to commits, pull requests, or generated documents.
+Inspect before overwriting or deleting. Keep credentials private. Never add AI attribution to commits, pull requests, or generated documents.
 
 ## Temporary storage on Abhi-Laptop-2025
 
