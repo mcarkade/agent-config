@@ -41,7 +41,10 @@ def still_stretches(f, min_len=8.0):
 
 
 total = 0
+want = set(sys.argv[1:])                          # optional: python qa.py ch01 ch02 ...
 for f in sorted(OUT.glob('ch[0-9][0-9].mp4')):
+    if want and f.stem not in want:
+        continue
     d = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', str(f)],
                              capture_output=True, text=True).stdout)
     total += d

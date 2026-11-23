@@ -21,7 +21,8 @@ def says(src):
 
 
 def offset(lines, ln, col):
-    return sum(len(l) for l in lines[:ln - 1]) + col
+    # ast column offsets count UTF-8 bytes; convert to characters
+    return sum(len(l) for l in lines[:ln - 1]) + len(lines[ln - 1].encode('utf8')[:col].decode('utf8'))
 
 
 def extract(ch):
