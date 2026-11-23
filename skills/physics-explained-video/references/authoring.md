@@ -44,10 +44,15 @@ Diagrams are project-specific PNGs in `diagrams/NAME.png` (transparent or black 
 - **Not available:** `\text` (use `\mathrm{}`), `\begin{...}` and matrices, `\boxed`, `\Big`, `\big`, `\overline X` without braces, `\sqrt2` without braces. For matrices, show one row per `M` line or describe them in words.
 - **Spacing:** write `a = b`, `x + y`, `x - y` with spaces around binary operators. A leading minus `-\frac{k}{r}` is handled automatically.
 - **Subscript words:** `V_{\mathrm{eff}}`, `r_{\min}`, `r_{\max}`.
-- **Unicode:** in `T`/`N` text, plain Unicode like → · ≤ is fine. Never use ✓.
+- **Unicode:** in `T`/`N` text, plain Unicode like → · ≤ is fine. Never use ✓ or ⟺, which the text font lacks.
+- **Traps:** `\dots` renders as a dot accent, so use `\cdots` or `\ldots`. `\le` and `\ge` fail; use `\leq` and `\geq`. Write piecewise functions on one line, `0\ (x < a),\ 1\ (x\geq a)`, since `cases` is unavailable. Use raw strings for every op holding a backslash.
+- **Figures in loops:** bind loop variables as lambda defaults, `(lambda n, col: lambda ax: ...)(n, col)`, or every layer draws with the last value.
 
 ## Screen discipline
 - Keep about 5 lines on the board at most before you CLEAR, or carry a line up. `T` and `N` lines are short phrases of up to about 12 words.
 - A figure question puts its stem in the narrow right column, so keep that stem very short.
+- When a board overflows, everything unpinned fades at once, so a solve step and its result can vanish together. Split a long solve across beats, or CLEAR and restate the line you need. Never CLEAR inside a SOLVE: it removes the pinned question.
+- Set multiple-choice options with fractions as `M` lines at size 40–44, two options per line. In a `T` line, inline fractions are too small for a phone.
+- A `T` or `N` line containing maths doesn't wrap. Keep each one short, or split it into two.
 - Every chapter starts with a hook and ends with a recap of its boxed results plus a couple of rapid-fire questions. The last line of every solution is a KEY answer.
 - After writing, run `--sheet` and look at every sheet.

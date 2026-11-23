@@ -3,8 +3,9 @@
   python make.py ch03 --check     layout + maths check with estimated timing (fast, no audio)
   python make.py ch03 --sheet     --check plus contact sheets of every beat in review/ch03/
   python make.py ch03 --render    voice + subtitles + video -> out/ch03.mp4
-  python make.py --join NAME      join out/ch*.mp4 into out/NAME.mp4 with chapter markers,
-                                  and write out/youtube_timestamps.txt (chapters + every question)
+  python make.py --join NAME [ch01-ch08 ...]
+                                  join out/ch*.mp4 (or the listed chapters) into out/NAME.mp4 with chapter
+                                  markers, and write out/NAME_timestamps.txt (chapters + every question)
 """
 import json, re, runpy, subprocess, sys, time
 from pathlib import Path
@@ -40,7 +41,7 @@ def main():
     args = sys.argv[1:]
     if '--join' in args:
         rest = [a for a in args if a != '--join']
-        join(rest[0] if rest else 'video'); return
+        join(rest[0] if rest else 'video', rest[1:]); return
     name = args[0]
     ch = load(name)
     if '--render' in args:
@@ -52,21 +53,21 @@ def main():
         durs = [infos[i][1] if i in infos else 0 for i in range(len(ch.beats))]
         st = studio.compile_chapter(ch, durs)
         report(name, ch, st, False)
-        out = ROOT / 'out'
+        out = studio.WORK / 'out'
         out.mkdir(exist_ok=True)
         t0 = time.time()
         studio.render(st, infos, out / f'{name}.mp4')
         (out / f'{name}.questions.json').write_text(json.dumps(st.questions, ensure_ascii=False, indent=1), encoding='utf8')
         print(f'rendered out/{name}.mp4 in {time.time() - t0:.0f}s')
         if '--sheet' in args:
-            n = studio.contact_sheets(st, ROOT / 'review' / name)
+            n = studio.contact_sheets(st, studio.WORK / 'review' / name)
             print(f'{n} beat stills in review/{name}/')
         return
     durs = [studio.estimate(b[0]) for b in ch.beats]
     st = studio.compile_chapter(ch, durs)
     report(name, ch, st, True)
     if '--sheet' in args:
-        n = studio.contact_sheets(st, ROOT / 'review' / name)
+        n = studio.contact_sheets(st, studio.WORK / 'review' / name)
         print(f'{n} beat stills in review/{name}/')
 
 
@@ -77,9 +78,22 @@ def yt(t):
     return f'{h}:{m:02d}:{s:02d}' if h else f'{m:02d}:{s:02d}'
 
 
-def join(name='video'):
-    out = ROOT / 'out'
-    files = sorted(out.glob('ch[0-9][0-9].mp4'))
+def chapter_names(specs):
+    """'ch01-ch08' or 'ch03' -> ['ch01', ..., 'ch08']."""
+    names = []
+    for s in specs:
+        a, _, b = s.partition('-')
+        lo, hi = int(a[2:]), int((b or a)[2:])
+        names += [f'ch{i:02d}' for i in range(lo, hi + 1)]
+    return names
+
+
+def join(name='video', specs=()):
+    out = studio.WORK / 'out'
+    files = [out / f'{c}.mp4' for c in chapter_names(specs)] if specs else sorted(out.glob('ch[0-9][0-9].mp4'))
+    missing = [f.name for f in files if not f.exists()]
+    if missing:
+        raise SystemExit(f'missing renders: {missing}')
     lst = out / 'list.txt'
     lst.write_text(''.join(f"file '{f.name}'\n" for f in files))
     meta = [';FFMETADATA1']
@@ -104,8 +118,8 @@ def join(name='video'):
                     '-i', str(out / 'chapters.txt'), '-map_metadata', '1', '-map_chapters', '1', '-c', 'copy',
                     str(out / f'{name}.mp4')], check=True)
     lines = ['# Chapters', *chaps, '', '# Questions (raw stems: rewrite each as one short plain line)', *qs]
-    (out / 'youtube_timestamps.txt').write_text('\n'.join(lines) + '\n', encoding='utf8')
-    print('joined', out / f'{name}.mp4', f'{t / 60:.1f} min;', len(qs), 'questions in out/youtube_timestamps.txt')
+    (out / f'{name}_timestamps.txt').write_text('\n'.join(lines) + '\n', encoding='utf8')
+    print('joined', out / f'{name}.mp4', f'{t / 60:.1f} min;', len(qs), f'questions in out/{name}_timestamps.txt')
 
 
 if __name__ == '__main__':

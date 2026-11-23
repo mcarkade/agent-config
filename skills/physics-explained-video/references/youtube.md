@@ -2,7 +2,7 @@
 
 Prepare everything the user needs to upload the video, and leave the upload to them. Put the files next to the video in the deliverables folder and show each text block in your reply, ready to paste.
 
-`python make.py --join NAME` writes `out/youtube_timestamps.txt`. It has the chapter list in YouTube format and the time every QUESTION card appears, measured from the real speech timing. Build the kit from that file. Do not estimate the times.
+`python make.py --join NAME` writes `out/NAME_timestamps.txt`. For a video in parts, build one kit per part. It has the chapter list in YouTube format and the time every QUESTION card appears, measured from the real speech timing. Build the kit from that file. Do not estimate the times.
 
 ## What to hand back
 

@@ -64,9 +64,9 @@ Then give it to an independent reviewer who did not write it. Choose the writer 
 2. Copy `scripts/*` into a working folder in the project. You need `edge-tts`, `matplotlib`, `pillow`, `numpy`, `yt-dlp` and `ffmpeg`. The renderer uses Windows fonts (Cambria and Segoe UI); change the font paths in `studio.py` on another OS. Put any figures from the guide in `diagrams/NAME.png`.
 3. Write each chapter as `chapters/chNN.py`. Start from `example_chapter.py`, which shows most ops.
 4. Run `python make.py chNN --sheet` and look at every contact sheet. Fix clutter, tiny text and beats where nothing new appears. Have the narration reviewed. Fixing before rendering is cheap; rendering costs minutes per chapter.
-5. Render with `sh queue.sh ch01 ch02 …` from a POSIX shell such as Git Bash, or run `python make.py chNN --render` for each chapter. A render reads the chapter file when it starts, so re-render any chapter edited after that.
+5. Render with `sh queue.sh ch01 ch02 …` from a POSIX shell such as Git Bash, or run `python make.py chNN --render` for each chapter. A render reads the chapter file when it starts, so re-render any chapter edited after that. Several queues can run in parallel; check `logs/` for chapters marked FAILED and re-queue them, since the TTS service drops requests under load.
 6. Run `python qa.py`. It reports silences, frozen stretches and audio levels. Look at a few frames.
-7. Run `python make.py --join NAME` to write one file with chapter markers and print the timestamps. Deliver it with a chapter list.
+7. Run `python make.py --join NAME` to write one file with chapter markers and print the timestamps. Deliver it with a chapter list. A full course over about three hours reads better as parts: split at a natural break, open each later part with a short review of the earlier ones, and join each part with `--join NAME ch01-ch08`.
 8. Listen to a sample of the speech if your tools allow it: a hook, a derivation and a question from a few chapters. If you can't, say that pronunciation was checked only through the text. Report what you checked and what you couldn't.
 9. Once the user approves the video, ask whether to prepare a YouTube upload. If they say yes, follow `references/youtube.md` and hand back a folder they can upload from. The user uploads it, so they can choose the playlist and other settings for each video.
 
@@ -74,6 +74,7 @@ To change only the narration of a finished chapter, `tools/narr.py extract chNN`
 
 ## Defaults
 
-- Voice: `en-US-AndrewNeural` at `+100%`, with burned-in subtitles. Both are set in `studio.py`.
+- Voice: `en-US-AndrewNeural` at natural pace (`+0%`), with burned-in subtitles. Both are set in `studio.py`. Viewers speed up on YouTube themselves; use a faster rate only when the user asks.
+- Intermediates: the TTS cache, renders and contact sheets go to `PE_WORK` (default: the working folder). Point it at scratch storage when disk is tight, and delete it after delivery.
 - Watermark: bottom right, from the `PE_WATERMARK` environment variable. The default is `mcarkade · Abhinav Pullela`.
 - Player: recommend one that shows chapter markers, such as VLC.

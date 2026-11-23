@@ -13,11 +13,13 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parent
-CACHE = ROOT / 'cache'
-CACHE.mkdir(exist_ok=True)
+# Bulky intermediates (TTS cache, renders, review stills) go to PE_WORK; point it at scratch storage.
+WORK = Path(os.environ.get('PE_WORK', ROOT))
+CACHE = WORK / 'cache'
+CACHE.mkdir(parents=True, exist_ok=True)
 
 W, H, FPS = 1920, 1080, 30
-VOICE, RATE = 'en-US-AndrewNeural', '+100%'
+VOICE, RATE = 'en-US-AndrewNeural', '+0%'      # natural 1x pace; viewers speed up on YouTube
 FADE, MOVE, PAD, STAGGER = 0.25, 0.45, 0.30, 0.12
 BOARD = (100, 92, 1820, 968)          # content region x0, y0, x1, y1 (subtitle band below)
 FIG_ZONE = (60, 960)                   # x range used by a figure; items then flow in (1000, 1820)
@@ -875,7 +877,7 @@ async def _tts_one(text, sem):
     if mp3.exists() and js.exists():
         return
     async with sem:
-        for attempt in range(5):
+        for attempt in range(10):
             try:
                 words = []
                 c = edge_tts.Communicate(text, VOICE, rate=RATE, boundary='WordBoundary')
@@ -891,7 +893,7 @@ async def _tts_one(text, sem):
                 js.write_text(json.dumps(words))
                 return
             except Exception:
-                await asyncio.sleep(1.5 * (attempt + 1))
+                await asyncio.sleep(min(60, 3 * 2 ** attempt))
         raise RuntimeError(f'TTS failed for: {text[:60]}')
 
 
@@ -913,7 +915,7 @@ def tts_info(text):
 
 
 def estimate(text):
-    return len(text.split()) / 4.6 if text else 0.0
+    return len(text.split()) / 2.6 if text else 0.0
 
 
 # =========================================================== subtitles

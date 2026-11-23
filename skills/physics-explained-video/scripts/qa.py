@@ -3,7 +3,8 @@ import subprocess, sys
 from pathlib import Path
 import numpy as np
 
-OUT = Path(__file__).resolve().parent / 'out'
+import studio
+OUT = studio.WORK / 'out'
 
 
 def audio(f, sr=8000):
