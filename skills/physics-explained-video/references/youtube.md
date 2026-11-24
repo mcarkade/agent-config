@@ -32,7 +32,7 @@ The description has three limits:
 
 It must stay readable at phone size. Render it, look at it, and size any box from the measured text so nothing overflows. Render maths with matplotlib's `cm` fontset: STIX leaves a gap after primes.
 
-**Links.** Check that every Drive or web link resolves before handing it over: a share ID read off a screenshot often confuses I, l, O and 0. To check the live video, fetch its page data; never open it in a browser or preview tab, which plays the audio.
+**Links.** Check that every Drive or web link resolves before handing it over: a share ID read off a screenshot often confuses I, l, O and 0. To check the live video, read its metadata with yt-dlp: chapters, description, tags and comments.
 
 ## Tell the user
 
