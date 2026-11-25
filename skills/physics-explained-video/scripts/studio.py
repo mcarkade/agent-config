@@ -4,7 +4,12 @@ Authors write chapters/chNN.py with `say(narration, *ops)` beats. Layout is auto
 down the board; a figure takes the left half and items flow in the right column; when the board is full,
 everything not pinned fades out and the flow restarts at the top. See the skill's references/authoring.md.
 """
-import asyncio, hashlib, io, json, math, os, re, subprocess, textwrap
+import asyncio, hashlib, io, json, math, os, re, subprocess, tempfile, textwrap
+from bisect import insort
+from concurrent.futures import ThreadPoolExecutor
+from fractions import Fraction
+from functools import lru_cache
+from itertools import islice
 from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -70,6 +75,8 @@ def _prep_tex(tex):
     tex = re.sub(r'\s*(?<![<>!\\])=\s*', r'\\;=\\;', tex)            # airy equals, as in his videos
     tex = re.sub(r'(^|\\;=\\;|\(|\{)\s*-', r'\1{-}', tex)             # unary minus stays tight
     tex = re.sub(r'\{-\}\s*\\dfrac', r'{-}\\,\\dfrac', tex)           # but keep it off a fraction bar
+    # a thin space before a named function after a symbol, so "a cosh" never reads as "acosh"
+    tex = re.sub(r'(?<=[A-Za-z0-9}])\\(sinh|cosh|tanh|coth|sin|cos|tan|cot|sec|csc|ln|exp)(?![a-zA-Z])', r'\\,\\\1', tex)
     return tex
 
 
@@ -141,17 +148,13 @@ def text_item(s, size, color, width, italic=False):
     return _crop_ink(_render_mpl_text('\n'.join(lines), size, color, ha='center', italic=italic))
 
 
+@lru_cache(maxsize=256)
 def sub_img(s):
-    key = hashlib.md5(f's2|{s}'.encode()).hexdigest()
-    p = CACHE / f'sub_{key}.png'
-    if not p.exists():
-        font = ImageFont.truetype(r'C:\Windows\Fonts\segoeui.ttf', 34)
-        w = int(font.getlength(s)) + 40
-        im = Image.new('RGBA', (w, 56), (0, 0, 0, 0))
-        d = ImageDraw.Draw(im)
-        d.text((20, 6), s, font=font, fill=(205, 205, 205, 255))
-        im.save(p)
-    return Image.open(p).convert('RGBA')
+    font = ImageFont.truetype(r'C:\Windows\Fonts\segoeui.ttf', 34)
+    w = int(font.getlength(s)) + 40
+    im = Image.new('RGBA', (w, 56), (0, 0, 0, 0))
+    ImageDraw.Draw(im).text((20, 6), s, font=font, fill=(205, 205, 205, 255))
+    return im
 
 
 def fig_layer(draw, size, axes, base):
@@ -774,6 +777,9 @@ class Stage:
                     self.fade_out(e, t)
                     if e in self.flow:
                         self.flow.remove(e)
+                    if e is self.fig:          # figure gone: later items use the full board width again
+                        self.fig = None
+                        self.restack(t)
         elif k == 'clear':
             self.clear(t, op.keep)
         elif k == 'pin':
@@ -873,15 +879,50 @@ def _tts_key(text):
     return hashlib.md5(f'{VOICE}|{RATE}|{text}'.encode()).hexdigest()
 
 
+def _tts_paths(text):
+    key = _tts_key(text)
+    return CACHE / f'a_{key}.mp3', CACHE / f'a_{key}.json'
+
+
+def _tts_words(js):
+    words = json.loads(js.read_text(encoding='utf-8'))
+    if not isinstance(words, list) or not words or any(
+        not isinstance(word, list) or len(word) != 3 or not isinstance(word[2], str)
+        or any(not isinstance(t, (float, int)) or t < 0 or not math.isfinite(t) for t in word[:2])
+        for word in words
+    ):
+        raise ValueError(f'{js.name}: invalid word timings')
+    return words
+
+
+def _tts_cached(mp3, js):
+    try:
+        return mp3.stat().st_size >= 144 and bool(_tts_words(js))
+    except (OSError, ValueError):
+        return False
+
+
+def _replace_bytes(path, data):
+    # Another chapter can request the same line. Never expose a half-written cache file.
+    with tempfile.NamedTemporaryFile(dir=path.parent, prefix=path.name, suffix='.tmp', delete=False) as f:
+        tmp = Path(f.name)
+    try:
+        tmp.write_bytes(data)
+        tmp.replace(path)
+    finally:
+        tmp.unlink(missing_ok=True)
+
+
 async def _tts_one(text, sem):
     import edge_tts
-    key = _tts_key(text)
-    mp3, js = CACHE / f'a_{key}.mp3', CACHE / f'a_{key}.json'
-    if mp3.exists() and js.exists():
+    mp3, js = _tts_paths(text)
+    if _tts_cached(mp3, js):
         return
-    async with sem:
-        for attempt in range(10):
-            try:
+    for attempt in range(10):
+        try:
+            async with sem:
+                if _tts_cached(mp3, js):
+                    return
                 words = []
                 c = edge_tts.Communicate(text, VOICE, rate=RATE, boundary='WordBoundary')
                 buf = bytearray()
@@ -890,31 +931,57 @@ async def _tts_one(text, sem):
                         buf.extend(ch['data'])
                     elif ch['type'] == 'WordBoundary':
                         words.append((ch['offset'] / 1e7, ch['duration'] / 1e7, ch['text']))
-                if not buf:
-                    raise RuntimeError('no audio')
-                mp3.write_bytes(bytes(buf))
-                js.write_text(json.dumps(words))
+                if not buf or not words:
+                    raise RuntimeError('speech service returned no audio or word timings')
+                _replace_bytes(mp3, buf)
+                _replace_bytes(js, json.dumps(words).encode('utf-8'))
                 return
-            except Exception:
-                await asyncio.sleep(min(60, 3 * 2 ** attempt))
-        raise RuntimeError(f'TTS failed for: {text[:60]}')
+        except Exception as exc:
+            if attempt == 9:
+                raise RuntimeError(f'TTS failed for: {text[:60]}') from exc
+            await asyncio.sleep(min(60, 3 * 2 ** attempt))
 
 
-def tts_batch(texts, conc=6):
+def tts_batch(texts, conc=None):
     texts = [t for t in dict.fromkeys(texts) if t]
+    if conc is None:
+        conc = int(os.environ.get('PE_TTS_CONCURRENCY', 6))
+    if conc < 1:
+        raise ValueError('TTS concurrency must be positive')
 
     async def run():
         sem = asyncio.Semaphore(conc)
-        await asyncio.gather(*[_tts_one(t, sem) for t in texts])
+        for i, completed in enumerate(asyncio.as_completed(_tts_one(t, sem) for t in texts), 1):
+            await completed
+            if len(texts) >= 50 and i % 50 == 0:
+                print(f'speech ready: {i}/{len(texts)} lines', flush=True)
     asyncio.run(run())
 
 
 def tts_info(text):
-    key = _tts_key(text)
-    mp3, js = CACHE / f'a_{key}.mp3', CACHE / f'a_{key}.json'
-    dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0',
-                                str(mp3)], capture_output=True, text=True).stdout.strip())
-    return mp3, dur, json.loads(js.read_text())
+    mp3, js = _tts_paths(text)
+    try:
+        dur = _tts_duration(mp3)
+        words = _tts_words(js)
+        if not math.isfinite(dur) or dur <= 0:
+            raise ValueError('invalid audio duration')
+    except (OSError, ValueError, subprocess.CalledProcessError) as exc:
+        raise RuntimeError(f'Invalid TTS cache entry {mp3.name} for {text[:60]!r}') from exc
+    return mp3, dur, words
+
+
+def _tts_duration(mp3):
+    # Edge emits 24 kHz mono MPEG-2 Layer III at 48 kbit/s. Its untagged frames
+    # are 144 bytes, each spanning 576 samples. Only use the count when every
+    # frame has the expected header. Probe other formats normally.
+    data = mp3.read_bytes()
+    frames, tail = divmod(len(data), 144)
+    header = bytes.fromhex('ff f3 64 c4')
+    if frames and not tail and all(data[i::144] == bytes([b]) * frames for i, b in enumerate(header)):
+        return frames * 576 / 24000
+    result = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0',
+                             str(mp3)], capture_output=True, text=True, check=True)
+    return float(result.stdout.strip())
 
 
 def estimate(text):
@@ -953,9 +1020,9 @@ def make_subs(st, infos):
 
 
 # =========================================================== rendering
-def _frame_state(st, t):
+def _frame_state(st, t, elements=None):
     out = []
-    for e in st.els:
+    for e in st.els if elements is None else elements:
         a = e.val('alpha', t)
         if a <= 0.004:
             continue
@@ -966,6 +1033,23 @@ def _frame_state(st, t):
             img = frames[i]
         out.append((e, img, round(a, 3), round(e.val('x', t), 1), round(e.val('y', t), 1)))
     return out
+
+
+def _frame_states(st, nframes):
+    # Element opacity is one fade in followed by at most a fade out. Check only
+    # elements whose visible lifetime intersects this frame and retain draw order.
+    starts = sorted((e.anims[0][0], i) for i, e in enumerate(st.els))
+    ends = [max(end for _, end, attr, _, _ in e.anims if attr == 'alpha')
+            for e in st.els]
+    active = []
+    j = 0
+    for i in range(nframes):
+        t = i / FPS
+        while j < len(starts) and starts[j][0] <= t:
+            insort(active, starts[j][1])
+            j += 1
+        active = [k for k in active if t <= ends[k]]
+        yield t, _frame_state(st, t, (st.els[k] for k in active))
 
 
 WATERMARK = os.environ.get('PE_WATERMARK', 'mcarkade · Abhinav Pullela')
@@ -997,46 +1081,107 @@ def _compose(state, sub_text=None):
     return canvas
 
 
-def render(st, infos, out_path):
-    subs = make_subs(st, infos)
-    nframes = int(st.total * FPS)
-    tmp_v = str(out_path) + '.v.mp4'
-    ff = subprocess.Popen(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}',
-                           '-r', str(FPS), '-i', '-', '-c:v', 'libx264', '-preset', 'veryfast', '-tune', 'stillimage',
-                           '-crf', '21', '-pix_fmt', 'yuv420p', '-threads', '3', tmp_v], stdin=subprocess.PIPE)
+def render(st, infos, out_path, sparse=False):
+    out_path = Path(out_path)
+    with tempfile.TemporaryDirectory(dir=out_path.parent, prefix=f'{out_path.stem}-') as scratch:
+        scratch = Path(scratch)
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            audio = pool.submit(render_audio, st, infos, scratch / 'audio.wav')
+            render_frames(st, infos, scratch / 'video.mp4', sparse=sparse)
+            audio.result()
+        final = scratch / 'chapter.mp4'
+        subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', str(scratch / 'video.mp4'),
+                        '-i', str(scratch / 'audio.wav'), '-map', '0:v', '-map', '1:a', '-shortest',
+                        '-c:v', 'copy', '-c:a', 'aac', '-b:a', '128k', str(final)], check=True)
+        final.replace(out_path)
+
+
+def _frame_changes(st, subs, nframes, start_frame=0):
     si = 0
-    last_sig, last = None, None
-    for i in range(nframes):
-        t = i / FPS
+    last_sig = None
+    states = islice(_frame_states(st, start_frame + nframes), start_frame, None)
+    for i, (t, state) in enumerate(states):
         while si < len(subs) and subs[si][1] < t:
             si += 1
         sub = subs[si][2] if si < len(subs) and subs[si][0] <= t <= subs[si][1] else None
-        state = _frame_state(st, t)
         sig = (tuple((id(e), id(img), a, x, y) for e, img, a, x, y in state), sub)
-        if sig != last_sig:
-            last = _compose(state, sub).tobytes()
+        if sig != last_sig or i == nframes - 1:
+            yield i, state, sub
             last_sig = sig
-        ff.stdin.write(last)
-    ff.stdin.close(); ff.wait()
+
+
+def _sparse_filter(changes, directory):
+    last_gap = 0
+    commands = []
+    for transmitted_index, (frame_index, _, _) in enumerate(changes):
+        gap = frame_index - transmitted_index
+        if gap != last_gap:
+            # Select the command between adjacent input frame timestamps.
+            at = (transmitted_index - 0.5) / FPS
+            commands.append(f'{at:.8f} setpts expr PTS+{gap};')
+            last_gap = gap
+    if not commands:
+        return []
+    (directory / 'frame-timeline.txt').write_text('\n'.join(commands) + '\n', encoding='ascii')
+    # Restore exact CFR frames after colour conversion and before encoding.
+    return ['-vf', f'sendcmd=f=frame-timeline.txt,setpts=PTS,format=yuv420p,fps={FPS}']
+
+
+def render_frames(st, infos, out_path, sparse=False, *, start_frame=0, stop_frame=None):
+    full_frames = int(st.total * FPS)
+    stop_frame = full_frames if stop_frame is None else stop_frame
+    if not 0 <= start_frame < stop_frame <= full_frames:
+        raise ValueError(f'Invalid frame range {start_frame}:{stop_frame} of {full_frames}')
+    nframes = stop_frame - start_frame
+    changes = _frame_changes(st, make_subs(st, infos), nframes, start_frame)
+    filters = []
+    if sparse:
+        changes = list(changes)
+        filters = _sparse_filter(changes, out_path.parent)
+        print(f'video pipe: {len(changes)} changing frames of {nframes} at {FPS} fps', flush=True)
+    cmd = ['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}',
+           '-r', str(FPS), '-i', '-', *filters, '-c:v', 'libx264', '-preset', 'veryfast', '-tune', 'stillimage',
+           '-crf', '21', '-pix_fmt', 'yuv420p', '-threads', '3', out_path.name]
+    previous, last = 0, None
+    with subprocess.Popen(cmd, cwd=out_path.parent, stdin=subprocess.PIPE) as ff:
+        for i, state, sub in changes:
+            if not sparse and last is not None:
+                for _ in range(i - previous - 1):
+                    ff.stdin.write(last)
+            last = _compose(state, sub).tobytes()
+            ff.stdin.write(last)
+            previous = i
+        ff.stdin.close()
+        if ff.wait():
+            raise subprocess.CalledProcessError(ff.returncode, cmd)
+    if sparse:
+        media = json.loads(subprocess.check_output([
+            'ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries',
+            'stream=nb_frames,duration_ts,time_base', '-of', 'json', str(out_path)
+        ], text=True))['streams'][0]
+        actual_duration = int(media['duration_ts']) * Fraction(media['time_base'])
+        if int(media['nb_frames']) != nframes or actual_duration != Fraction(nframes, FPS):
+            raise RuntimeError(f'CFR render did not preserve all {nframes} frames at {FPS} fps: {media}')
+
+
+def render_audio(st, infos, out_path):
     # audio: place every clip on one PCM timeline
     sr = 24000
     pcm = np.zeros(int((st.total + 1) * sr), dtype=np.float32)
     for (t, b) in st.audio:
         mp3 = infos[b][0]
         raw = subprocess.run(['ffmpeg', '-loglevel', 'error', '-i', str(mp3), '-f', 's16le', '-ac', '1', '-ar', str(sr), '-'],
-                             capture_output=True).stdout
+                             capture_output=True, check=True).stdout
+        if not raw:
+            raise RuntimeError(f'No audio samples for beat {b}: {mp3.name}')
         a = np.frombuffer(raw, dtype=np.int16).astype(np.float32)
         i0 = int(t * sr)
         n = min(len(a), len(pcm) - i0)
         pcm[i0:i0 + n] += a[:n]
     pcm = np.clip(pcm, -32768, 32767).astype(np.int16)
-    wav = str(out_path) + '.wav'
     import wave
-    with wave.open(wav, 'wb') as wf:
+    with wave.open(str(out_path), 'wb') as wf:
         wf.setnchannels(1); wf.setsampwidth(2); wf.setframerate(sr); wf.writeframes(pcm.tobytes())
-    subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', tmp_v, '-i', wav, '-map', '0:v', '-map', '1:a', '-shortest',
-                    '-c:v', 'copy', '-c:a', 'aac', '-b:a', '128k', str(out_path)], check=True)
-    Path(tmp_v).unlink(); Path(wav).unlink()
 
 
 def contact_sheets(st, out_dir, per=12):

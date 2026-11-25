@@ -6,13 +6,13 @@ Prepare everything the user needs to upload the video, and leave the upload to t
 
 ## What to hand back
 
-**Title.** Name the topics first, then the course code and the assessment: `Central Forces and Hamiltonian Mechanics | PHY F211 Classical Mechanics - Quiz 2`. Keep it under 100 characters.
+**Title.** Keep it short: what the video covers, then the course code and the assessment. A part-course video names its topics (`Central Forces and Hamiltonian Mechanics | PHY F211 Quiz 2`); a full-course video names the course (`Classical Mechanics One-Shot | PHY F211 Compre`). Keep it under 100 characters.
 
-**Description** (`YouTube_Description.txt`). Keep it short, with no intro paragraph. Use plain lines:
-- course name and code;
+**Description** (`YouTube_Description.txt`). Keep it short, with no intro paragraph. Use plain lines, in this order:
 - a link line for each companion PDF;
-- `# Chapters`, followed by the chapter list;
-- every source used: the textbook and sections, and any lecture series or playlist the teaching drew on.
+- `Chapters`, followed by the chapter list;
+- the course name and code;
+- `References`: every source used, the textbook and sections, and any lecture series or playlist the teaching drew on.
 
 **Tags.** Put the topics here, not in the description: course code, course name, assessment and the main topics. YouTube allows 500 characters in all. Give the tags without trailing punctuation.
 
@@ -21,7 +21,7 @@ The description has three limits:
 - **No `<` or `>`.** YouTube rejects the description. Write "negative k", not "k < 0".
 - **At most 5,000 characters.**
 
-**Pinned comment** (`YouTube_Pinned_Comment.txt`). This is the full question list, one line per question with its timestamp. Comment timestamps are clickable and do not affect chapters. Rewrite each raw TeX stem as one short line with Unicode maths: `½mẋ²`, `r₀`, `θ̇`, `≫`, `√`. Collapse a block of rapid-fire questions into one line.
+**Pinned comment** (`YouTube_Pinned_Comment.txt`). For a revision video, open with the must-watch chapters, picked by their past-paper marks, with their timestamps. Then give the full question list, one line per question with its timestamp. Comment timestamps are clickable and do not affect chapters. Rewrite each raw TeX stem as one short line with Unicode maths: `½mẋ²`, `r₀`, `θ̇`, `≫`, `√`. Collapse a block of rapid-fire questions into one line. A comment holds at most 10,000 characters, so split a long list into numbered replies under the pinned comment (`YouTube_Question_Reply_01.txt`, …).
 
 **Thumbnail** (`Thumbnail.png`). Make it 1280×720 and under 2 MB, in the same board style as the video:
 - black background;
@@ -32,7 +32,7 @@ The description has three limits:
 
 It must stay readable at phone size. Render it, look at it, and size any box from the measured text so nothing overflows. Render maths with matplotlib's `cm` fontset: STIX leaves a gap after primes.
 
-**Links.** Check that every Drive or web link resolves before handing it over: a share ID read off a screenshot often confuses I, l, O and 0. To check the live video, read its metadata with yt-dlp: chapters, description, tags and comments.
+**Links.** Check that every Drive or web link resolves before handing it over: a share ID read off a screenshot often confuses I, l, O and 0. When the user asks you to check the published video, take a normal look: open it, see that the chapters, description, pinned comment and links show up, and report anything wrong. yt-dlp reads the metadata quickly. Don't audit every timestamp, playback speed or signed-out view unless asked.
 
 ## Tell the user
 

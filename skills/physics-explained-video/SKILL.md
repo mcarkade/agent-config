@@ -20,12 +20,17 @@ A student should be able to learn a topic from zero by watching this video once,
   - exam questions with pause-and-try;
   - a short method summary and recap.
 - Questions are the backbone. Give many, from easy checks to exam level, and solve each in full.
+- Build each idea up with small check questions before the big ones. For an exam one-shot, organise the exam part of each chapter by question type:
+  - how to recognise the type;
+  - a method card with the steps and the usual traps;
+  - several solved questions from easy to hard, taken from the textbook's end-of-chapter problems (hard ones included) and from every past paper, tutorial and quiz.
 - Solve each question the way a student should write it in the exam, so they can copy the method straight onto the answer sheet:
-  - every step is its own line on the board;
+  - the figure first, then what is given and what to find;
+  - every step is its own line on the board, slow enough to follow along;
   - the conditions the method needs are checked in writing;
-  - the answer is boxed.
+  - a quick check, then the boxed answer.
 
-  The voice explains why each step works, but never carries a step the board leaves out.
+  The voice explains why each step works, but never carries a step the board leaves out. A long question can take several minutes. Solve multiple-choice questions with working lines too, not just the key.
 
 **2. It looks like Physics Explained.**
 - Use a black board with warm white equations that grow term by term as the voice explains them.
@@ -66,13 +71,15 @@ Then give it to an independent reviewer who did not write it. Choose the writer 
 
 ## Workflow
 
-1. Plan chapters from the study guide's syllabus, with a rough length for each. Fit the shape to the course: the chapter split, question mix and companion material differ between subjects, so treat this skill as principles, not a template.
+1. Plan chapters from the study guide's syllabus, with a rough length for each. Fit the shape to the course: the chapter split, question mix and companion material differ between subjects, so treat this skill as principles, not a template. When deepening an existing video, keep its verified derivations and chapter links and build the new question sections around them.
+   - For a long, question-heavy video, write a question bank per chapter first, in one fixed format: types, method cards, solved questions tagged easy, medium or hard, and MCQs with working. Briefed workers can write banks in parallel, since a bank is source material, not narration. Check its answers against keys where they exist.
+   - Script one pilot chapter at full depth and get the user's verdict on depth and pacing before scripting the rest.
 2. Copy `scripts/*` into a working folder in the project. You need `edge-tts`, `matplotlib`, `pillow`, `numpy`, `yt-dlp` and `ffmpeg`. The renderer uses Windows fonts (Cambria and Segoe UI); change the font paths in `studio.py` on another OS. Put any figures from the guide in `diagrams/NAME.png`.
 3. Write each chapter as `chapters/chNN.py`. Start from `example_chapter.py`, which shows most ops.
 4. Run `python make.py chNN --sheet` and look at every contact sheet. Fix clutter, tiny text and beats where nothing new appears. Have the narration reviewed. Fixing before rendering is cheap; rendering costs minutes per chapter.
-5. Render with `sh queue.sh ch01 ch02 …` from a POSIX shell such as Git Bash, or run `python make.py chNN --render` for each chapter. A render reads the chapter file when it starts, so re-render any chapter edited after that. Several queues can run in parallel; check `logs/` for chapters marked FAILED and re-queue them, since the TTS service drops requests under load.
+5. Render with `sh queue.sh ch01 ch02 …` from a POSIX shell such as Git Bash, or run `python make.py chNN --render` for each chapter. A render reads the chapter file when it starts, so re-render any chapter edited after that. Several queues can run in parallel and share the TTS cache; check `logs/` for chapters marked FAILED and re-queue them, since the TTS service drops requests under load. `--tts` caches a chapter's voice without rendering, and `PE_SPARSE=1` speeds up long renders by sending only the frames that change.
 6. Run `python qa.py`, or `python qa.py ch01 ch02 …` to check one part while another renders. It reports silences, frozen stretches and audio levels. Look at a few frames.
-7. Run `python make.py --join NAME` to write one file with chapter markers and print the timestamps. Deliver it with a chapter list. A full course over about three hours reads better as parts: split at a natural break, open each later part with a short review of the earlier ones, and join each part with `--join NAME ch01-ch08`.
+7. Run `python make.py --join NAME` to write one file with chapter markers and print the timestamps. The join checks each chapter's question list against its source and refuses anything over YouTube's 12-hour upload limit. Deliver it with a chapter list. A full course can ship as one video or as parts; follow the user's choice. If one video runs over the limit, cut easy repeats, never the hard questions. For parts, split at a natural break, open each later part with a short review of the earlier ones, and join each part with `--join NAME ch01-ch08`.
 8. Listen to a sample of the speech if your tools allow it: a hook, a derivation and a question from a few chapters. If you can't, say that pronunciation was checked only through the text. Report what you checked and what you couldn't.
 9. Once the user approves the video, ask whether to prepare a YouTube upload. If they say yes, follow `references/youtube.md` and hand back a folder they can upload from. The user uploads it, so they can choose the playlist and other settings for each video.
 
