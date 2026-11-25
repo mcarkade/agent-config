@@ -130,22 +130,35 @@ def math_parts(parts, size=50, color=EQ):
     return imgs, bounds
 
 
+def _visible(t):
+    """Approximate the printed width of caption text: a TeX command counts as one glyph, markup counts as nothing."""
+    def m(g):
+        body = re.sub(r'\\[a-zA-Z]+', 'x', g.group(1))
+        return 'x' * max(1, len(re.sub(r'[{}^_\\ ]', '', body)))
+    return re.sub(r'\$([^$]*)\$', m, t)
+
+
 def text_item(s, size, color, width, italic=False):
     """Caption text (may contain $math$), wrapped to `width` px, centred lines."""
-    lines = []
-    for para in s.split('\n'):
-        toks = re.findall(r'\$[^$]*\$|\S+', para)
-        cur = ''
-        for tk in toks:
-            trial = (cur + ' ' + tk).strip()
-            est = len(re.sub(r'\$[^$]*\$', 'xxxxxx', trial)) * size * 0.50
-            if est > width and cur:
-                lines.append(cur)
-                cur = tk
-            else:
-                cur = trial
-        lines.append(cur)
-    return _crop_ink(_render_mpl_text('\n'.join(lines), size, color, ha='center', italic=italic))
+    def wrapped(limit):
+        lines = []
+        for para in s.split('\n'):
+            cur = ''
+            for token in re.findall(r'\$[^$]*\$|\S+', para):
+                trial = (cur + ' ' + token).strip()
+                if len(_visible(trial)) * size * 0.54 > limit and cur:
+                    lines.append(cur)
+                    cur = token
+                else:
+                    cur = trial
+            lines.append(cur)
+        return '\n'.join(lines)
+
+    img = _crop_ink(_render_mpl_text(wrapped(width), size, color, ha='center', italic=italic))
+    if img.width > width:
+        limit = int(width * width / img.width * 0.90)
+        img = _crop_ink(_render_mpl_text(wrapped(limit), size, color, ha='center', italic=italic))
+    return img
 
 
 @lru_cache(maxsize=256)
@@ -314,9 +327,10 @@ def ANIM(fig_id, id, draw, dur=3.0):
     return Op('anim', fig=fig_id, id=id, draw=draw, dur=dur)
 
 
-def QUESTION(*stem, title=None):
-    """Clear the board and pose a question: header, stem items, 'Pause and try'. Stem is pinned."""
-    return Op('question', stem=list(stem), title=title)
+def QUESTION(*stem, title=None, fig=None):
+    """Clear the board and pose a question: header, stem items, 'Pause and try'. Stem is pinned.
+    fig=FIG(...) puts the diagram on the left first, so the stem wraps in the right column."""
+    return Op('question', stem=list(stem), title=title, fig=fig)
 
 
 def SOLVE():
@@ -507,7 +521,9 @@ class Stage:
         self.cursor = y
 
     def overflow(self, t):
-        keep = [e for e in self.flow if e in self.pinned]
+        # carry the newest line up: the next step almost always works on it
+        last = [e for e in self.flow if e not in self.pinned][-1:]
+        keep = [e for e in self.flow if e in self.pinned] + last
         for e in self.flow:
             if e not in keep:
                 self.fade_out(e, t)
@@ -721,6 +737,8 @@ class Stage:
 
     def op_question(self, op, t):
         self.clear(t)
+        if getattr(op, 'fig', None) is not None:
+            self.op_fig(op.fig, t)
         self.qcount += 1
         title = f'QUESTION {self.ch.num}.{self.qcount}' + (f'  \u00b7  {op.title}' if op.title else '')
         h = self.op_item(T(title, size=30, color=TEALH), t + 0.1)

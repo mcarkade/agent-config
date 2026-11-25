@@ -30,7 +30,7 @@ A **beat** is `say(narration, *ops)`. The ops start when the beat starts, and th
 | `FIGADD(fig_id, id, draw)` | Add a layer on the same axes: a new curve, an energy line, points. |
 | `ANIM(fig_id, id, draw(ax, u), dur=3)` | Animated layer, e.g. tracing an orbit (u goes from 0 to 1). |
 | `DIAGRAM(id, name)` | A ready-made picture from the guide, placed like a figure. It loads `diagrams/NAME.png`. |
-| `QUESTION(*stem, title='short')` | Clears the board, shows "QUESTION n · title", the stem, and "Pause and try", followed by a silent hold of `PAUSE_HOLD` seconds (5 s). End that beat's narration on the question itself, not on a hint. The stem stays pinned at the top. |
+| `QUESTION(*stem, title='short', fig=FIG(...))` | Clears the board, draws the optional figure on the left so the viewer sees the geometry while trying, shows "QUESTION n · title", the stem, and "Pause and try", followed by a silent hold of `PAUSE_HOLD` seconds (5 s). End that beat's narration on the question itself, not on a hint. The stem stays pinned at the top. |
 | `SOLVE()` | Next beat: removes "Pause and try"; the solution flows under the stem. When the board fills, everything except the stem auto-clears. |
 | `HOOK(text, sub=None)` | Big centred hook question. Use at the start of the chapter and of big sections. |
 | `wait(sec, *ops)` | A silent beat. Rare. |
@@ -51,8 +51,8 @@ Diagrams are project-specific PNGs in `diagrams/NAME.png` (transparent or black 
 ## Screen discipline
 - Keep about 5 lines on the board at most before you CLEAR, or carry a line up. `T` and `N` lines are short phrases of up to about 12 words.
 - A figure question puts its stem in the narrow right column, so keep that stem very short.
-- When a board overflows, everything unpinned fades at once, so a solve step and its result can vanish together. Split a long solve across beats, or CLEAR and restate the line you need. Never CLEAR inside a SOLVE: it removes the pinned question. In a long derivation, give the lines you still need an `id` and CLEAR to them before the board fills.
-- A FIG during a solve moves everything into the right column, and a wide pinned stem can no longer fit. Put the figure before the QUESTION card, or after the solve. `OUT` on a figure gives the full board width back.
+- When a board overflows, everything unpinned fades except the newest line, which moves to the top. A step that refers further back loses its line, so in a long derivation CLEAR at a natural break and restate the lines the next steps use. Never CLEAR inside a SOLVE: it removes the pinned question. In a long derivation, give the lines you still need an `id` and CLEAR to them before the board fills.
+- A FIG during a solve moves everything into the right column, and a wide pinned stem can no longer fit. Give the figure to the QUESTION with `fig=`, or draw it after the solve. `OUT` on a figure gives the full board width back.
 - Every beat needs spoken words; for a deliberate silent hold use `wait()`.
 - Set multiple-choice options with fractions as `M` lines at size 40–44, two options per line. In a `T` line, inline fractions are too small for a phone.
 - A `T` or `N` line containing maths doesn't wrap. Keep each one short, or split it into two.
