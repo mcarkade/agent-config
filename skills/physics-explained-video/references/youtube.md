@@ -32,7 +32,7 @@ The description has three limits:
 
 It must stay readable at phone size. Render it, look at it, and size any box from the measured text so nothing overflows. Render maths with matplotlib's `cm` fontset: STIX leaves a gap after primes.
 
-**Links.** Check that every Drive or web link resolves before handing it over: a share ID read off a screenshot often confuses I, l, O and 0. When the user asks you to check the published video, take a normal look: open it, see that the chapters, description, pinned comment and links show up, and report anything wrong. yt-dlp reads the metadata quickly. Don't audit every timestamp, playback speed or signed-out view unless asked.
+**Links.** Check that every Drive or web link resolves before handing it over: a share ID read off a screenshot often confuses I, l, O and 0. When the user asks you to check the published video, take a normal look: open it, see that the chapters, description, pinned comment and links show up, and report anything wrong. yt-dlp reads the metadata quickly. If you open the page in a browser, mute and pause the video at once and close the tab when done: an autoplaying video plays aloud on the user's machine. Don't audit every timestamp, playback speed or signed-out view unless asked.
 
 ## Tell the user
 
