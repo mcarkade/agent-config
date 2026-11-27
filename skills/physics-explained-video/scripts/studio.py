@@ -684,6 +684,8 @@ class Stage:
         self.flow = [e for e in self.flow if e in self.pinned]
         img = fig_layer(op.draw, op.size, op.axes, True)
         x = (FIG_ZONE[0] + FIG_ZONE[1]) / 2 - img.size[0] / 2
+        if img.size[0] > FIG_ZONE[1] - FIG_ZONE[0]:
+            x = (BOARD[0] + BOARD[2]) / 2 - img.size[0] / 2  # wide figure: centre on the board
         y = max(BOARD[1], (BOARD[1] + BOARD[3]) / 2 - img.size[1] / 2)
         e = self.add_el(img, x, y, 'fig', t, op.id)
         e.fig_spec = (op.size, op.axes)
